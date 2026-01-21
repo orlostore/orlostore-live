@@ -1,369 +1,210 @@
 // ==========================================
-// PRODUCTS DATA
+// PRODUCTS (FLAG BEST SELLERS)
 // ==========================================
 
 const products = [
     {
         id: 1,
         name: "Cable Management Kit",
-        description: "315 PCS Fast Adhesive Cable Organizer for Home and Office",
+        description: "315-piece adhesive cable organizer",
         price: 65,
-        category: "Cable Management",
-        image: "📦"
+        category: "Workspace",
+        image: "📦",
+        featured: true
     },
     {
         id: 2,
         name: "Wireless Charging Stand",
-        description: "Fast charging stand compatible with all Qi devices",
+        description: "Fast Qi charging stand",
         price: 120,
         category: "Phone Accessories",
-        image: "📱"
+        image: "📱",
+        featured: true
     },
     {
         id: 3,
         name: "LED Strip Lights",
-        description: "RGB Smart LED Strip 5M with Remote Control",
+        description: "RGB smart LED strip (5m)",
         price: 95,
-        category: "Smart Home",
+        category: "Home",
         image: "💡"
     },
     {
         id: 4,
-        name: "Car Phone Holder",
-        description: "Magnetic premium quality mount for dashboard",
-        price: 85,
-        category: "Phone Accessories",
-        image: "🚗"
-    },
-    {
-        id: 5,
-        name: "Bluetooth Speaker",
-        description: "Portable wireless speaker with 12-hour battery",
-        price: 150,
-        category: "Electronics",
-        image: "🔊"
-    },
-    {
-        id: 6,
         name: "Laptop Stand",
-        description: "Ergonomic aluminum adjustable laptop stand",
+        description: "Adjustable aluminum stand",
         price: 110,
-        category: "Computer Accessories",
-        image: "💻"
-    },
-    {
-        id: 7,
-        name: "Desk Organizer",
-        description: "Multi-compartment desk organizer with phone holder",
-        price: 75,
-        category: "Cable Management",
-        image: "📋"
-    },
-    {
-        id: 8,
-        name: "USB Hub",
-        description: "7-Port USB 3.0 Hub with individual power switches",
-        price: 90,
-        category: "Electronics",
-        image: "🔌"
+        category: "Workspace",
+        image: "💻",
+        featured: true
     }
 ];
 
 // ==========================================
-// STATE VARIABLES
+// STATE (PERSISTED)
 // ==========================================
 
-let cart = [];
-let selectedCategory = 'All Products';
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let selectedCategory = "All Products";
 
 // ==========================================
-// PRODUCT FUNCTIONS
+// UTILITIES
 // ==========================================
 
-function getCategories() {
-    const categories = [...new Set(products.map(p => p.category))];
-    return ['All Products', ...categories.sort()];
+function saveCart() {
+    localStorage.setItem("cart", JSON.stringify(cart));
 }
 
-function loadProducts(category = 'All Products') {
-    selectedCategory = category;
-    const grid = document.getElementById('productsGrid');
-    
-    const filteredProducts = category === 'All Products' 
-        ? products 
-        : products.filter(p => p.category === category);
-    
-    if (filteredProducts.length === 0) {
-        grid.innerHTML = '<p style="text-align: center; color: #6c757d; grid-column: 1/-1;">No products in this category yet.</p>';
+function getCategories() {
+    return ["All Products", ...new Set(products.map(p => p.category))];
+}
+
+// ==========================================
+// RENDERING
+// ==========================================
+
+function renderProducts(list) {
+    const grid = document.getElementById("productsGrid");
+
+    if (!list.length) {
+        grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;">No products found</p>`;
         return;
     }
-    
-    grid.innerHTML = filteredProducts.map(product => `
+
+    grid.innerHTML = list.map(p => `
         <div class="product-card">
-            <div class="product-image">${product.image}</div>
+            ${p.featured ? `<span class="badge">Best Seller</span>` : ""}
+            <div class="product-image">${p.image}</div>
             <div class="product-info">
-                <div class="product-category">${product.category}</div>
-                <h3 class="product-title">${product.name}</h3>
-                <p class="product-description">${product.description}</p>
-                <div class="product-price">${product.price} AED</div>
-                <button class="add-to-cart" onclick="addToCart(${product.id})">Add to Cart</button>
+                <small>${p.category}</small>
+                <h3>${p.name}</h3>
+                <p>${p.description}</p>
+                <strong>${p.price} AED</strong>
+                <button onclick="addToCart(${p.id})">Add to Cart</button>
             </div>
         </div>
-    `).join('');
-    
+    `).join("");
+}
+
+function loadProducts(category = "All Products") {
+    selectedCategory = category;
+    const list = category === "All Products"
+        ? products
+        : products.filter(p => p.category === category);
+
+    renderProducts(list);
     updateCategoryButtons();
 }
 
 function createCategoryFilters() {
-    const container = document.getElementById('categoryFilters');
-    if (!container) return;
-    
-    const categories = getCategories();
-    container.innerHTML = categories.map(cat => `
-        <button class="category-btn ${cat === selectedCategory ? 'active' : ''}" 
-                onclick="loadProducts('${cat}')">
-            ${cat}
-        </button>
-    `).join('');
+    const container = document.getElementById("categoryFilters");
+    container.innerHTML = getCategories().map(cat => `
+        <button class="category-btn ${cat === selectedCategory ? "active" : ""}"
+                onclick="loadProducts('${cat}')">${cat}</button>
+    `).join("");
 }
 
 function updateCategoryButtons() {
-    const buttons = document.querySelectorAll('.category-btn');
-    buttons.forEach(btn => {
-        if (btn.textContent.trim() === selectedCategory) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
+    document.querySelectorAll(".category-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.textContent === selectedCategory);
     });
 }
 
 // ==========================================
-// SEARCH FUNCTIONS
+// SEARCH
 // ==========================================
 
 function searchProducts() {
-    const searchInput = document.getElementById('searchInput');
-    if (!searchInput) return;
-    
-    const searchTerm = searchInput.value.toLowerCase().trim();
-    const grid = document.getElementById('productsGrid');
-    
-    if (!searchTerm) {
-        loadProducts(selectedCategory);
-        return;
-    }
-    
-    const filteredProducts = products.filter(product => {
-        return product.name.toLowerCase().includes(searchTerm) ||
-               product.description.toLowerCase().includes(searchTerm) ||
-               product.category.toLowerCase().includes(searchTerm);
-    });
-    
-    if (filteredProducts.length === 0) {
-        grid.innerHTML = `
-            <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: #666;">
-                <p style="font-size: 1.2rem; margin-bottom: 1rem;">
-                    No products found for "<strong>${searchTerm}</strong>"
-                </p>
-                <button onclick="clearSearch()" style="padding: 0.75rem 2rem; background: #e07856; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 1rem; font-weight: 500;">
-                    Clear Search
-                </button>
-            </div>
-        `;
-        return;
-    }
-    
-    grid.innerHTML = filteredProducts.map(product => `
-        <div class="product-card">
-            <div class="product-image">${product.image}</div>
-            <div class="product-info">
-                <div class="product-category">${product.category}</div>
-                <h3 class="product-title">${product.name}</h3>
-                <p class="product-description">${product.description}</p>
-                <div class="product-price">${product.price} AED</div>
-                <button class="add-to-cart" onclick="addToCart(${product.id})">Add to Cart</button>
-            </div>
-        </div>
-    `).join('');
-}
+    const term = document.getElementById("searchInput").value.toLowerCase().trim();
 
-function clearSearch() {
-    const searchInput = document.getElementById('searchInput');
-    if (searchInput) {
-        searchInput.value = '';
-    }
-    loadProducts(selectedCategory);
+    const scoped = selectedCategory === "All Products"
+        ? products
+        : products.filter(p => p.category === selectedCategory);
+
+    const results = scoped.filter(p =>
+        p.name.toLowerCase().includes(term) ||
+        p.description.toLowerCase().includes(term)
+    );
+
+    renderProducts(results);
 }
 
 // ==========================================
-// CART FUNCTIONS
+// CART
 // ==========================================
 
-function addToCart(productId) {
-    const product = products.find(p => p.id === productId);
-    const existingItem = cart.find(item => item.id === productId);
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    const item = cart.find(i => i.id === id);
 
-    if (existingItem) {
-        existingItem.quantity++;
-    } else {
-        cart.push({ ...product, quantity: 1 });
-    }
-
+    item ? item.quantity++ : cart.push({ ...product, quantity: 1 });
+    saveCart();
     updateCart();
-    showNotification('Added to cart!');
 }
 
 function updateCart() {
-    const cartItems = document.getElementById('cartItems');
-    const cartCount = document.getElementById('cartCount');
-    const cartTotal = document.getElementById('cartTotal');
+    const cartItems = document.getElementById("cartItems");
+    const cartCount = document.getElementById("cartCount");
+    const cartTotal = document.getElementById("cartTotal");
 
-    if (cart.length === 0) {
-        cartItems.innerHTML = '<div class="empty-cart"><p>Your cart is empty</p></div>';
-        cartCount.textContent = '0';
-        cartTotal.textContent = '0.00 AED';
+    if (!cart.length) {
+        cartItems.innerHTML = "<p>Your cart is empty</p>";
+        cartCount.textContent = 0;
+        cartTotal.textContent = "0.00 AED";
         return;
     }
 
-    const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-    const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    cartCount.textContent = cart.reduce((s, i) => s + i.quantity, 0);
+    const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+    cartTotal.textContent = total.toFixed(2) + " AED";
 
-    cartCount.textContent = totalItems;
-    cartTotal.textContent = totalPrice.toFixed(2) + ' AED';
-
-    cartItems.innerHTML = cart.map(item => `
-        <div class="cart-item">
-            <div class="cart-item-image">${item.image}</div>
-            <div class="cart-item-info">
-                <div class="cart-item-title">${item.name}</div>
-                <div class="cart-item-price">${item.price} AED</div>
-                <div class="quantity-controls">
-                    <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
-                    <span>${item.quantity}</span>
-                    <button class="qty-btn" onclick="updateQuantity(${item.id}, 1)">+</button>
-                    <button class="remove-item" onclick="removeFromCart(${item.id})">Remove</button>
-                </div>
-            </div>
+    cartItems.innerHTML = cart.map(i => `
+        <div>
+            ${i.name} × ${i.quantity}
+            <button onclick="removeFromCart(${i.id})">✕</button>
         </div>
-    `).join('');
+    `).join("");
 }
 
-function updateQuantity(productId, change) {
-    const item = cart.find(i => i.id === productId);
-    if (item) {
-        item.quantity += change;
-        if (item.quantity <= 0) {
-            removeFromCart(productId);
-        } else {
-            updateCart();
-        }
-    }
-}
-
-function removeFromCart(productId) {
-    cart = cart.filter(item => item.id !== productId);
+function removeFromCart(id) {
+    cart = cart.filter(i => i.id !== id);
+    saveCart();
     updateCart();
 }
 
 function toggleCart() {
-    document.getElementById('cartSidebar').classList.toggle('active');
+    document.getElementById("cartSidebar").classList.toggle("active");
 }
+
+// ==========================================
+// CHECKOUT (WHATSAPP)
+// ==========================================
 
 function checkout() {
-    if (cart.length === 0) {
-        alert('Your cart is empty!');
-        return;
-    }
-    
-    const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    
-    let orderSummary = 'Order Summary:\n\n';
-    cart.forEach(item => {
-        orderSummary += `${item.name} x${item.quantity} - ${(item.price * item.quantity).toFixed(2)} AED\n`;
+    if (!cart.length) return alert("Your cart is empty");
+
+    let message = "Hello ORLO, I’d like to order:%0A";
+    cart.forEach(i => {
+        message += `${i.name} x${i.quantity} — ${i.price * i.quantity} AED%0A`;
     });
-    orderSummary += `\nTotal: ${total.toFixed(2)} AED`;
-    
-    alert(orderSummary + '\n\nPayment gateway will be integrated here!');
-}
 
-function showNotification(message) {
-    const notification = document.createElement('div');
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: #e07856;
-        color: white;
-        padding: 1rem 2rem;
-        border-radius: 5px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-        z-index: 2000;
-    `;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    
-    setTimeout(() => notification.remove(), 2000);
+    const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
+    message += `%0ATotal: ${total} AED`;
+
+    window.open(`https://wa.me/971500000000?text=${message}`, "_blank");
 }
 
 // ==========================================
-// INITIALIZE - FIXED EVENT LISTENERS
+// INIT
 // ==========================================
 
-// Wait for DOM to be fully loaded
-window.addEventListener('load', function() {
-    console.log('Page loaded, initializing...');
-    
-    // Load products
+window.onload = () => {
     createCategoryFilters();
     loadProducts();
-    
-    // FIXED: Search event listeners with direct binding
-    const searchInput = document.getElementById('searchInput');
-    const searchBtn = document.getElementById('searchBtn');
-    
-    if (searchInput) {
-        console.log('Search input found');
-        // Use onclick instead of addEventListener
-        searchInput.onkeypress = function(e) {
-            if (e.key === 'Enter') {
-                e.preventDefault();
-                console.log('Enter pressed');
-                searchProducts();
-            }
-        };
-    } else {
-        console.error('Search input NOT found');
-    }
-    
-    if (searchBtn) {
-        console.log('Search button found');
-        // Use onclick instead of addEventListener
-        searchBtn.onclick = function(e) {
-            e.preventDefault();
-            console.log('Search button clicked');
-            searchProducts();
-        };
-    } else {
-        console.error('Search button NOT found');
-    }
-    
-    // Cart event listeners
-    const cartIcon = document.getElementById('cartIcon');
-    const closeCart = document.getElementById('closeCart');
-    const checkoutBtn = document.getElementById('checkoutBtn');
-    
-    if (cartIcon) {
-        cartIcon.onclick = toggleCart;
-    }
-    
-    if (closeCart) {
-        closeCart.onclick = toggleCart;
-    }
-    
-    if (checkoutBtn) {
-        checkoutBtn.onclick = checkout;
-    }
-    
-    console.log('Initialization complete');
-});
+    updateCart();
+
+    document.getElementById("searchBtn").onclick = searchProducts;
+    document.getElementById("cartIcon").onclick = toggleCart;
+    document.getElementById("closeCart").onclick = toggleCart;
+    document.getElementById("checkoutBtn").onclick = checkout;
+};
