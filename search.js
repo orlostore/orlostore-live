@@ -2,22 +2,41 @@
 
 function searchProducts() {
     const searchInput = document.getElementById('searchInput');
-    if (!searchInput) return;
+    if (!searchInput) {
+        console.error('Search input not found');
+        return;
+    }
     
     const searchTerm = searchInput.value.toLowerCase().trim();
     const grid = document.getElementById('productsGrid');
     
+    if (!grid) {
+        console.error('Products grid not found');
+        return;
+    }
+    
+    // Check if products array exists
+    if (typeof products === 'undefined' || !Array.isArray(products)) {
+        console.error('Products array not loaded yet');
+        alert('Please wait for products to load');
+        return;
+    }
+    
+    // If search is empty, reload all products
     if (!searchTerm) {
-        // If search is empty, reload all products
-        loadProducts(selectedCategory || 'All Products');
+        if (typeof loadProducts === 'function') {
+            const category = typeof selectedCategory !== 'undefined' ? selectedCategory : 'All Products';
+            loadProducts(category);
+        }
         return;
     }
     
     // Filter products based on search term
     const filteredProducts = products.filter(product => {
-        const nameMatch = product.name.toLowerCase().includes(searchTerm);
-        const descMatch = product.description.toLowerCase().includes(searchTerm);
-        const catMatch = product.category.toLowerCase().includes(searchTerm);
+        if (!product) return false;
+        const nameMatch = product.name ? product.name.toLowerCase().includes(searchTerm) : false;
+        const descMatch = product.description ? product.description.toLowerCase().includes(searchTerm) : false;
+        const catMatch = product.category ? product.category.toLowerCase().includes(searchTerm) : false;
         return nameMatch || descMatch || catMatch;
     });
     
@@ -39,25 +58,18 @@ function searchProducts() {
     // Show filtered results
     grid.innerHTML = filteredProducts.map(product => `
         <div class="product-card">
-            <div class="product-image">${product.image}</div>
+            <div class="product-image">${product.image || '📦'}</div>
             <div class="product-info">
-                <div class="product-category">${product.category}</div>
-                <h3 class="product-title">${product.name}</h3>
-                <p class="product-description">${product.description}</p>
-                <div class="product-price">${product.price} AED</div>
+                <div class="product-category">${product.category || ''}</div>
+                <h3 class="product-title">${product.name || 'Product'}</h3>
+                <p class="product-description">${product.description || ''}</p>
+                <div class="product-price">${product.price || 0} AED</div>
                 <button class="add-to-cart" onclick="addToCart(${product.id})">Add to Cart</button>
             </div>
         </div>
     `).join('');
     
-    // Show results count
-    const resultsMsg = document.createElement('p');
-    resultsMsg.style.cssText = 'text-align: center; color: #666; margin-bottom: 1rem; font-size: 0.95rem;';
-    resultsMsg.textContent = `Found ${filteredProducts.length} product${filteredProducts.length !== 1 ? 's' : ''} for "${searchTerm}"`;
-    grid.parentElement.insertBefore(resultsMsg, grid);
-    
-    // Remove message after displaying results
-    setTimeout(() => resultsMsg.remove(), 3000);
+    console.log(`Found ${filteredProducts.length} products for "${searchTerm}"`);
 }
 
 function clearSearch() {
@@ -65,35 +77,48 @@ function clearSearch() {
     if (searchInput) {
         searchInput.value = '';
     }
-    loadProducts(selectedCategory || 'All Products');
+    
+    if (typeof loadProducts === 'function') {
+        const category = typeof selectedCategory !== 'undefined' ? selectedCategory : 'All Products';
+        loadProducts(category);
+    } else {
+        console.error('loadProducts function not found');
+    }
 }
 
-// Initialize search on page load
-document.addEventListener('DOMContentLoaded', () => {
+// Initialize search when page is fully loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeSearch);
+} else {
+    initializeSearch();
+}
+
+function initializeSearch() {
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.querySelector('.search-btn');
     
     if (searchInput) {
+        console.log('Search initialized');
+        
         // Search on Enter key
         searchInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') {
                 e.preventDefault();
+                console.log('Enter pressed, searching...');
                 searchProducts();
             }
         });
-        
-        // Also search on input (live search)
-        searchInput.addEventListener('input', () => {
-            if (searchInput.value.length >= 3 || searchInput.value.length === 0) {
-                searchProducts();
-            }
-        });
+    } else {
+        console.error('Search input not found during initialization');
     }
     
     if (searchBtn) {
         searchBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            console.log('Search button clicked');
             searchProducts();
         });
+    } else {
+        console.error('Search button not found during initialization');
     }
-});
+}
