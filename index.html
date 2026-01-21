@@ -19,7 +19,7 @@
         </div>
         <ul class="nav-links">
             <li><a href="#products">Shop</a></li>
-            <li><a href="#about">About</a></li>
+            <li><a href="#" onclick="toggleAbout(); return false;">About</a></li>
             <li><a href="#contact">Contact</a></li>
             <li>
                 <div class="cart-icon" id="cartIcon">
@@ -42,7 +42,8 @@
     <div class="products-grid" id="productsGrid"></div>
 </div>
 
-<section class="about-section" id="about">
+<!-- Our Story - Hidden by default, shown when About clicked -->
+<section class="about-section" id="about" style="display: none;">
     <div class="container">
         <h2 class="section-title">Our Story</h2>
         <p>
@@ -79,20 +80,20 @@
         <h2 class="section-title">Terms & Policies</h2>
         <div class="terms-grid">
             <div class="term-card" onclick="openPolicy('shipping')">
-                <h3>📦 Shipping & Delivery</h3>
-                <p>Learn about our delivery process and timelines</p>
+                <h3>📦 Shipping</h3>
+                <p>Delivery process & timelines</p>
             </div>
             <div class="term-card" onclick="openPolicy('returns')">
-                <h3>↩️ Returns & Refunds</h3>
-                <p>Our 7-day return policy and conditions</p>
+                <h3>↩️ Returns</h3>
+                <p>7-day return policy</p>
             </div>
             <div class="term-card" onclick="openPolicy('privacy')">
-                <h3>🔒 Privacy Policy</h3>
-                <p>How we handle your personal information</p>
+                <h3>🔒 Privacy</h3>
+                <p>How we protect your data</p>
             </div>
             <div class="term-card" onclick="openPolicy('terms')">
-                <h3>📋 Terms of Service</h3>
-                <p>General terms and conditions</p>
+                <h3>📋 Terms</h3>
+                <p>General conditions</p>
             </div>
         </div>
     </div>
