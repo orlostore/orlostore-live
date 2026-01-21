@@ -307,32 +307,45 @@ function showNotification(message) {
 }
 
 // ==========================================
-// INITIALIZE ON PAGE LOAD
+// INITIALIZE - FIXED EVENT LISTENERS
 // ==========================================
 
-document.addEventListener('DOMContentLoaded', () => {
+// Wait for DOM to be fully loaded
+window.addEventListener('load', function() {
+    console.log('Page loaded, initializing...');
+    
     // Load products
     createCategoryFilters();
     loadProducts();
     
-    // Search event listeners
+    // FIXED: Search event listeners with direct binding
     const searchInput = document.getElementById('searchInput');
     const searchBtn = document.getElementById('searchBtn');
     
     if (searchInput) {
-        searchInput.addEventListener('keypress', (e) => {
+        console.log('Search input found');
+        // Use onclick instead of addEventListener
+        searchInput.onkeypress = function(e) {
             if (e.key === 'Enter') {
                 e.preventDefault();
+                console.log('Enter pressed');
                 searchProducts();
             }
-        });
+        };
+    } else {
+        console.error('Search input NOT found');
     }
     
     if (searchBtn) {
-        searchBtn.addEventListener('click', (e) => {
+        console.log('Search button found');
+        // Use onclick instead of addEventListener
+        searchBtn.onclick = function(e) {
             e.preventDefault();
+            console.log('Search button clicked');
             searchProducts();
-        });
+        };
+    } else {
+        console.error('Search button NOT found');
     }
     
     // Cart event listeners
@@ -341,14 +354,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkoutBtn = document.getElementById('checkoutBtn');
     
     if (cartIcon) {
-        cartIcon.addEventListener('click', toggleCart);
+        cartIcon.onclick = toggleCart;
     }
     
     if (closeCart) {
-        closeCart.addEventListener('click', toggleCart);
+        closeCart.onclick = toggleCart;
     }
     
     if (checkoutBtn) {
-        checkoutBtn.addEventListener('click', checkout);
+        checkoutBtn.onclick = checkout;
     }
+    
+    console.log('Initialization complete');
 });
