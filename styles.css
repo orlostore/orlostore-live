@@ -1,292 +1,114 @@
-/* ===================== RESET ===================== */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  font-family: Arial, sans-serif;
 }
 
-/* ===================== VARIABLES ===================== */
-:root {
-  --primary: #2c4a5c;
-  --accent: #e07856;
-  --text: #333;
-  --bg: #f8f9fa;
-  --white: #ffffff;
-}
-
-/* ===================== BASE ===================== */
-body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
-/* ===================== HEADER ===================== */
+/* ===== HEADER ===== */
 header {
-  background: var(--white);
-  box-shadow: 0 2px 10px rgba(0,0,0,.08);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
+  background: white;
+  border-bottom: 1px solid #eee;
 }
 
-nav {
+.nav {
   max-width: 1200px;
   margin: auto;
-  padding: 1rem 1.5rem;
+  padding: 16px;
   display: flex;
   align-items: center;
-  gap: 1.5rem;
+  gap: 20px;
 }
 
-.logo-img {
-  width: 70px;
-  height: 70px;
-}
-
-/* ===================== SEARCH ===================== */
-.search-container {
-  flex: 1;
-  max-width: 520px;
-  display: flex;
-}
-
-.search-input {
-  flex: 1;
-  padding: 0.7rem 1rem;
-  border: 2px solid #ddd;
-  border-radius: 25px 0 0 25px;
-  font-size: 1rem;
-}
-
-.search-btn {
-  padding: 0.7rem 1.2rem;
-  border-radius: 0 25px 25px 0;
-  border: none;
-  background: var(--accent);
-  color: #fff;
+.logo {
+  font-weight: bold;
   cursor: pointer;
 }
 
-/* ===================== NAV LINKS ===================== */
-.nav-links {
+.search-bar {
+  flex: 1;
   display: flex;
-  gap: 1.25rem;
-  list-style: none;
-  align-items: center;
 }
 
-.nav-links li {
-  list-style: none;
+.search-bar input {
+  flex: 1;
+  padding: 8px;
 }
 
-.nav-links a {
-  text-decoration: none;
-  color: var(--text);
-  font-weight: 500;
+.search-bar button {
+  padding: 8px 12px;
 }
 
-/* ===================== CART ICON ===================== */
-.cart-icon {
-  position: relative;
-  font-size: 1.5rem;
+.cart {
   cursor: pointer;
 }
 
-.cart-count {
-  position: absolute;
-  top: -6px;
-  right: -6px;
-  background: var(--accent);
-  color: white;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  font-size: .7rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* ===================== HERO ===================== */
+/* ===== HERO ===== */
 .hero {
-  background: linear-gradient(135deg, var(--primary), #3a5f75);
-  color: #fff;
-  padding: 4.5rem 1.5rem;
+  background: #2c4a5c;
+  color: white;
+  padding: 60px 20px;
   text-align: center;
 }
 
-.hero h1 {
-  font-size: 2.5rem;
-  margin-bottom: .8rem;
+.hero button {
+  margin-top: 20px;
+  padding: 10px 20px;
 }
 
-.hero p {
-  font-size: 1.1rem;
-  opacity: .9;
-}
-
-.hero .btn {
-  margin-top: 1.5rem;
-  background: var(--accent);
-  padding: .8rem 2rem;
-  border-radius: 6px;
-  color: white;
-  text-decoration: none;
-  display: inline-block;
-}
-
-/* ===================== CONTAINER ===================== */
-.container {
+/* ===== PAGE WIDTH FIX ===== */
+.page {
   max-width: 1200px;
   margin: auto;
-  padding: 2.5rem 1.5rem;
+  padding: 40px 20px;
 }
 
-/* ===================== SECTION TITLE ===================== */
+/* ===== PRODUCTS ===== */
 .section-title {
   text-align: center;
-  margin-bottom: 1.5rem;
-  color: var(--primary);
-  font-size: 1.9rem;
+  margin-bottom: 30px;
 }
 
-/* ===================== CATEGORIES ===================== */
-.category-filters {
-  display: flex;
-  justify-content: center;
-  gap: .75rem;
-  margin-bottom: 2rem;
-  flex-wrap: wrap;
-}
-
-.category-btn {
-  padding: .45rem 1.2rem;
-  border-radius: 20px;
-  border: 2px solid var(--primary);
-  background: white;
-  cursor: pointer;
-}
-
-.category-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
-
-/* ===================== PRODUCTS GRID (LANDING) ===================== */
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1.75rem;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
 }
 
-/* ===================== PRODUCT CARD ===================== */
-.product-card {
+.product {
+  border: 1px solid #ddd;
+  padding: 16px;
   background: white;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,.08);
-  overflow: hidden;
 }
 
-.product-image {
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 3rem;
-  background: #eee;
+.product h4 {
+  margin-bottom: 10px;
 }
 
-.product-info {
-  padding: 1.2rem;
-}
-
-.product-title {
-  font-weight: 600;
-  color: var(--primary);
-}
-
-.product-price {
-  color: var(--accent);
-  font-weight: bold;
-  margin: .5rem 0;
-}
-
-.add-to-cart {
+.product button {
+  margin-top: 10px;
   width: 100%;
-  padding: .6rem;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 4px;
 }
 
-/* ===================== CART SIDEBAR (FIXED) ===================== */
+/* ===== CART ===== */
 .cart-sidebar {
-  position: fixed !important;
+  position: fixed;
   top: 0;
-  right: -400px;
-  width: 400px;
-  height: 100vh;
+  right: -350px;
+  width: 350px;
+  height: 100%;
   background: white;
-  z-index: 5000;
-  box-shadow: -2px 0 15px rgba(0,0,0,.25);
-  transition: right .3s;
-  display: flex;
-  flex-direction: column;
+  border-left: 1px solid #ddd;
+  transition: right 0.3s;
+  padding: 20px;
 }
 
-.cart-sidebar.active {
+.cart-sidebar.open {
   right: 0;
 }
 
-/* ===================== POLICY MODAL ===================== */
-#policyModal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.6);
-  z-index: 6000;
-}
-
-.policy-box {
-  background: #fff;
-  color: #000;
-  max-width: 600px;
-  margin: 10% auto;
-  padding: 2rem;
-  border-radius: 8px;
-}
-
-/* ===================== FOOTER ===================== */
-footer {
-  background: var(--primary);
-  color: white;
-  text-align: center;
-  padding: 2rem 1rem;
-}
-
-.footer-links a {
-  color: white;
-  text-decoration: none;
-  margin: 0 .5rem;
-}
-
-/* ===================== RESPONSIVE ===================== */
-@media (max-width: 768px) {
-  nav {
-    flex-wrap: wrap;
-  }
-
-  .search-container {
-    width: 100%;
-  }
-
-  .cart-sidebar {
-    width: 100%;
-    right: -100%;
-  }
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
