@@ -3,143 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORLO - Quality is a Click Away</title>
+    <title>ORLO — Smart Tech & Home Essentials</title>
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Header -->
-    <header>
-        <nav>
-            <div class="logo-container">
-                <img src="logo.png" class="logo-img" alt="ORLO Logo">
-            </div>
-            
-            <!-- Search Bar -->
-            <div class="search-container">
-                <input type="text" class="search-input" id="searchInput" placeholder="Search products...">
-                <button class="search-btn" id="searchBtn">🔍</button>
-            </div>
-            
-            <ul class="nav-links">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#products">Products</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li>
-                    <div class="cart-icon" id="cartIcon">
-                        🛒
-                        <span class="cart-count" id="cartCount">0</span>
-                    </div>
-                </li>
-            </ul>
-        </nav>
-    </header>
 
-    <!-- Hero Section -->
-    <section class="hero" id="home">
-        <h1>Your Trusted Partner for Quality Products</h1>
-        <p>Discover thoughtfully curated products that make your life easier</p>
-        <a href="#products" class="btn">Explore Our Collection</a>
-    </section>
+<header>
+    <nav>
+        <div class="logo-container">
+            <img src="logo.png" class="logo-img" alt="ORLO Logo">
+        </div>
 
-    <!-- Products Section -->
-    <div class="container" id="products">
-        <h2 class="section-title">Our Products</h2>
-        
-        <!-- Category Filters -->
-        <div class="category-filters" id="categoryFilters"></div>
-        
-        <div class="products-grid" id="productsGrid"></div>
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search products...">
+            <button class="search-btn" id="searchBtn">🔍</button>
+        </div>
+
+        <ul class="nav-links">
+            <li><a href="#products">Shop</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#contact">Contact</a></li>
+            <li>
+                <div class="cart-icon" id="cartIcon">
+                    🛒 <span class="cart-count" id="cartCount">0</span>
+                </div>
+            </li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+    <h1>Smart Tech & Home Essentials</h1>
+    <p>Curated gadgets for your desk, car, and home — delivered across the UAE.</p>
+    <a href="#products" class="btn">Shop Best Sellers</a>
+</section>
+
+<div class="container" id="products">
+    <h2 class="section-title">Best Sellers</h2>
+
+    <div class="category-filters" id="categoryFilters"></div>
+    <div class="products-grid" id="productsGrid"></div>
+</div>
+
+<section class="about-section" id="about">
+    <div class="container">
+        <h2 class="section-title">Our Story</h2>
+        <p>
+            ORLO is a family-owned Dubai business focused on practical, high-quality essentials.
+            We curate products we actually use — no clutter, no gimmicks.
+        </p>
+        <p>
+            Every order supports a local UAE business built on trust, simplicity, and fair pricing.
+        </p>
+    </div>
+</section>
+
+<section class="contact-section" id="contact">
+    <div class="container">
+        <h2 class="section-title">Get in Touch</h2>
+        <p>Email: info@orlostore.com</p>
+        <p>WhatsApp orders available at checkout</p>
+    </div>
+</section>
+
+<div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+        <h2>Your Cart</h2>
+        <button class="close-cart" id="closeCart">✕</button>
     </div>
 
-    <!-- About Section -->
-    <section class="about-section" id="about">
-        <div class="container">
-            <h2 class="section-title">Our Story</h2>
-            <div class="about-content">
-                <p class="about-intro">
-                    We're a small family business based in the heart of Dubai, driven by a simple belief: 
-                    <strong>everyone deserves access to quality products without the premium price tag.</strong>
-                </p>
-                <p>
-                    What started as a dream to serve our local community has grown into something beautiful. 
-                    Every product we offer is carefully selected with you in mind—your home, your workspace, 
-                    and the people you care about.
-                </p>
-                <p>
-                    We're not a faceless corporation. We're a family that believes in honest business, fair prices, 
-                    and treating every customer like a friend. When you shop with us, you're supporting a local 
-                    Dubai business that cares deeply about your satisfaction.
-                </p>
-                <div class="trust-badges">
-                    <div class="trust-badge">
-                        <span class="badge-icon green-tick">✓</span>
-                        <span>Fully Licensed in Dubai, UAE</span>
-                    </div>
-                    <div class="trust-badge">
-                        <span class="badge-icon">♡</span>
-                        <span>Family-Owned & Operated</span>
-                    </div>
-                    <div class="trust-badge">
-                        <span class="badge-stars">⭐⭐⭐⭐⭐</span>
-                        <span>Quality You Can Trust</span>
-                    </div>
-                </div>
-                <p class="about-closing">
-                    Thank you for choosing to support a small business. Every order means the world to us, 
-                    and we promise to treat it with the care it deserves. 
-                    <em>From our family to yours.</em>
-                </p>
-            </div>
-        </div>
-    </section>
+    <div class="cart-items" id="cartItems"></div>
 
-    <!-- Contact Section -->
-    <section class="contact-section" id="contact">
-        <div class="container">
-            <h2 class="section-title">Get in Touch</h2>
-            <p class="contact-intro">Have questions? We'd love to hear from you!</p>
-            <div class="contact-info">
-                <div class="contact-item">
-                    <strong>📍 Location:</strong> Dubai, UAE
-                </div>
-                <div class="contact-item">
-                    <strong>✉️ Email:</strong> info@orlostore.com
-                </div>
-                <div class="contact-item">
-                    <strong>📱 WhatsApp:</strong> Coming soon
-                </div>
-            </div>
+    <div class="cart-footer">
+        <div class="cart-total">
+            <span>Total:</span>
+            <span id="cartTotal">0.00 AED</span>
         </div>
-    </section>
-
-    <!-- Cart Sidebar -->
-    <div class="cart-sidebar" id="cartSidebar">
-        <div class="cart-header">
-            <h2>Your Cart</h2>
-            <button class="close-cart" id="closeCart">✕</button>
-        </div>
-        <div class="cart-items" id="cartItems">
-            <div class="empty-cart">
-                <p>Your cart is empty</p>
-            </div>
-        </div>
-        <div class="cart-footer">
-            <div class="cart-total">
-                <span>Total:</span>
-                <span id="cartTotal">0.00 AED</span>
-            </div>
-            <button class="checkout-btn" id="checkoutBtn">Proceed to Checkout</button>
-        </div>
+        <button class="checkout-btn" id="checkoutBtn">
+            Order via WhatsApp
+        </button>
     </div>
+</div>
 
-    <!-- Footer -->
-    <footer>
-        <p>&copy; 2026 ORLO - Quality is a Click Away | Dubai, UAE</p>
-        <p class="footer-subtitle">Licensed & Trusted Family Business</p>
-    </footer>
+<footer>
+    <p>&copy; 2026 ORLO — Dubai, UAE</p>
+    <p class="footer-subtitle">Licensed & Family-Owned</p>
+</footer>
 
-    <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
