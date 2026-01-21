@@ -1,38 +1,50 @@
-// ==========================================
-// POLICIES CONTENT
-// ==========================================
-
-const policies = {
-    shipping: `
-        <h2>Shipping & Delivery</h2>
-        <p>We currently deliver within the UAE.</p>
-        <p>Orders are processed within 24–48 hours.</p>
-        <p>Delivery timelines may vary based on location.</p>
-    `,
-    returns: `
-        <h2>Returns & Refunds</h2>
-        <p>Returns are accepted within 7 days of delivery.</p>
-        <p>Items must be unused and in original packaging.</p>
-        <p>Refunds are processed after inspection.</p>
-    `,
-    privacy: `
-        <h2>Privacy Policy</h2>
-        <p>We respect your privacy and only collect information
-        necessary to process your order.</p>
-        <p>Your data is never sold or shared with third parties.</p>
-    `,
-    terms: `
-        <h2>Terms of Service</h2>
-        <p>By placing an order, you agree to provide accurate information.</p>
-        <p>ORLO reserves the right to refuse service if misuse is detected.</p>
-    `
-};
-
-function openPolicy(type) {
-    document.getElementById("policyText").innerHTML = policies[type];
-    document.getElementById("policyModal").style.display = "block";
+.shop-layout {
+  display: flex;
+  gap: 2rem;
+  padding: 2rem;
 }
 
-function closePolicy() {
-    document.getElementById("policyModal").style.display = "none";
+.sidebar {
+  width: 250px;
+}
+
+.results {
+  flex: 1;
+}
+
+.product-row {
+  display: flex;
+  gap: 1.5rem;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.product-img {
+  font-size: 3rem;
+}
+
+.footer-links a {
+  color: white !important;
+  text-decoration: none;
+  margin: 0 8px;
+}
+
+.footer-links a:hover,
+.footer-links a:visited {
+  color: white !important;
+}
+
+#policyModal {
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.6);
+}
+
+.policy-box {
+  background:#fff;
+  color:#000;
+  max-width:600px;
+  margin:10% auto;
+  padding:2rem;
 }
