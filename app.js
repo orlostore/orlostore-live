@@ -337,6 +337,20 @@ function showNotification(message) {
 }
 
 // ==========================================
+// TOGGLE ABOUT SECTION
+// ==========================================
+
+function toggleAbout() {
+    const aboutSection = document.getElementById('about');
+    if (aboutSection.style.display === 'none') {
+        aboutSection.style.display = 'block';
+        aboutSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        aboutSection.style.display = 'none';
+    }
+}
+
+// ==========================================
 // INIT (WITH ENTER KEY SUPPORT)
 // ==========================================
 
