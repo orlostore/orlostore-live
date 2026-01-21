@@ -41,6 +41,14 @@ const products = [
 ];
 
 // ==========================================
+// WHATSAPP NUMBER - CHANGE THIS!
+// ==========================================
+// TODO: Replace 971XXXXXXXXX with your actual WhatsApp number
+// Format: 971 followed by your 9-digit mobile number (no spaces, no +)
+// Example: 971501234567
+const WHATSAPP_NUMBER = "971XXXXXXXXX";
+
+// ==========================================
 // POLICIES CONTENT (STRICT RETURN POLICY)
 // ==========================================
 
@@ -115,7 +123,7 @@ function renderProducts(list) {
     const grid = document.getElementById("productsGrid");
 
     if (!list.length) {
-        grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#999;">No products found</p>`;
+        grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#999;padding:3rem;">No products found</p>`;
         return;
     }
 
@@ -208,7 +216,7 @@ function updateCart() {
     const cartTotal = document.getElementById("cartTotal");
 
     if (!cart.length) {
-        cartItems.innerHTML = "<p style='text-align:center;padding:2rem;color:#999;'>Your cart is empty</p>";
+        cartItems.innerHTML = "<p style='text-align:center;padding:3rem;color:#999;font-size:1.1rem;'>Your cart is empty</p>";
         cartCount.textContent = 0;
         cartTotal.textContent = "0.00 AED";
         return;
@@ -221,16 +229,17 @@ function updateCart() {
     cartTotal.textContent = total.toFixed(2) + " AED";
 
     cartItems.innerHTML = cart.map(i => `
-        <div style="display:flex; justify-content:space-between; align-items:center; padding:1rem; border-bottom:1px solid #eee;">
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:1.5rem; border-bottom:1px solid #eee;">
             <div style="flex:1;">
-                <strong>${i.name}</strong><br>
-                <span style="color:#888;">${i.price} AED × ${i.quantity}</span>
+                <strong style="font-size:1.1rem; color:#2c4a5c;">${i.name}</strong><br>
+                <span style="color:#888; font-size:1rem;">${i.price} AED × ${i.quantity}</span><br>
+                <span style="color:#e07856; font-weight:600; font-size:1.1rem;">${(i.price * i.quantity).toFixed(2)} AED</span>
             </div>
-            <div style="display:flex; gap:0.5rem; align-items:center;">
-                <button onclick="updateQuantity(${i.id}, -1)" style="padding:0.25rem 0.75rem; background:#ddd; border:none; border-radius:3px; cursor:pointer;">-</button>
-                <span>${i.quantity}</span>
-                <button onclick="updateQuantity(${i.id}, 1)" style="padding:0.25rem 0.75rem; background:#ddd; border:none; border-radius:3px; cursor:pointer;">+</button>
-                <button onclick="removeFromCart(${i.id})" style="padding:0.25rem 0.75rem; background:#dc3545; color:white; border:none; border-radius:3px; cursor:pointer; margin-left:0.5rem;">✕</button>
+            <div style="display:flex; gap:0.75rem; align-items:center;">
+                <button onclick="updateQuantity(${i.id}, -1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">-</button>
+                <span style="font-size:1.1rem; font-weight:600; min-width:30px; text-align:center;">${i.quantity}</span>
+                <button onclick="updateQuantity(${i.id}, 1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">+</button>
+                <button onclick="removeFromCart(${i.id})" style="padding:0.5rem 1rem; background:#dc3545; color:white; border:none; border-radius:4px; cursor:pointer; margin-left:0.5rem; font-size:1.1rem;">✕</button>
             </div>
         </div>
     `).join("");
@@ -276,11 +285,11 @@ function checkout() {
     });
 
     const total = cart.reduce((s, i) => s + i.price * i.quantity, 0);
-    message += `%0ATotal: ${total.toFixed(2)} AED`;
+    message += `%0A*Total: ${total.toFixed(2)} AED*`;
     message += `%0A%0APlease confirm delivery address and payment method.`;
 
-    // Replace with your actual WhatsApp number
-    window.open(`https://wa.me/971500000000?text=${message}`, "_blank");
+    // TODO: Change WHATSAPP_NUMBER at the top of this file to your actual number
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank");
 }
 
 // ==========================================
@@ -290,10 +299,12 @@ function checkout() {
 function openPolicy(type) {
     document.getElementById("policyText").innerHTML = policies[type];
     document.getElementById("policyModal").style.display = "block";
+    document.body.style.overflow = "hidden"; // Prevent background scrolling
 }
 
 function closePolicy() {
     document.getElementById("policyModal").style.display = "none";
+    document.body.style.overflow = "auto"; // Restore scrolling
 }
 
 // ==========================================
@@ -308,11 +319,12 @@ function showNotification(message) {
         right: 20px;
         background: #e07856;
         color: white;
-        padding: 1rem 2rem;
-        border-radius: 6px;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        padding: 1.25rem 2.5rem;
+        border-radius: 8px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         z-index: 10000;
-        font-weight: 500;
+        font-weight: 600;
+        font-size: 1.05rem;
     `;
     notification.textContent = message;
     document.body.appendChild(notification);
@@ -321,7 +333,7 @@ function showNotification(message) {
         notification.style.opacity = '0';
         notification.style.transition = 'opacity 0.3s';
         setTimeout(() => notification.remove(), 300);
-    }, 2000);
+    }, 2500);
 }
 
 // ==========================================
