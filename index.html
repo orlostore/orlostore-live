@@ -1,103 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORLO — Smart Tech & Home Essentials</title>
-    <link rel="stylesheet" href="styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ORLO – Quality is a Click Away</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
 <header>
-    <nav>
-        <div class="logo-container">
-            <img src="logo.png" class="logo-img" alt="ORLO Logo">
-        </div>
-
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search products...">
-            <button id="searchBtn">🔍</button>
-        </div>
-
-        <ul class="nav-links">
-            <li><a href="#products">Shop</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-            <li>
-                <div class="cart-icon" id="cartIcon">
-                    🛒 <span id="cartCount">0</span>
-                </div>
-            </li>
-        </ul>
-    </nav>
+  <nav>
+    <img src="logo.png" class="logo-img" />
+    <div class="search-container">
+      <input id="searchInput" placeholder="Search products..." />
+      <button id="searchBtn">🔍</button>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#" id="homeBtn">Home</a></li>
+      <li><div id="cartIcon">🛒 <span id="cartCount">0</span></div></li>
+    </ul>
+  </nav>
 </header>
 
-<section class="hero">
-    <h1>Smart Tech & Home Essentials</h1>
-    <p>Practical gadgets for your desk, car, and home — delivered across the UAE.</p>
-    <a href="#products" class="btn">Shop Best Seller</a>
+<section class="hero" id="hero">
+  <h1>Quality Products. Honest Prices.</h1>
+  <p>Curated essentials for everyday life</p>
 </section>
 
-<div class="container" id="products">
-    <h2 class="section-title">Best Sellers</h2>
-    <div id="categoryFilters"></div>
-    <div id="productsGrid"></div>
+<div class="shop-layout">
+  <aside class="sidebar" id="categoryFilters"></aside>
+  <main class="results" id="productsGrid"></main>
 </div>
 
-<section id="about" class="about-section">
-    <div class="container">
-        <h2>Our Story</h2>
-        <p>
-            ORLO is a family-owned Dubai business focused on practical,
-            high-quality essentials. No gimmicks — just products that solve real problems.
-        </p>
-    </div>
+<section id="about">
+  <h2>Our Story</h2>
+  <p>We’re a family business in Dubai focused on value and trust.</p>
 </section>
-
-<section id="contact" class="contact-section">
-    <div class="container">
-        <h2>Contact</h2>
-        <p>Email: info@orlostore.com</p>
-        <p>Orders via WhatsApp at checkout</p>
-    </div>
-</section>
-
-<!-- CART -->
-<div class="cart-sidebar" id="cartSidebar">
-    <div class="cart-header">
-        <h2>Your Cart</h2>
-        <button id="closeCart">✕</button>
-    </div>
-    <div id="cartItems"></div>
-    <div class="cart-footer">
-        <strong>Total: <span id="cartTotal">0.00 AED</span></strong>
-        <button id="checkoutBtn">Order via WhatsApp</button>
-        <small>
-            By ordering, you agree to our
-            <a href="#" onclick="openPolicy('terms')">Terms</a> &
-            <a href="#" onclick="openPolicy('privacy')">Privacy Policy</a>
-        </small>
-    </div>
-</div>
-
-<!-- POLICIES MODAL -->
-<div id="policyModal" style="display:none;">
-    <div class="policy-content">
-        <button onclick="closePolicy()">✕</button>
-        <div id="policyText"></div>
-    </div>
-</div>
 
 <footer>
-    <p>&copy; 2026 ORLO — Dubai, UAE</p>
-    <div class="footer-links">
-        <a href="#" onclick="openPolicy('shipping')">Shipping</a> |
-        <a href="#" onclick="openPolicy('returns')">Returns</a> |
-        <a href="#" onclick="openPolicy('privacy')">Privacy</a> |
-        <a href="#" onclick="openPolicy('terms')">Terms</a>
-    </div>
+  <div class="footer-links">
+    <a onclick="openPolicy('shipping')">Shipping</a>
+    <a onclick="openPolicy('returns')">Returns</a>
+    <a onclick="openPolicy('privacy')">Privacy</a>
+    <a onclick="openPolicy('terms')">Terms</a>
+  </div>
 </footer>
+
+<!-- POLICY MODAL -->
+<div id="policyModal" onclick="closePolicy()">
+  <div class="policy-box" onclick="event.stopPropagation()">
+    <div id="policyContent"></div>
+  </div>
+</div>
 
 <script src="app.js"></script>
 </body>
