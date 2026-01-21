@@ -1,49 +1,50 @@
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: Arial, sans-serif;
+  background: #f7f7f7;
+  color: #333;
 }
 
-/* ===== HEADER ===== */
-header {
-  background: white;
-  border-bottom: 1px solid #eee;
+/* attach header + body widths */
+header, main, footer {
+  width: 100%;
 }
 
+/* NAV */
 .nav {
   max-width: 1200px;
   margin: auto;
   padding: 16px;
   display: flex;
   align-items: center;
-  gap: 20px;
+  justify-content: space-between;
 }
 
 .logo {
   font-weight: bold;
+  font-size: 22px;
   cursor: pointer;
 }
 
-.search-bar {
-  flex: 1;
+.search {
   display: flex;
+  gap: 6px;
 }
 
-.search-bar input {
-  flex: 1;
-  padding: 8px;
+.search input {
+  padding: 6px;
 }
 
-.search-bar button {
-  padding: 8px 12px;
-}
-
-.cart {
+.cart-icon {
   cursor: pointer;
 }
 
-/* ===== HERO ===== */
+/* HERO */
 .hero {
   background: #2c4a5c;
   color: white;
@@ -56,59 +57,72 @@ header {
   padding: 10px 20px;
 }
 
-/* ===== PAGE WIDTH FIX ===== */
-.page {
+/* CONTAINER */
+.container {
   max-width: 1200px;
   margin: auto;
   padding: 40px 20px;
 }
 
-/* ===== PRODUCTS ===== */
-.section-title {
-  text-align: center;
-  margin-bottom: 30px;
-}
-
-.products-grid {
+/* PRODUCTS */
+.products {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: 20px;
 }
 
 .product {
-  border: 1px solid #ddd;
-  padding: 16px;
   background: white;
-}
-
-.product h4 {
-  margin-bottom: 10px;
+  padding: 16px;
+  border-radius: 6px;
 }
 
 .product button {
   margin-top: 10px;
-  width: 100%;
 }
 
-/* ===== CART ===== */
-.cart-sidebar {
+/* CART */
+.cart {
   position: fixed;
+  right: -320px;
   top: 0;
-  right: -350px;
-  width: 350px;
+  width: 300px;
   height: 100%;
   background: white;
-  border-left: 1px solid #ddd;
-  transition: right 0.3s;
   padding: 20px;
+  transition: right 0.3s;
+  box-shadow: -2px 0 8px rgba(0,0,0,0.2);
 }
 
-.cart-sidebar.open {
+.cart.open {
   right: 0;
 }
 
-.cart-header {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+/* FOOTER */
+footer {
+  background: #2c4a5c;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+.footer-links a {
+  margin: 0 10px;
+  cursor: pointer;
+  color: white;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+
+.modal-box {
+  background: white;
+  max-width: 500px;
+  margin: 10% auto;
+  padding: 20px;
 }
