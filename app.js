@@ -1,51 +1,6 @@
 // ==========================================
-// PRODUCTS (FLAG BEST SELLERS)
+// CONFIGURATION
 // ==========================================
-
-const products = [
-    {
-        id: 1,
-        name: "Cable Management Kit",
-        description: "315-piece adhesive cable organizer",
-        price: 65,
-        category: "Workspace",
-        image: "📦",
-        featured: true
-    },
-    {
-        id: 2,
-        name: "Wireless Charging Stand",
-        description: "Fast Qi charging stand",
-        price: 120,
-        category: "Phone Accessories",
-        image: "📱",
-        featured: true
-    },
-    {
-        id: 3,
-        name: "LED Strip Lights",
-        description: "RGB smart LED strip (5m)",
-        price: 95,
-        category: "Home",
-        image: "💡"
-    },
-    {
-        id: 4,
-        name: "Laptop Stand",
-        description: "Adjustable aluminum stand",
-        price: 110,
-        category: "Workspace",
-        image: "💻",
-        featured: true
-    }
-];
-
-const categoryTranslations = {
-    "All Products": "جميع المنتجات",
-    "Workspace": "مساحة العمل",
-    "Phone Accessories": "إكسسوارات الهاتف",
-    "Home": "المنزل"
-};
 
 const WHATSAPP_NUMBER = "971XXXXXXXXX";
 
@@ -86,36 +41,281 @@ const policies = {
     terms: `<h2>Terms of Service</h2><h2 class="arabic-heading">شروط الخدمة</h2><p><strong>Order Agreement:</strong> By placing an order, you agree to provide accurate information and accept these terms.</p><p class="arabic-text"><strong>اتفاقية الطلب:</strong> بتقديم طلب، فإنك توافق على تقديم معلومات دقيقة وقبول هذه الشروط.</p><p><strong>Payment:</strong> Full payment is required before order processing begins. We accept bank transfer and online payment methods.</p><p class="arabic-text"><strong>الدفع:</strong> يلزم الدفع الكامل قبل بدء معالجة الطلب. نقبل التحويل البنكي وطرق الدفع الإلكتروني.</p><p><strong>Product Accuracy:</strong> We strive to display accurate product information and images. Actual products may vary slightly from images shown.</p><p class="arabic-text"><strong>دقة المنتج:</strong> نسعى لعرض معلومات وصور المنتج بدقة. قد تختلف المنتجات الفعلية قليلاً عن الصور المعروضة.</p><p><strong>Right to Refuse Service:</strong> ORLO reserves the right to refuse or cancel any order if fraud, misuse, or policy violations are detected.</p><p class="arabic-text"><strong>الحق في رفض الخدمة:</strong> تحتفظ أورلو بالحق في رفض أو إلغاء أي طلب في حالة اكتشاف احتيال أو إساءة استخدام أو انتهاكات للسياسة.</p><p><strong>Liability:</strong> ORLO is not responsible for delivery delays caused by courier services, incorrect addresses provided by customers, or force majeure events.</p><p class="arabic-text"><strong>المسؤولية:</strong> أورلو غير مسؤولة عن تأخيرات التوصيل الناتجة عن خدمات التوصيل، أو العناوين غير الصحيحة المقدمة من العملاء، أو أحداث القوة القاهرة.</p><p><strong>Changes to Terms:</strong> We reserve the right to update these terms at any time. Continued use of our service constitutes acceptance of updated terms.</p><p class="arabic-text"><strong>التغييرات على الشروط:</strong> نحتفظ بالحق في تحديث هذه الشروط في أي وقت. الاستخدام المستمر لخدمتنا يشكل قبولاً للشروط المحدثة.</p><p><strong>Contact:</strong> For questions about these terms, contact us at info@orlostore.com</p><p class="arabic-text"><strong>الاتصال:</strong> للاستفسارات حول هذه الشروط، اتصل بنا على info@orlostore.com</p>`
 };
 
+// ==========================================
+// STATE MANAGEMENT
+// ==========================================
+
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let selectedCategory = "All Products";
 let selectedDeliveryZone = localStorage.getItem("deliveryZone") || "dubai";
 
-function saveCart() { localStorage.setItem("cart", JSON.stringify(cart)); }
-function saveDeliveryZone() { localStorage.setItem("deliveryZone", selectedDeliveryZone); }
-function getCategories() { return ["All Products", ...new Set(products.map(p => p.category))]; }
-function calculateDeliveryFee(subtotal) { const zone = deliveryZones[selectedDeliveryZone]; if (subtotal >= zone.freeThreshold) { return 0; } return zone.fee; }
-function getAmountUntilFreeDelivery(subtotal) { const zone = deliveryZones[selectedDeliveryZone]; if (subtotal >= zone.freeThreshold) { return 0; } return zone.freeThreshold - subtotal; }
-function generateOrderNumber() { const date = new Date(); const year = date.getFullYear().toString().slice(-2); const month = String(date.getMonth() + 1).padStart(2, '0'); const day = String(date.getDate()).padStart(2, '0'); const random = Math.floor(Math.random() * 9000) + 1000; return `ORLO-${year}${month}${day}-${random}`; }
-function renderProducts(list) { const grid = document.getElementById("productsGrid"); if (!list.length) { grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#999;padding:3rem;">No products found</p>`; return; } grid.innerHTML = list.map(p => `<div class="product-card">${p.featured ? `<span class="badge">Best Seller</span>` : ""}<div class="product-image">${p.image}</div><div class="product-info"><small>${p.category}</small><h3 class="product-title">${p.name}</h3><p>${p.description}</p><div class="product-price">${p.price} AED</div><button class="add-to-cart" onclick="addToCart(${p.id}, event)">Add to Cart</button></div></div>`).join(""); }
-function loadProducts(category = "All Products") { selectedCategory = category; const list = category === "All Products" ? products : products.filter(p => p.category === category); renderProducts(list); updateCategoryButtons(); const heroSection = document.querySelector(".hero"); const searchInput = document.getElementById("searchInput"); if (heroSection && (!searchInput || !searchInput.value.trim())) { heroSection.classList.remove("hidden"); } }
-function createCategoryFilters() { const container = document.getElementById("categoryFilters"); container.innerHTML = getCategories().map(cat => `<button class="category-btn ${cat === selectedCategory ? "active" : ""}" onclick="loadProducts('${cat}')">${cat}<br><span class="arabic-text" style="font-size: 0.9rem; margin-top: 3px;">${categoryTranslations[cat]}</span></button>`).join(""); }
-function updateCategoryButtons() { document.querySelectorAll(".category-btn").forEach(btn => { const firstLine = btn.childNodes[0]; if (firstLine && firstLine.textContent) { const catText = firstLine.textContent.trim(); btn.classList.toggle("active", catText === selectedCategory); } }); }
-function searchProducts() { const term = document.getElementById("searchInput").value.toLowerCase().trim(); const heroSection = document.querySelector(".hero"); if (!term) { loadProducts(selectedCategory); if (heroSection) heroSection.classList.remove("hidden"); return; } if (heroSection) heroSection.classList.add("hidden"); const scoped = selectedCategory === "All Products" ? products : products.filter(p => p.category === selectedCategory); const results = scoped.filter(p => p.name.toLowerCase().includes(term) || p.description.toLowerCase().includes(term) || p.category.toLowerCase().includes(term)); renderProducts(results); }
-function addToCart(id, event) { const product = products.find(p => p.id === id); const item = cart.find(i => i.id === id); if (item) { item.quantity++; } else { cart.push({ ...product, quantity: 1 }); } saveCart(); updateCart(); showNotification(`${product.name} added to cart!`, event); }
-function updateCart() { const cartItems = document.getElementById("cartItems"); const cartCount = document.getElementById("cartCount"); const cartFooter = document.querySelector(".cart-footer"); if (!cart.length) { cartItems.innerHTML = "<p style='text-align:center;padding:3rem;color:#999;font-size:1.1rem;'>Your cart is empty</p>"; cartCount.textContent = 0; cartFooter.innerHTML = `<div class="cart-total"><span>Total / الإجمالي:</span><span>0.00 AED</span></div>`; return; } const totalItems = cart.reduce((s, i) => s + i.quantity, 0); const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0); const deliveryFee = calculateDeliveryFee(subtotal); const total = subtotal + deliveryFee; const amountUntilFree = getAmountUntilFreeDelivery(subtotal); const zone = deliveryZones[selectedDeliveryZone]; cartCount.textContent = totalItems; cartItems.innerHTML = cart.map(i => `<div style="display:flex; justify-content:space-between; align-items:center; padding:1.5rem; border-bottom:1px solid #eee;"><div style="flex:1;"><strong style="font-size:1.1rem; color:#2c4a5c;">${i.name}</strong><br><span style="color:#888; font-size:1rem;">${i.price} AED × ${i.quantity}</span><br><span style="color:#e07856; font-weight:600; font-size:1.1rem;">${(i.price * i.quantity).toFixed(2)} AED</span></div><div style="display:flex; gap:0.75rem; align-items:center;"><button onclick="updateQuantity(${i.id}, -1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">-</button><span style="font-size:1.1rem; font-weight:600; min-width:30px; text-align:center;">${i.quantity}</span><button onclick="updateQuantity(${i.id}, 1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">+</button><button onclick="removeFromCart(${i.id})" style="padding:0.5rem 1rem; background:#dc3545; color:white; border:none; border-radius:4px; cursor:pointer; margin-left:0.5rem; font-size:1.1rem;">✕</button></div></div>`).join(""); cartFooter.innerHTML = `<div id="deliverySection" class="delivery-section"><div class="delivery-header"><span class="delivery-icon">🚚</span><span>Delivery Location / موقع التوصيل</span></div><select id="deliveryZoneSelect" class="delivery-select" onchange="changeDeliveryZone(this.value)">${Object.entries(deliveryZones).map(([key, zone]) => `<option value="${key}" ${key === selectedDeliveryZone ? 'selected' : ''}>${zone.name} / ${zone.nameAr}</option>`).join('')}</select>${amountUntilFree > 0 ? `<div class="free-delivery-hint">Add <strong>${amountUntilFree.toFixed(2)} AED</strong> more for FREE delivery!<br><span style="font-family: 'Almarai', sans-serif; direction: rtl; display: block; margin-top: 5px;">أضف <strong>${amountUntilFree.toFixed(2)} درهم</strong> للحصول على توصيل مجاني!</span></div>` : `<div class="free-delivery-achieved">✓ You qualify for FREE delivery! / توصيل مجاني!</div>`}<div class="delivery-time"><span>Delivery: ${DELIVERY_TIME} / التوصيل: ${DELIVERY_TIME_AR}</span></div></div><div class="cart-summary"><div class="summary-row"><span>Subtotal / المجموع الفرعي:</span><span>${subtotal.toFixed(2)} AED</span></div><div class="summary-row delivery-row"><span>Delivery / التوصيل (${zone.name} / ${zone.nameAr}):</span><span class="${deliveryFee === 0 ? 'free-delivery' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span></div><div class="cart-total"><span>Total / الإجمالي:</span><span id="cartTotal">${total.toFixed(2)} AED</span></div></div><button class="checkout-btn stripe-btn" id="stripeCheckoutBtn" onclick="checkoutWithStripe()">Pay with Card / الدفع بالبطاقة</button><button class="checkout-btn whatsapp-btn" id="checkoutBtn" onclick="checkout()">Order via WhatsApp / اطلب عبر واتساب</button>`; }
-function changeDeliveryZone(zone) { selectedDeliveryZone = zone; saveDeliveryZone(); updateCart(); }
-function updateQuantity(id, change) { const item = cart.find(i => i.id === id); if (item) { item.quantity += change; if (item.quantity <= 0) { removeFromCart(id); } else { saveCart(); updateCart(); } } }
-function removeFromCart(id) { cart = cart.filter(i => i.id !== id); saveCart(); updateCart(); }
-function toggleCart() { document.getElementById("cartSidebar").classList.toggle("active"); }
-function checkout() { if (!cart.length) { alert("Your cart is empty!"); return; } const orderNumber = generateOrderNumber(); const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0); const deliveryFee = calculateDeliveryFee(subtotal); const total = subtotal + deliveryFee; const zone = deliveryZones[selectedDeliveryZone]; let message = `Hello ORLO, I'd like to order:%0A%0A*Order #${orderNumber}*%0A%0A`; cart.forEach(i => { message += `• ${i.name} × ${i.quantity} = ${(i.price * i.quantity).toFixed(2)} AED%0A`; }); message += `%0A─────────────────%0A`; message += `Subtotal: ${subtotal.toFixed(2)} AED%0A`; message += `Delivery (${zone.name}): ${deliveryFee === 0 ? 'FREE' : deliveryFee.toFixed(2) + ' AED'}%0A`; message += `%0A*Total: ${total.toFixed(2)} AED*`; message += `%0A%0ADelivery Location: ${zone.name}`; message += `%0AEstimated Delivery: ${DELIVERY_TIME}`; message += `%0A%0APlease confirm my delivery address and payment method.`; window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank"); }
-async function checkoutWithStripe() { if (!cart.length) { alert("Your cart is empty!"); return; } const stripeBtn = document.getElementById('stripeCheckoutBtn'); if (stripeBtn) { stripeBtn.disabled = true; stripeBtn.textContent = 'Processing... / جارٍ المعالجة...'; } try { const response = await fetch('/api/create-checkout-session', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: cart.map(item => ({ name: item.name, description: item.description, price: item.price, quantity: item.quantity })), deliveryZone: selectedDeliveryZone, successUrl: window.location.origin + '/?success=true', cancelUrl: window.location.origin + '/?canceled=true' }) }); const data = await response.json(); if (!response.ok) { throw new Error(data.error || 'Failed to create checkout session'); } if (data.url) { window.location.href = data.url; } } catch (error) { console.error('Checkout error:', error); alert('Checkout failed: ' + error.message); if (stripeBtn) { stripeBtn.disabled = false; stripeBtn.textContent = 'Pay with Card / الدفع بالبطاقة'; } } }
-function openPolicy(type) { document.getElementById("policyText").innerHTML = policies[type]; document.getElementById("policyModal").style.display = "block"; document.body.style.overflow = "hidden"; }
-function closePolicy() { document.getElementById("policyModal").style.display = "none"; document.body.style.overflow = "auto"; }
+// ==========================================
+// UTILITY FUNCTIONS
+// ==========================================
+
+function saveCart() { 
+    localStorage.setItem("cart", JSON.stringify(cart)); 
+}
+
+function saveDeliveryZone() { 
+    localStorage.setItem("deliveryZone", selectedDeliveryZone); 
+}
+
+function getCategories() { 
+    return ["All Products", ...new Set(products.map(p => p.category))]; 
+}
+
+function calculateDeliveryFee(subtotal) { 
+    const zone = deliveryZones[selectedDeliveryZone]; 
+    if (subtotal >= zone.freeThreshold) { 
+        return 0; 
+    } 
+    return zone.fee; 
+}
+
+function getAmountUntilFreeDelivery(subtotal) { 
+    const zone = deliveryZones[selectedDeliveryZone]; 
+    if (subtotal >= zone.freeThreshold) { 
+        return 0; 
+    } 
+    return zone.freeThreshold - subtotal; 
+}
+
+function generateOrderNumber() { 
+    const date = new Date(); 
+    const year = date.getFullYear().toString().slice(-2); 
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getDate()).padStart(2, '0'); 
+    const random = Math.floor(Math.random() * 9000) + 1000; 
+    return `ORLO-${year}${month}${day}-${random}`; 
+}
+
+// ==========================================
+// PRODUCT DISPLAY FUNCTIONS
+// ==========================================
+
+function renderProducts(list) { 
+    const grid = document.getElementById("productsGrid"); 
+    if (!list.length) { 
+        grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#999;padding:3rem;">No products found</p>`; 
+        return; 
+    } 
+    grid.innerHTML = list.map(p => `<div class="product-card">${p.featured ? `<span class="badge">Best Seller</span>` : ""}<div class="product-image">${p.image}</div><div class="product-info"><small>${p.category}</small><h3 class="product-title">${p.name}</h3><p>${p.description}</p><div class="product-price">${p.price} AED</div><button class="add-to-cart" onclick="addToCart(${p.id}, event)">Add to Cart</button></div></div>`).join(""); 
+}
+
+function loadProducts(category = "All Products") { 
+    selectedCategory = category; 
+    const list = category === "All Products" ? products : products.filter(p => p.category === category); 
+    renderProducts(list); 
+    updateCategoryButtons(); 
+    const heroSection = document.querySelector(".hero"); 
+    const searchInput = document.getElementById("searchInput"); 
+    if (heroSection && (!searchInput || !searchInput.value.trim())) { 
+        heroSection.classList.remove("hidden"); 
+    } 
+}
+
+function createCategoryFilters() { 
+    const container = document.getElementById("categoryFilters"); 
+    container.innerHTML = getCategories().map(cat => `<button class="category-btn ${cat === selectedCategory ? "active" : ""}" onclick="loadProducts('${cat}')">${cat}<br><span class="arabic-text" style="font-size: 0.9rem; margin-top: 3px;">${categoryTranslations[cat]}</span></button>`).join(""); 
+}
+
+function updateCategoryButtons() { 
+    document.querySelectorAll(".category-btn").forEach(btn => { 
+        const firstLine = btn.childNodes[0]; 
+        if (firstLine && firstLine.textContent) { 
+            const catText = firstLine.textContent.trim(); 
+            btn.classList.toggle("active", catText === selectedCategory); 
+        } 
+    }); 
+}
+
+function searchProducts() { 
+    const term = document.getElementById("searchInput").value.toLowerCase().trim(); 
+    const heroSection = document.querySelector(".hero"); 
+    if (!term) { 
+        loadProducts(selectedCategory); 
+        if (heroSection) heroSection.classList.remove("hidden"); 
+        return; 
+    } 
+    if (heroSection) heroSection.classList.add("hidden"); 
+    const scoped = selectedCategory === "All Products" ? products : products.filter(p => p.category === selectedCategory); 
+    const results = scoped.filter(p => p.name.toLowerCase().includes(term) || p.description.toLowerCase().includes(term) || p.category.toLowerCase().includes(term)); 
+    renderProducts(results); 
+}
+
+// ==========================================
+// CART MANAGEMENT FUNCTIONS
+// ==========================================
+
+function addToCart(id, event) { 
+    const product = products.find(p => p.id === id); 
+    const item = cart.find(i => i.id === id); 
+    if (item) { 
+        item.quantity++; 
+    } else { 
+        cart.push({ ...product, quantity: 1 }); 
+    } 
+    saveCart(); 
+    updateCart(); 
+    showNotification(`${product.name} added to cart!`, event); 
+}
+
+function updateCart() { 
+    const cartItems = document.getElementById("cartItems"); 
+    const cartCount = document.getElementById("cartCount"); 
+    const cartFooter = document.querySelector(".cart-footer"); 
+    
+    if (!cart.length) { 
+        cartItems.innerHTML = "<p style='text-align:center;padding:3rem;color:#999;font-size:1.1rem;'>Your cart is empty</p>"; 
+        cartCount.textContent = 0; 
+        cartFooter.innerHTML = `<div class="cart-total"><span>Total / الإجمالي:</span><span>0.00 AED</span></div>`; 
+        return; 
+    } 
+    
+    const totalItems = cart.reduce((s, i) => s + i.quantity, 0); 
+    const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0); 
+    const deliveryFee = calculateDeliveryFee(subtotal); 
+    const total = subtotal + deliveryFee; 
+    const amountUntilFree = getAmountUntilFreeDelivery(subtotal); 
+    const zone = deliveryZones[selectedDeliveryZone]; 
+    
+    cartCount.textContent = totalItems; 
+    cartItems.innerHTML = cart.map(i => `<div style="display:flex; justify-content:space-between; align-items:center; padding:1.5rem; border-bottom:1px solid #eee;"><div style="flex:1;"><strong style="font-size:1.1rem; color:#2c4a5c;">${i.name}</strong><br><span style="color:#888; font-size:1rem;">${i.price} AED × ${i.quantity}</span><br><span style="color:#e07856; font-weight:600; font-size:1.1rem;">${(i.price * i.quantity).toFixed(2)} AED</span></div><div style="display:flex; gap:0.75rem; align-items:center;"><button onclick="updateQuantity(${i.id}, -1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">-</button><span style="font-size:1.1rem; font-weight:600; min-width:30px; text-align:center;">${i.quantity}</span><button onclick="updateQuantity(${i.id}, 1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">+</button><button onclick="removeFromCart(${i.id})" style="padding:0.5rem 1rem; background:#dc3545; color:white; border:none; border-radius:4px; cursor:pointer; margin-left:0.5rem; font-size:1.1rem;">✕</button></div></div>`).join(""); 
+    
+    cartFooter.innerHTML = `<div id="deliverySection" class="delivery-section"><div class="delivery-header"><span class="delivery-icon">🚚</span><span>Delivery Location / موقع التوصيل</span></div><select id="deliveryZoneSelect" class="delivery-select" onchange="changeDeliveryZone(this.value)">${Object.entries(deliveryZones).map(([key, zone]) => `<option value="${key}" ${key === selectedDeliveryZone ? 'selected' : ''}>${zone.name} / ${zone.nameAr}</option>`).join('')}</select>${amountUntilFree > 0 ? `<div class="free-delivery-hint">Add <strong>${amountUntilFree.toFixed(2)} AED</strong> more for FREE delivery!<br><span style="font-family: 'Almarai', sans-serif; direction: rtl; display: block; margin-top: 5px;">أضف <strong>${amountUntilFree.toFixed(2)} درهم</strong> للحصول على توصيل مجاني!</span></div>` : `<div class="free-delivery-achieved">✓ You qualify for FREE delivery! / توصيل مجاني!</div>`}<div class="delivery-time"><span>Delivery: ${DELIVERY_TIME} / التوصيل: ${DELIVERY_TIME_AR}</span></div></div><div class="cart-summary"><div class="summary-row"><span>Subtotal / المجموع الفرعي:</span><span>${subtotal.toFixed(2)} AED</span></div><div class="summary-row delivery-row"><span>Delivery / التوصيل (${zone.name} / ${zone.nameAr}):</span><span class="${deliveryFee === 0 ? 'free-delivery' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span></div><div class="cart-total"><span>Total / الإجمالي:</span><span id="cartTotal">${total.toFixed(2)} AED</span></div></div><button class="checkout-btn stripe-btn" id="stripeCheckoutBtn" onclick="checkoutWithStripe()">Pay with Card / الدفع بالبطاقة</button><button class="checkout-btn whatsapp-btn" id="checkoutBtn" onclick="checkout()">Order via WhatsApp / اطلب عبر واتساب</button>`; 
+}
+
+function changeDeliveryZone(zone) { 
+    selectedDeliveryZone = zone; 
+    saveDeliveryZone(); 
+    updateCart(); 
+}
+
+function updateQuantity(id, change) { 
+    const item = cart.find(i => i.id === id); 
+    if (item) { 
+        item.quantity += change; 
+        if (item.quantity <= 0) { 
+            removeFromCart(id); 
+        } else { 
+            saveCart(); 
+            updateCart(); 
+        } 
+    } 
+}
+
+function removeFromCart(id) { 
+    cart = cart.filter(i => i.id !== id); 
+    saveCart(); 
+    updateCart(); 
+}
+
+function toggleCart() { 
+    document.getElementById("cartSidebar").classList.toggle("active"); 
+}
+
+// ==========================================
+// CHECKOUT FUNCTIONS
+// ==========================================
+
+function checkout() { 
+    if (!cart.length) { 
+        alert("Your cart is empty!"); 
+        return; 
+    } 
+    
+    const orderNumber = generateOrderNumber(); 
+    const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0); 
+    const deliveryFee = calculateDeliveryFee(subtotal); 
+    const total = subtotal + deliveryFee; 
+    const zone = deliveryZones[selectedDeliveryZone]; 
+    
+    let message = `Hello ORLO, I'd like to order:%0A%0A*Order #${orderNumber}*%0A%0A`; 
+    cart.forEach(i => { 
+        message += `• ${i.name} × ${i.quantity} = ${(i.price * i.quantity).toFixed(2)} AED%0A`; 
+    }); 
+    message += `%0A─────────────────%0A`; 
+    message += `Subtotal: ${subtotal.toFixed(2)} AED%0A`; 
+    message += `Delivery (${zone.name}): ${deliveryFee === 0 ? 'FREE' : deliveryFee.toFixed(2) + ' AED'}%0A`; 
+    message += `%0A*Total: ${total.toFixed(2)} AED*`; 
+    message += `%0A%0ADelivery Location: ${zone.name}`; 
+    message += `%0AEstimated Delivery: ${DELIVERY_TIME}`; 
+    message += `%0A%0APlease confirm my delivery address and payment method.`; 
+    
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank"); 
+}
+
+async function checkoutWithStripe() { 
+    if (!cart.length) { 
+        alert("Your cart is empty!"); 
+        return; 
+    } 
+    
+    const stripeBtn = document.getElementById('stripeCheckoutBtn'); 
+    if (stripeBtn) { 
+        stripeBtn.disabled = true; 
+        stripeBtn.textContent = 'Processing... / جارٍ المعالجة...'; 
+    } 
+    
+    try { 
+        const response = await fetch('/api/create-checkout-session', { 
+            method: 'POST', 
+            headers: { 'Content-Type': 'application/json' }, 
+            body: JSON.stringify({ 
+                items: cart.map(item => ({ 
+                    name: item.name, 
+                    description: item.description, 
+                    price: item.price, 
+                    quantity: item.quantity 
+                })), 
+                deliveryZone: selectedDeliveryZone, 
+                successUrl: window.location.origin + '/?success=true', 
+                cancelUrl: window.location.origin + '/?canceled=true' 
+            }) 
+        }); 
+        
+        const data = await response.json(); 
+        
+        if (!response.ok) { 
+            throw new Error(data.error || 'Failed to create checkout session'); 
+        } 
+        
+        if (data.url) { 
+            window.location.href = data.url; 
+        } 
+    } catch (error) { 
+        console.error('Checkout error:', error); 
+        alert('Checkout failed: ' + error.message); 
+        if (stripeBtn) { 
+            stripeBtn.disabled = false; 
+            stripeBtn.textContent = 'Pay with Card / الدفع بالبطاقة'; 
+        } 
+    } 
+}
+
+// ==========================================
+// POLICY MODAL FUNCTIONS
+// ==========================================
+
+function openPolicy(type) { 
+    document.getElementById("policyText").innerHTML = policies[type]; 
+    document.getElementById("policyModal").style.display = "block"; 
+    document.body.style.overflow = "hidden"; 
+}
+
+function closePolicy() { 
+    document.getElementById("policyModal").style.display = "none"; 
+    document.body.style.overflow = "auto"; 
+}
+
+// ==========================================
+// NOTIFICATION FUNCTION
+// ==========================================
 
 function showNotification(message, clickEvent) {
     const notification = document.createElement('div');
     
-    // Get button position if event is provided
     let topPos = '100px';
     let leftPos = '50%';
     let transform = 'translateX(-50%)';
@@ -170,6 +370,10 @@ function showNotification(message, clickEvent) {
     }, 2000);
 }
 
+// ==========================================
+// ABOUT TOGGLE FUNCTION
+// ==========================================
+
 function toggleAbout() {
     const aboutSection = document.getElementById('about');
     const isVisible = aboutSection.style.display !== 'none';
@@ -182,44 +386,14 @@ function toggleAbout() {
     }
 }
 
-function toggleMobileMenu() {
-    const navLinks = document.getElementById('navLinks');
-    const hamburger = document.getElementById('hamburger');
-    const isActive = navLinks.classList.contains('active');
-    
-    navLinks.classList.toggle('active');
-    hamburger.classList.toggle('active');
-    hamburger.setAttribute('aria-expanded', !isActive);
-    
-    // Prevent body scroll when menu is open
-    document.body.style.overflow = isActive ? 'auto' : 'hidden';
-}
+// ==========================================
+// INITIALIZATION
+// ==========================================
 
 window.onload = () => { 
     createCategoryFilters(); 
     loadProducts(); 
     updateCart(); 
-    
-    // Hamburger menu
-    const hamburger = document.getElementById('hamburger');
-    if (hamburger) {
-        hamburger.addEventListener('click', toggleMobileMenu);
-    }
-    
-    // Close mobile menu when clicking nav links
-    const navLinks = document.querySelectorAll('.nav-links a');
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            const navLinksEl = document.getElementById('navLinks');
-            const hamburgerEl = document.getElementById('hamburger');
-            if (navLinksEl.classList.contains('active')) {
-                navLinksEl.classList.remove('active');
-                hamburgerEl.classList.remove('active');
-                hamburgerEl.setAttribute('aria-expanded', 'false');
-                document.body.style.overflow = 'auto';
-            }
-        });
-    });
     
     const urlParams = new URLSearchParams(window.location.search); 
     if (urlParams.get('success') === 'true') { 
