@@ -1,7 +1,3 @@
-// ==========================================
-// CONFIGURATION
-// ==========================================
-
 const WHATSAPP_NUMBER = "971XXXXXXXXX";
 
 const deliveryZones = {
@@ -41,58 +37,16 @@ const policies = {
     terms: `<h2>Terms of Service</h2><h2 class="arabic-heading">شروط الخدمة</h2><p><strong>Order Agreement:</strong> By placing an order, you agree to provide accurate information and accept these terms.</p><p class="arabic-text"><strong>اتفاقية الطلب:</strong> بتقديم طلب، فإنك توافق على تقديم معلومات دقيقة وقبول هذه الشروط.</p><p><strong>Payment:</strong> Full payment is required before order processing begins. We accept bank transfer and online payment methods.</p><p class="arabic-text"><strong>الدفع:</strong> يلزم الدفع الكامل قبل بدء معالجة الطلب. نقبل التحويل البنكي وطرق الدفع الإلكتروني.</p><p><strong>Product Accuracy:</strong> We strive to display accurate product information and images. Actual products may vary slightly from images shown.</p><p class="arabic-text"><strong>دقة المنتج:</strong> نسعى لعرض معلومات وصور المنتج بدقة. قد تختلف المنتجات الفعلية قليلاً عن الصور المعروضة.</p><p><strong>Right to Refuse Service:</strong> ORLO reserves the right to refuse or cancel any order if fraud, misuse, or policy violations are detected.</p><p class="arabic-text"><strong>الحق في رفض الخدمة:</strong> تحتفظ أورلو بالحق في رفض أو إلغاء أي طلب في حالة اكتشاف احتيال أو إساءة استخدام أو انتهاكات للسياسة.</p><p><strong>Liability:</strong> ORLO is not responsible for delivery delays caused by courier services, incorrect addresses provided by customers, or force majeure events.</p><p class="arabic-text"><strong>المسؤولية:</strong> أورلو غير مسؤولة عن تأخيرات التوصيل الناتجة عن خدمات التوصيل، أو العناوين غير الصحيحة المقدمة من العملاء، أو أحداث القوة القاهرة.</p><p><strong>Changes to Terms:</strong> We reserve the right to update these terms at any time. Continued use of our service constitutes acceptance of updated terms.</p><p class="arabic-text"><strong>التغييرات على الشروط:</strong> نحتفظ بالحق في تحديث هذه الشروط في أي وقت. الاستخدام المستمر لخدمتنا يشكل قبولاً للشروط المحدثة.</p><p><strong>Contact:</strong> For questions about these terms, contact us at info@orlostore.com</p><p class="arabic-text"><strong>الاتصال:</strong> للاستفسارات حول هذه الشروط، اتصل بنا على info@orlostore.com</p>`
 };
 
-// ==========================================
-// STATE MANAGEMENT
-// ==========================================
-
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let selectedCategory = "All Products";
 let selectedDeliveryZone = localStorage.getItem("deliveryZone") || "dubai";
 
-// ==========================================
-// UTILITY FUNCTIONS
-// ==========================================
-
-function saveCart() { 
-    localStorage.setItem("cart", JSON.stringify(cart)); 
-}
-
-function saveDeliveryZone() { 
-    localStorage.setItem("deliveryZone", selectedDeliveryZone); 
-}
-
-function getCategories() { 
-    return ["All Products", ...new Set(products.map(p => p.category))]; 
-}
-
-function calculateDeliveryFee(subtotal) { 
-    const zone = deliveryZones[selectedDeliveryZone]; 
-    if (subtotal >= zone.freeThreshold) { 
-        return 0; 
-    } 
-    return zone.fee; 
-}
-
-function getAmountUntilFreeDelivery(subtotal) { 
-    const zone = deliveryZones[selectedDeliveryZone]; 
-    if (subtotal >= zone.freeThreshold) { 
-        return 0; 
-    } 
-    return zone.freeThreshold - subtotal; 
-}
-
-function generateOrderNumber() { 
-    const date = new Date(); 
-    const year = date.getFullYear().toString().slice(-2); 
-    const month = String(date.getMonth() + 1).padStart(2, '0'); 
-    const day = String(date.getDate()).padStart(2, '0'); 
-    const random = Math.floor(Math.random() * 9000) + 1000; 
-    return `ORLO-${year}${month}${day}-${random}`; 
-}
-
-// ==========================================
-// PRODUCT DISPLAY FUNCTIONS
-// ==========================================
+function saveCart() { localStorage.setItem("cart", JSON.stringify(cart)); }
+function saveDeliveryZone() { localStorage.setItem("deliveryZone", selectedDeliveryZone); }
+function getCategories() { return ["All Products", ...new Set(products.map(p => p.category))]; }
+function calculateDeliveryFee(subtotal) { const zone = deliveryZones[selectedDeliveryZone]; if (subtotal >= zone.freeThreshold) { return 0; } return zone.fee; }
+function getAmountUntilFreeDelivery(subtotal) { const zone = deliveryZones[selectedDeliveryZone]; if (subtotal >= zone.freeThreshold) { return 0; } return zone.freeThreshold - subtotal; }
+function generateOrderNumber() { const date = new Date(); const year = date.getFullYear().toString().slice(-2); const month = String(date.getMonth() + 1).padStart(2, '0'); const day = String(date.getDate()).padStart(2, '0'); const random = Math.floor(Math.random() * 9000) + 1000; return `ORLO-${year}${month}${day}-${random}`; }
 
 function renderProducts(list) { 
     const grid = document.getElementById("productsGrid"); 
@@ -144,10 +98,6 @@ function searchProducts() {
     renderProducts(results); 
 }
 
-// ==========================================
-// CART MANAGEMENT FUNCTIONS
-// ==========================================
-
 function addToCart(id, event) { 
     const product = products.find(p => p.id === id); 
     const item = cart.find(i => i.id === id); 
@@ -183,7 +133,7 @@ function updateCart() {
     cartCount.textContent = totalItems; 
     cartItems.innerHTML = cart.map(i => `<div style="display:flex; justify-content:space-between; align-items:center; padding:1.5rem; border-bottom:1px solid #eee;"><div style="flex:1;"><strong style="font-size:1.1rem; color:#2c4a5c;">${i.name}</strong><br><span style="color:#888; font-size:1rem;">${i.price} AED × ${i.quantity}</span><br><span style="color:#e07856; font-weight:600; font-size:1.1rem;">${(i.price * i.quantity).toFixed(2)} AED</span></div><div style="display:flex; gap:0.75rem; align-items:center;"><button onclick="updateQuantity(${i.id}, -1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">-</button><span style="font-size:1.1rem; font-weight:600; min-width:30px; text-align:center;">${i.quantity}</span><button onclick="updateQuantity(${i.id}, 1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">+</button><button onclick="removeFromCart(${i.id})" style="padding:0.5rem 1rem; background:#dc3545; color:white; border:none; border-radius:4px; cursor:pointer; margin-left:0.5rem; font-size:1.1rem;">✕</button></div></div>`).join(""); 
     
-    cartFooter.innerHTML = `<div id="deliverySection" class="delivery-section"><div class="delivery-header"><span class="delivery-icon">🚚</span><span>Delivery Location / موقع التوصيل</span></div><select id="deliveryZoneSelect" class="delivery-select" onchange="changeDeliveryZone(this.value)">${Object.entries(deliveryZones).map(([key, zone]) => `<option value="${key}" ${key === selectedDeliveryZone ? 'selected' : ''}>${zone.name} / ${zone.nameAr}</option>`).join('')}</select>${amountUntilFree > 0 ? `<div class="free-delivery-hint">Add <strong>${amountUntilFree.toFixed(2)} AED</strong> more for FREE delivery!<br><span style="font-family: 'Almarai', sans-serif; direction: rtl; display: block; margin-top: 5px;">أضف <strong>${amountUntilFree.toFixed(2)} درهم</strong> للحصول على توصيل مجاني!</span></div>` : `<div class="free-delivery-achieved">✓ You qualify for FREE delivery! / توصيل مجاني!</div>`}<div class="delivery-time"><span>Delivery: ${DELIVERY_TIME} / التوصيل: ${DELIVERY_TIME_AR}</span></div></div><div class="cart-summary"><div class="summary-row"><span>Subtotal / المجموع الفرعي:</span><span>${subtotal.toFixed(2)} AED</span></div><div class="summary-row delivery-row"><span>Delivery / التوصيل (${zone.name} / ${zone.nameAr}):</span><span class="${deliveryFee === 0 ? 'free-delivery' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span></div><div class="cart-total"><span>Total / الإجمالي:</span><span id="cartTotal">${total.toFixed(2)} AED</span></div></div><button class="checkout-btn stripe-btn" id="stripeCheckoutBtn" onclick="checkoutWithStripe()">Pay with Card / الدفع بالبطاقة</button><button class="checkout-btn whatsapp-btn" id="checkoutBtn" onclick="checkout()">Order via WhatsApp / اطلب عبر واتساب</button>`; 
+    cartFooter.innerHTML = `<div id="deliverySection" class="delivery-section"><div class="delivery-header"><span class="delivery-icon">🚚</span><span>Delivery Location / موقع التوصيل</span></div><select id="deliveryZoneSelect" class="delivery-select" onchange="changeDeliveryZone(this.value)">${Object.entries(deliveryZones).map(([key, zone]) => `<option value="${key}" ${key === selectedDeliveryZone ? 'selected' : ''}>${zone.name} / ${zone.nameAr}</option>`).join('')}</select>${amountUntilFree > 0 ? `<div class="free-delivery-hint">Add <strong>${amountUntilFree.toFixed(2)} AED</strong> more for FREE delivery!<br><span style="font-family: 'Almarai', sans-serif; direction: rtl; display: block; margin-top: 5px;">أضف <strong>${amountUntilFree.toFixed(2)} درهم</strong> للحصول على توصيل مجاني!</span></div>` : `<div class="free-delivery-achieved">✓ You qualify for FREE delivery! / توصيل مجاني!</div>`}<div class="delivery-time"><span>Delivery: ${DELIVERY_TIME} / التوصيل: ${DELIVERY_TIME_AR}</span></div></div><div class="cart-summary"><div class="summary-row"><span>Subtotal / المجموع الفرعي:</span><span>${subtotal.toFixed(2)} AED</span></div><div class="summary-row delivery-row"><span>Delivery / التوصيل (${zone.name} / ${zone.nameAr}):</span><span class="${deliveryFee === 0 ? 'free-delivery' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span></div><div class="cart-total"><span>Total / الإجمالي:</span><span id="cartTotal">${total.toFixed(2)} AED</span></div></div><button class="checkout-btn whatsapp-btn" id="checkoutBtn" onclick="checkout()">Order via WhatsApp / اطلب عبر واتساب</button>`; 
 }
 
 function changeDeliveryZone(zone) { 
@@ -215,10 +165,6 @@ function toggleCart() {
     document.getElementById("cartSidebar").classList.toggle("active"); 
 }
 
-// ==========================================
-// CHECKOUT FUNCTIONS
-// ==========================================
-
 function checkout() { 
     if (!cart.length) { 
         alert("Your cart is empty!"); 
@@ -246,58 +192,6 @@ function checkout() {
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${message}`, "_blank"); 
 }
 
-async function checkoutWithStripe() { 
-    if (!cart.length) { 
-        alert("Your cart is empty!"); 
-        return; 
-    } 
-    
-    const stripeBtn = document.getElementById('stripeCheckoutBtn'); 
-    if (stripeBtn) { 
-        stripeBtn.disabled = true; 
-        stripeBtn.textContent = 'Processing... / جارٍ المعالجة...'; 
-    } 
-    
-    try { 
-        const response = await fetch('/api/create-checkout-session', { 
-            method: 'POST', 
-            headers: { 'Content-Type': 'application/json' }, 
-            body: JSON.stringify({ 
-                items: cart.map(item => ({ 
-                    name: item.name, 
-                    description: item.description, 
-                    price: item.price, 
-                    quantity: item.quantity 
-                })), 
-                deliveryZone: selectedDeliveryZone, 
-                successUrl: window.location.origin + '/?success=true', 
-                cancelUrl: window.location.origin + '/?canceled=true' 
-            }) 
-        }); 
-        
-        const data = await response.json(); 
-        
-        if (!response.ok) { 
-            throw new Error(data.error || 'Failed to create checkout session'); 
-        } 
-        
-        if (data.url) { 
-            window.location.href = data.url; 
-        } 
-    } catch (error) { 
-        console.error('Checkout error:', error); 
-        alert('Checkout failed: ' + error.message); 
-        if (stripeBtn) { 
-            stripeBtn.disabled = false; 
-            stripeBtn.textContent = 'Pay with Card / الدفع بالبطاقة'; 
-        } 
-    } 
-}
-
-// ==========================================
-// POLICY MODAL FUNCTIONS
-// ==========================================
-
 function openPolicy(type) { 
     document.getElementById("policyText").innerHTML = policies[type]; 
     document.getElementById("policyModal").style.display = "block"; 
@@ -308,10 +202,6 @@ function closePolicy() {
     document.getElementById("policyModal").style.display = "none"; 
     document.body.style.overflow = "auto"; 
 }
-
-// ==========================================
-// NOTIFICATION FUNCTION
-// ==========================================
 
 function showNotification(message, clickEvent) {
     const notification = document.createElement('div');
@@ -370,10 +260,6 @@ function showNotification(message, clickEvent) {
     }, 2000);
 }
 
-// ==========================================
-// ABOUT TOGGLE FUNCTION
-// ==========================================
-
 function toggleAbout() {
     const aboutSection = document.getElementById('about');
     const isVisible = aboutSection.style.display !== 'none';
@@ -386,28 +272,28 @@ function toggleAbout() {
     }
 }
 
-// ==========================================
-// INITIALIZATION
-// ==========================================
-
 window.onload = () => { 
     createCategoryFilters(); 
     loadProducts(); 
     updateCart(); 
     
-    const urlParams = new URLSearchParams(window.location.search); 
-    if (urlParams.get('success') === 'true') { 
-        cart = []; 
-        saveCart(); 
-        updateCart(); 
-        showNotification('Payment successful! Thank you for your order.'); 
-        window.history.replaceState({}, document.title, window.location.pathname); 
-    } else if (urlParams.get('canceled') === 'true') { 
-        showNotification('Payment was canceled. Your cart is still saved.'); 
-        window.history.replaceState({}, document.title, window.location.pathname); 
-    } 
+    const hamburger = document.getElementById("hamburger");
+    const navLinks = document.getElementById("navLinks");
     
-    // Search functionality
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle("active");
+            navLinks.classList.toggle("active");
+        });
+        
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", function() {
+                hamburger.classList.remove("active");
+                navLinks.classList.remove("active");
+            });
+        });
+    }
+    
     document.getElementById("searchBtn").onclick = searchProducts; 
     document.getElementById("searchInput").onkeypress = (e) => { 
         if (e.key === "Enter") { 
@@ -415,47 +301,11 @@ window.onload = () => {
             searchProducts(); 
         } 
     }; 
-    
-    // Cart functionality
     document.getElementById("cartIcon").onclick = toggleCart; 
     document.getElementById("closeCart").onclick = toggleCart; 
-    
-    // Policy modal
     document.getElementById("policyModal").onclick = (e) => { 
         if (e.target.id === "policyModal") { 
             closePolicy(); 
         } 
     }; 
-    
-    // Hamburger menu toggle
-    const hamburger = document.getElementById("hamburger");
-    const navLinks = document.getElementById("navLinks");
-    
-    if (hamburger && navLinks) {
-        hamburger.onclick = () => {
-            hamburger.classList.toggle("active");
-            navLinks.classList.toggle("active");
-            hamburger.setAttribute("aria-expanded", 
-                hamburger.classList.contains("active") ? "true" : "false"
-            );
-        };
-        
-        // Close menu when clicking on a link
-        navLinks.querySelectorAll("a").forEach(link => {
-            link.addEventListener("click", () => {
-                hamburger.classList.remove("active");
-                navLinks.classList.remove("active");
-                hamburger.setAttribute("aria-expanded", "false");
-            });
-        });
-        
-        // Close menu when clicking outside
-        document.addEventListener("click", (e) => {
-            if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
-                hamburger.classList.remove("active");
-                navLinks.classList.remove("active");
-                hamburger.setAttribute("aria-expanded", "false");
-            }
-        });
-    }
 };
