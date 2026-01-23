@@ -182,14 +182,14 @@ nav {
   gap: 0.5rem;
   color: white;
   opacity: 0.95;
-  font-size: 1rem;
+  font-size: 1.15rem;
   font-weight: 500;
 }
 
 .badge-icon {
   color: #4ade80;
   font-weight: bold;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
 .badge-text {
