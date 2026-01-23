@@ -96,12 +96,12 @@ function getCategories() { return ["All Products", ...new Set(products.map(p => 
 function calculateDeliveryFee(subtotal) { const zone = deliveryZones[selectedDeliveryZone]; if (subtotal >= zone.freeThreshold) { return 0; } return zone.fee; }
 function getAmountUntilFreeDelivery(subtotal) { const zone = deliveryZones[selectedDeliveryZone]; if (subtotal >= zone.freeThreshold) { return 0; } return zone.freeThreshold - subtotal; }
 function generateOrderNumber() { const date = new Date(); const year = date.getFullYear().toString().slice(-2); const month = String(date.getMonth() + 1).padStart(2, '0'); const day = String(date.getDate()).padStart(2, '0'); const random = Math.floor(Math.random() * 9000) + 1000; return `ORLO-${year}${month}${day}-${random}`; }
-function renderProducts(list) { const grid = document.getElementById("productsGrid"); if (!list.length) { grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#999;padding:3rem;">No products found</p>`; return; } grid.innerHTML = list.map(p => `<div class="product-card">${p.featured ? `<span class="badge">Best Seller</span>` : ""}<div class="product-image">${p.image}</div><div class="product-info"><small>${p.category}</small><h3 class="product-title">${p.name}</h3><p>${p.description}</p><div class="product-price">${p.price} AED</div><button class="add-to-cart" onclick="addToCart(${p.id})">Add to Cart</button></div></div>`).join(""); }
-function loadProducts(category = "All Products") { selectedCategory = category; const list = category === "All Products" ? products : products.filter(p => p.category === category); renderProducts(list); updateCategoryButtons(); }
+function renderProducts(list) { const grid = document.getElementById("productsGrid"); if (!list.length) { grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#999;padding:3rem;">No products found</p>`; return; } grid.innerHTML = list.map(p => `<div class="product-card">${p.featured ? `<span class="badge">Best Seller</span>` : ""}<div class="product-image">${p.image}</div><div class="product-info"><small>${p.category}</small><h3 class="product-title">${p.name}</h3><p>${p.description}</p><div class="product-price">${p.price} AED</div><button class="add-to-cart" onclick="addToCart(${p.id}, event)">Add to Cart</button></div></div>`).join(""); }
+function loadProducts(category = "All Products") { selectedCategory = category; const list = category === "All Products" ? products : products.filter(p => p.category === category); renderProducts(list); updateCategoryButtons(); const heroSection = document.querySelector(".hero"); const searchInput = document.getElementById("searchInput"); if (heroSection && (!searchInput || !searchInput.value.trim())) { heroSection.classList.remove("hidden"); } }
 function createCategoryFilters() { const container = document.getElementById("categoryFilters"); container.innerHTML = getCategories().map(cat => `<button class="category-btn ${cat === selectedCategory ? "active" : ""}" onclick="loadProducts('${cat}')">${cat}<br><span class="arabic-text" style="font-size: 0.9rem; margin-top: 3px;">${categoryTranslations[cat]}</span></button>`).join(""); }
 function updateCategoryButtons() { document.querySelectorAll(".category-btn").forEach(btn => { const firstLine = btn.childNodes[0]; if (firstLine && firstLine.textContent) { const catText = firstLine.textContent.trim(); btn.classList.toggle("active", catText === selectedCategory); } }); }
-function searchProducts() { const term = document.getElementById("searchInput").value.toLowerCase().trim(); if (!term) { loadProducts(selectedCategory); return; } const scoped = selectedCategory === "All Products" ? products : products.filter(p => p.category === selectedCategory); const results = scoped.filter(p => p.name.toLowerCase().includes(term) || p.description.toLowerCase().includes(term) || p.category.toLowerCase().includes(term)); renderProducts(results); }
-function addToCart(id) { const product = products.find(p => p.id === id); const item = cart.find(i => i.id === id); if (item) { item.quantity++; } else { cart.push({ ...product, quantity: 1 }); } saveCart(); updateCart(); showNotification(`${product.name} added to cart!`); }
+function searchProducts() { const term = document.getElementById("searchInput").value.toLowerCase().trim(); const heroSection = document.querySelector(".hero"); if (!term) { loadProducts(selectedCategory); if (heroSection) heroSection.classList.remove("hidden"); return; } if (heroSection) heroSection.classList.add("hidden"); const scoped = selectedCategory === "All Products" ? products : products.filter(p => p.category === selectedCategory); const results = scoped.filter(p => p.name.toLowerCase().includes(term) || p.description.toLowerCase().includes(term) || p.category.toLowerCase().includes(term)); renderProducts(results); }
+function addToCart(id, event) { const product = products.find(p => p.id === id); const item = cart.find(i => i.id === id); if (item) { item.quantity++; } else { cart.push({ ...product, quantity: 1 }); } saveCart(); updateCart(); showNotification(`${product.name} added to cart!`, event); }
 function updateCart() { const cartItems = document.getElementById("cartItems"); const cartCount = document.getElementById("cartCount"); const cartFooter = document.querySelector(".cart-footer"); if (!cart.length) { cartItems.innerHTML = "<p style='text-align:center;padding:3rem;color:#999;font-size:1.1rem;'>Your cart is empty</p>"; cartCount.textContent = 0; cartFooter.innerHTML = `<div class="cart-total"><span>Total / الإجمالي:</span><span>0.00 AED</span></div>`; return; } const totalItems = cart.reduce((s, i) => s + i.quantity, 0); const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0); const deliveryFee = calculateDeliveryFee(subtotal); const total = subtotal + deliveryFee; const amountUntilFree = getAmountUntilFreeDelivery(subtotal); const zone = deliveryZones[selectedDeliveryZone]; cartCount.textContent = totalItems; cartItems.innerHTML = cart.map(i => `<div style="display:flex; justify-content:space-between; align-items:center; padding:1.5rem; border-bottom:1px solid #eee;"><div style="flex:1;"><strong style="font-size:1.1rem; color:#2c4a5c;">${i.name}</strong><br><span style="color:#888; font-size:1rem;">${i.price} AED × ${i.quantity}</span><br><span style="color:#e07856; font-weight:600; font-size:1.1rem;">${(i.price * i.quantity).toFixed(2)} AED</span></div><div style="display:flex; gap:0.75rem; align-items:center;"><button onclick="updateQuantity(${i.id}, -1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">-</button><span style="font-size:1.1rem; font-weight:600; min-width:30px; text-align:center;">${i.quantity}</span><button onclick="updateQuantity(${i.id}, 1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">+</button><button onclick="removeFromCart(${i.id})" style="padding:0.5rem 1rem; background:#dc3545; color:white; border:none; border-radius:4px; cursor:pointer; margin-left:0.5rem; font-size:1.1rem;">✕</button></div></div>`).join(""); cartFooter.innerHTML = `<div id="deliverySection" class="delivery-section"><div class="delivery-header"><span class="delivery-icon">🚚</span><span>Delivery Location / موقع التوصيل</span></div><select id="deliveryZoneSelect" class="delivery-select" onchange="changeDeliveryZone(this.value)">${Object.entries(deliveryZones).map(([key, zone]) => `<option value="${key}" ${key === selectedDeliveryZone ? 'selected' : ''}>${zone.name} / ${zone.nameAr}</option>`).join('')}</select>${amountUntilFree > 0 ? `<div class="free-delivery-hint">Add <strong>${amountUntilFree.toFixed(2)} AED</strong> more for FREE delivery!<br><span style="font-family: 'Almarai', sans-serif; direction: rtl; display: block; margin-top: 5px;">أضف <strong>${amountUntilFree.toFixed(2)} درهم</strong> للحصول على توصيل مجاني!</span></div>` : `<div class="free-delivery-achieved">✓ You qualify for FREE delivery! / توصيل مجاني!</div>`}<div class="delivery-time"><span>Delivery: ${DELIVERY_TIME} / التوصيل: ${DELIVERY_TIME_AR}</span></div></div><div class="cart-summary"><div class="summary-row"><span>Subtotal / المجموع الفرعي:</span><span>${subtotal.toFixed(2)} AED</span></div><div class="summary-row delivery-row"><span>Delivery / التوصيل (${zone.name} / ${zone.nameAr}):</span><span class="${deliveryFee === 0 ? 'free-delivery' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span></div><div class="cart-total"><span>Total / الإجمالي:</span><span id="cartTotal">${total.toFixed(2)} AED</span></div></div><button class="checkout-btn stripe-btn" id="stripeCheckoutBtn" onclick="checkoutWithStripe()">Pay with Card / الدفع بالبطاقة</button><button class="checkout-btn whatsapp-btn" id="checkoutBtn" onclick="checkout()">Order via WhatsApp / اطلب عبر واتساب</button>`; }
 function changeDeliveryZone(zone) { selectedDeliveryZone = zone; saveDeliveryZone(); updateCart(); }
 function updateQuantity(id, change) { const item = cart.find(i => i.id === id); if (item) { item.quantity += change; if (item.quantity <= 0) { removeFromCart(id); } else { saveCart(); updateCart(); } } }
@@ -112,33 +112,49 @@ async function checkoutWithStripe() { if (!cart.length) { alert("Your cart is em
 function openPolicy(type) { document.getElementById("policyText").innerHTML = policies[type]; document.getElementById("policyModal").style.display = "block"; document.body.style.overflow = "hidden"; }
 function closePolicy() { document.getElementById("policyModal").style.display = "none"; document.body.style.overflow = "auto"; }
 
-function showNotification(message) {
+function showNotification(message, clickEvent) {
     const notification = document.createElement('div');
+    
+    // Get button position if event is provided
+    let topPos = '100px';
+    let leftPos = '50%';
+    let transform = 'translateX(-50%)';
+    
+    if (clickEvent && clickEvent.target) {
+        const button = clickEvent.target;
+        const rect = button.getBoundingClientRect();
+        topPos = (rect.top + window.scrollY - 80) + 'px';
+        leftPos = (rect.left + rect.width + 20) + 'px';
+        transform = 'translateX(0)';
+    }
+    
     notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
+        position: absolute;
+        top: ${topPos};
+        left: ${leftPos};
+        transform: ${transform};
         background: #e07856;
         color: white;
-        padding: 1.75rem 3rem;
-        border-radius: 12px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        padding: 1rem 2rem;
+        border-radius: 8px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         z-index: 10000;
-        font-weight: 700;
-        font-size: 1.25rem;
+        font-weight: 600;
+        font-size: 1rem;
         animation: slideIn 0.3s ease-out;
+        white-space: nowrap;
     `;
     
     const style = document.createElement('style');
     style.textContent = `
         @keyframes slideIn {
             from {
-                transform: translateX(400px);
                 opacity: 0;
+                transform: ${transform} scale(0.8);
             }
             to {
-                transform: translateX(0);
                 opacity: 1;
+                transform: ${transform} scale(1);
             }
         }
     `;
@@ -151,7 +167,7 @@ function showNotification(message) {
         notification.style.opacity = '0';
         notification.style.transition = 'opacity 0.4s';
         setTimeout(() => notification.remove(), 400);
-    }, 3000);
+    }, 2000);
 }
 
 function toggleAbout() {
