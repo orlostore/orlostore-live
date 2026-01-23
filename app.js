@@ -182,4 +182,69 @@ function toggleAbout() {
     }
 }
 
-window.onload = () => { createCategoryFilters(); loadProducts(); updateCart(); const urlParams = new URLSearchParams(window.location.search); if (urlParams.get('success') === 'true') { cart = []; saveCart(); updateCart(); showNotification('Payment successful! Thank you for your order.'); window.history.replaceState({}, document.title, window.location.pathname); } else if (urlParams.get('canceled') === 'true') { showNotification('Payment was canceled. Your cart is still saved.'); window.history.replaceState({}, document.title, window.location.pathname); } document.getElementById("searchBtn").onclick = searchProducts; document.getElementById("searchInput").onkeypress = (e) => { if (e.key === "Enter") { e.preventDefault(); searchProducts(); } }; document.getElementById("cartIcon").onclick = toggleCart; document.getElementById("closeCart").onclick = toggleCart; document.getElementById("policyModal").onclick = (e) => { if (e.target.id === "policyModal") { closePolicy(); } }; };
+function toggleMobileMenu() {
+    const navLinks = document.getElementById('navLinks');
+    const hamburger = document.getElementById('hamburger');
+    const isActive = navLinks.classList.contains('active');
+    
+    navLinks.classList.toggle('active');
+    hamburger.classList.toggle('active');
+    hamburger.setAttribute('aria-expanded', !isActive);
+    
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = isActive ? 'auto' : 'hidden';
+}
+
+window.onload = () => { 
+    createCategoryFilters(); 
+    loadProducts(); 
+    updateCart(); 
+    
+    // Hamburger menu
+    const hamburger = document.getElementById('hamburger');
+    if (hamburger) {
+        hamburger.addEventListener('click', toggleMobileMenu);
+    }
+    
+    // Close mobile menu when clicking nav links
+    const navLinks = document.querySelectorAll('.nav-links a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            const navLinksEl = document.getElementById('navLinks');
+            const hamburgerEl = document.getElementById('hamburger');
+            if (navLinksEl.classList.contains('active')) {
+                navLinksEl.classList.remove('active');
+                hamburgerEl.classList.remove('active');
+                hamburgerEl.setAttribute('aria-expanded', 'false');
+                document.body.style.overflow = 'auto';
+            }
+        });
+    });
+    
+    const urlParams = new URLSearchParams(window.location.search); 
+    if (urlParams.get('success') === 'true') { 
+        cart = []; 
+        saveCart(); 
+        updateCart(); 
+        showNotification('Payment successful! Thank you for your order.'); 
+        window.history.replaceState({}, document.title, window.location.pathname); 
+    } else if (urlParams.get('canceled') === 'true') { 
+        showNotification('Payment was canceled. Your cart is still saved.'); 
+        window.history.replaceState({}, document.title, window.location.pathname); 
+    } 
+    
+    document.getElementById("searchBtn").onclick = searchProducts; 
+    document.getElementById("searchInput").onkeypress = (e) => { 
+        if (e.key === "Enter") { 
+            e.preventDefault(); 
+            searchProducts(); 
+        } 
+    }; 
+    document.getElementById("cartIcon").onclick = toggleCart; 
+    document.getElementById("closeCart").onclick = toggleCart; 
+    document.getElementById("policyModal").onclick = (e) => { 
+        if (e.target.id === "policyModal") { 
+            closePolicy(); 
+        } 
+    }; 
+};
