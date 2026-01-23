@@ -401,7 +401,7 @@ nav {
 }
 
 .contact-container {
-  max-width: 1400px;
+  max-width: 1600px;
   margin: 0 auto;
   padding: 0 2.5rem;
 }
@@ -469,7 +469,7 @@ nav {
   grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   margin-top: 2.5rem;
-  max-width: 1400px;
+  max-width: 1600px;
   margin-left: auto;
   margin-right: auto;
 }
@@ -928,5 +928,14 @@ footer p {
   
   .section-arabic {
     font-size: 1.75rem;
+  }
+
+  .contact-text-row {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .contact-details-row {
+    grid-template-columns: 1fr;
   }
 }
