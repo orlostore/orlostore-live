@@ -141,6 +141,11 @@ nav {
   color: #fff;
   padding: 5rem 2rem;
   text-align: center;
+  transition: display 0.3s;
+}
+
+.hero.hidden {
+  display: none;
 }
 
 .hero h1 {
@@ -397,14 +402,14 @@ nav {
 /* ===================== CONTACT SECTION ===================== */
 .contact-section {
   background: var(--bg);
-  padding: 4rem 2.5rem;
+  padding: 0;
 }
 
 .contact-container {
   max-width: 1600px;
-  margin: 0 auto;
+  margin: 4rem auto;
+  padding: 3rem 2.5rem;
   background: white;
-  padding: 3rem 3.5rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0,0,0,.08);
 }
