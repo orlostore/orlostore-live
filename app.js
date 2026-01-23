@@ -198,7 +198,7 @@ const policies = {
 };
 
 // ==========================================
-// STATE (PERSISTED IN LOCALSTORAGE)
+// STATE
 // ==========================================
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -287,13 +287,16 @@ function createCategoryFilters() {
 
 function updateCategoryButtons() {
     document.querySelectorAll(".category-btn").forEach(btn => {
-        const catText = btn.textContent.trim().split('\n')[0];
-        btn.classList.toggle("active", catText === selectedCategory);
+        const firstLine = btn.childNodes[0];
+        if (firstLine && firstLine.textContent) {
+            const catText = firstLine.textContent.trim();
+            btn.classList.toggle("active", catText === selectedCategory);
+        }
     });
 }
 
 // ==========================================
-// SEARCH (WITH ENTER KEY SUPPORT)
+// SEARCH
 // ==========================================
 
 function searchProducts() {
@@ -339,15 +342,17 @@ function addToCart(id) {
 function updateCart() {
     const cartItems = document.getElementById("cartItems");
     const cartCount = document.getElementById("cartCount");
-    const cartTotal = document.getElementById("cartTotal");
     const cartFooter = document.querySelector(".cart-footer");
 
     if (!cart.length) {
         cartItems.innerHTML = "<p style='text-align:center;padding:3rem;color:#999;font-size:1.1rem;'>Your cart is empty</p>";
         cartCount.textContent = 0;
-        cartTotal.textContent = "0.00 AED";
-        const deliverySection = document.getElementById("deliverySection");
-        if (deliverySection) deliverySection.style.display = "none";
+        cartFooter.innerHTML = `
+            <div class="cart-total">
+                <span>Total / الإجمالي:</span>
+                <span>0.00 AED</span>
+            </div>
+        `;
         return;
     }
 
@@ -376,7 +381,6 @@ function updateCart() {
         </div>
     `).join("");
 
-    // Update cart footer with delivery section
     cartFooter.innerHTML = `
         <div id="deliverySection" class="delivery-section">
             <div class="delivery-header">
@@ -565,3 +569,80 @@ function closePolicy() {
 // ==========================================
 
 function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: #e07856;
+        color: white;
+        padding: 1.25rem 2.5rem;
+        border-radius: 8px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        z-index: 10000;
+        font-weight: 600;
+        font-size: 1.05rem;
+    `;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transition = 'opacity 0.3s';
+        setTimeout(() => notification.remove(), 300);
+    }, 2500);
+}
+
+// ==========================================
+// TOGGLE ABOUT SECTION
+// ==========================================
+
+function toggleAbout() {
+    const aboutSection = document.getElementById('about');
+    if (aboutSection.style.display === 'none') {
+        aboutSection.style.display = 'block';
+        aboutSection.scrollIntoView({ behavior: 'smooth' });
+    } else {
+        aboutSection.style.display = 'none';
+    }
+}
+
+// ==========================================
+// INIT
+// ==========================================
+
+window.onload = () => {
+    createCategoryFilters();
+    loadProducts();
+    updateCart();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('success') === 'true') {
+        cart = [];
+        saveCart();
+        updateCart();
+        showNotification('Payment successful! Thank you for your order.');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (urlParams.get('canceled') === 'true') {
+        showNotification('Payment was canceled. Your cart is still saved.');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
+    document.getElementById("searchBtn").onclick = searchProducts;
+
+    document.getElementById("searchInput").onkeypress = (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            searchProducts();
+        }
+    };
+
+    document.getElementById("cartIcon").onclick = toggleCart;
+    document.getElementById("closeCart").onclick = toggleCart;
+
+    document.getElementById("policyModal").onclick = (e) => {
+        if (e.target.id === "policyModal") {
+            closePolicy();
+        }
+    };
+};
