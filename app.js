@@ -96,7 +96,7 @@ const policies = {
         <h2 class="arabic-heading">الشحن والتوصيل</h2>
         
         <p><strong>Coverage:</strong> We currently deliver within the UAE only.</p>
-        <p class="arabic-text"><strong>التغطية:</strong> نقوم حالياً بالتوصيل داخل الإمارات فقط.</p>
+        <p class="arabic-text"><strong>التغطية:</strong> نقوم حالياً بالتوصيل داخل الإمارات العربية المتحدة فقط.</p>
         
         <p><strong>Processing Time:</strong> Orders are processed within 24–48 hours of payment confirmation.</p>
         <p class="arabic-text"><strong>وقت المعالجة:</strong> يتم معالجة الطلبات خلال ٢٤-٤٨ ساعة من تأكيد الدفع.</p>
@@ -466,18 +466,29 @@ function toggleCart() {
 // CHECKOUT (WHATSAPP)
 // ==========================================
 
+// Generate unique order number
+function generateOrderNumber() {
+    const date = new Date();
+    const year = date.getFullYear().toString().slice(-2);
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const random = Math.floor(Math.random() * 9000) + 1000; // 4-digit random
+    return `ORLO-${year}${month}${day}-${random}`;
+}
+
 function checkout() {
     if (!cart.length) {
         alert("Your cart is empty!");
         return;
     }
 
+    const orderNumber = generateOrderNumber();
     const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0);
     const deliveryFee = calculateDeliveryFee(subtotal);
     const total = subtotal + deliveryFee;
     const zone = deliveryZones[selectedDeliveryZone];
 
-    let message = "Hello ORLO, I'd like to order:%0A%0A";
+    let message = `Hello ORLO, I'd like to order:%0A%0A*Order #${orderNumber}*%0A%0A`;
 
     cart.forEach(i => {
         message += `• ${i.name} × ${i.quantity} = ${(i.price * i.quantity).toFixed(2)} AED%0A`;
