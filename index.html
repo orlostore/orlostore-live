@@ -9,24 +9,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Almarai:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<header role="banner">
-    <nav role="navigation" aria-label="Main navigation">
+<header>
+    <nav>
         <div class="logo-container">
-            <a href="/" aria-label="ORLO Home">
+            <a href="/">
                 <img src="logo.png" class="logo-img" alt="ORLO Logo">
             </a>
         </div>
-        <div class="search-container">
-            <input type="text" class="search-input" id="searchInput" placeholder="Search products... | بحث عن المنتجات..." aria-label="Search products">
-            <button class="search-btn" id="searchBtn" aria-label="Search">🔍</button>
-        </div>
         
-        <!-- Hamburger menu for mobile -->
-        <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+        <button class="hamburger" id="hamburger" aria-label="Menu">
             <span></span>
             <span></span>
             <span></span>
         </button>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search products... | بحث عن المنتجات...">
+            <button class="search-btn" id="searchBtn">🔍</button>
+        </div>
         
         <ul class="nav-links" id="navLinks">
             <li>
@@ -48,31 +48,31 @@
                 </a>
             </li>
             <li>
-                <div class="cart-icon" id="cartIcon" role="button" aria-label="Shopping cart" tabindex="0">
-                    🛒 <span class="cart-count" id="cartCount" aria-live="polite">0</span>
+                <div class="cart-icon" id="cartIcon">
+                    🛒 <span class="cart-count" id="cartCount">0</span>
                 </div>
             </li>
         </ul>
     </nav>
 </header>
 
-<section class="hero" id="heroSection" role="region" aria-label="Hero banner">
+<section class="hero" id="heroSection">
     <h1>Smart Tech & Home Essentials</h1>
     <h1 class="arabic-text hero-arabic">التكنولوجيا الذكية ومستلزمات المنزل</h1>
     <p>Curated gadgets for your desk, car, and home — delivered across the UAE.</p>
     <p class="arabic-text">أدوات مختارة لمكتبك وسيارتك ومنزلك - التوصيل لجميع أنحاء الإمارات العربية المتحدة</p>
     
-    <div class="trust-badges" role="list">
-        <div class="trust-badge" role="listitem">
-            <span class="badge-icon" aria-hidden="true">✔</span>
+    <div class="trust-badges">
+        <div class="trust-badge">
+            <span class="badge-icon">✔</span>
             <span class="badge-text">Dubai-based</span>
         </div>
-        <div class="trust-badge" role="listitem">
-            <span class="badge-icon" aria-hidden="true">✔</span>
+        <div class="trust-badge">
+            <span class="badge-icon">✔</span>
             <span class="badge-text">Secure checkout</span>
         </div>
-        <div class="trust-badge" role="listitem">
-            <span class="badge-icon" aria-hidden="true">✔</span>
+        <div class="trust-badge">
+            <span class="badge-icon">✔</span>
             <span class="badge-text">WhatsApp support</span>
         </div>
     </div>
@@ -83,19 +83,18 @@
     </a>
 </section>
 
-<div class="container" id="products" role="main">
+<div class="container" id="products">
     <h2 class="section-title">
         Best Sellers
         <span class="arabic-text section-arabic">الأكثر مبيعاً</span>
     </h2>
-    <div class="category-filters" id="categoryFilters" role="navigation" aria-label="Product categories"></div>
-    <div class="products-grid" id="productsGrid" role="list"></div>
+    <div class="category-filters" id="categoryFilters"></div>
+    <div class="products-grid" id="productsGrid"></div>
 </div>
 
-<!-- Our Story -->
-<section class="about-section" id="about" style="display: none; scroll-margin-top: 100px;" role="region" aria-labelledby="about-heading">
+<section class="about-section" id="about" style="display: none; scroll-margin-top: 100px;">
     <div class="container">
-        <h2 class="section-title" id="about-heading">
+        <h2 class="section-title">
             Our Story
             <span class="arabic-text section-arabic">قصتنا</span>
         </h2>
@@ -114,10 +113,8 @@
     </div>
 </section>
 
-<!-- Contact Section -->
-<section class="contact-section" id="contact" role="region" aria-labelledby="contact-heading">
+<section class="contact-section" id="contact">
     <div class="contact-container">
-        <h2 class="visually-hidden" id="contact-heading">Contact Information</h2>
         <div class="contact-text-row">
             <p class="contact-text-en">We'd love to hear from you! Reach out for orders, questions, or support.</p>
             <p class="contact-text-ar">يسعدنا التواصل معك! لا تتردد في التواصل معنا للطلبات أو الاستفسارات أو الدعم.</p>
@@ -125,74 +122,68 @@
         <div class="contact-details-row">
             <div class="contact-detail">
                 <strong>📍 Location:</strong>
-                <span>Dubai, UAE (Online Only)</span>
+                Dubai, UAE (Online Only)
             </div>
             <div class="contact-detail">
                 <strong>✉️ Email:</strong> 
-                <a href="/cdn-cgi/l/email-protection#3950575f5679564b55564a4d564b5c175a5654"><span class="__cf_email__" data-cfemail="026b6c646d426d706e6d71766d70672c616d6f">[email&#160;protected]</span></a>
+                <a href="mailto:info@orlostore.com">info@orlostore.com</a>
             </div>
             <div class="contact-detail">
                 <strong>📱 WhatsApp:</strong> 
-                <a href="https://wa.me/971XXXXXXXXX" target="_blank" rel="noopener noreferrer">+971 XX XXX XXXX</a>
+                <a href="https://wa.me/971XXXXXXXXX" target="_blank">+971 XX XXX XXXX</a>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Terms & Policies Section -->
-<section class="terms-section" id="terms" role="region" aria-labelledby="terms-heading">
+<section class="terms-section" id="terms">
     <div class="container">
         <h2 class="section-title">
             Terms & Conditions <span class="arabic-inline">الشروط والأحكام</span>
         </h2>
-        <div class="terms-grid" role="list">
-            <div class="term-card" onclick="openPolicy('shipping')" role="button" tabindex="0" aria-label="View shipping policy">
-                <div class="term-icon" aria-hidden="true">📦</div>
-                <div class="term-content">
-                    <h3 class="term-title-en">Shipping</h3>
-                    <h3 class="term-title-ar arabic-text">الشحن</h3>
-                    <p class="term-desc-en">Delivery process & timelines</p>
-                    <p class="term-desc-ar arabic-text">عملية التوصيل والمواعيد</p>
-                </div>
+        <div class="terms-grid">
+            <div class="term-card" onclick="openPolicy('shipping')">
+                <h3>
+                    <span class="term-title">📦 Shipping</span><br>
+                    <span class="arabic-text term-title-ar">الشحن</span>
+                </h3>
+                <p>Delivery process & timelines</p>
+                <p class="arabic-text">عملية التوصيل والمواعيد</p>
             </div>
-            <div class="term-card" onclick="openPolicy('returns')" role="button" tabindex="0" aria-label="View returns policy">
-                <div class="term-icon" aria-hidden="true">↩️</div>
-                <div class="term-content">
-                    <h3 class="term-title-en">Returns</h3>
-                    <h3 class="term-title-ar arabic-text">الإرجاع</h3>
-                    <p class="term-desc-en">7-day return policy</p>
-                    <p class="term-desc-ar arabic-text">سياسة الإرجاع خلال ٧ أيام</p>
-                </div>
+            <div class="term-card" onclick="openPolicy('returns')">
+                <h3>
+                    <span class="term-title">↩️ Returns</span><br>
+                    <span class="arabic-text term-title-ar">الإرجاع</span>
+                </h3>
+                <p>7-day return policy</p>
+                <p class="arabic-text">سياسة الإرجاع خلال ٧ أيام</p>
             </div>
-            <div class="term-card" onclick="openPolicy('privacy')" role="button" tabindex="0" aria-label="View privacy policy">
-                <div class="term-icon" aria-hidden="true">🔒</div>
-                <div class="term-content">
-                    <h3 class="term-title-en">Privacy</h3>
-                    <h3 class="term-title-ar arabic-text">الخصوصية</h3>
-                    <p class="term-desc-en">How we protect your data</p>
-                    <p class="term-desc-ar arabic-text">كيف نحمي بياناتك</p>
-                </div>
+            <div class="term-card" onclick="openPolicy('privacy')">
+                <h3>
+                    <span class="term-title">🔒 Privacy</span><br>
+                    <span class="arabic-text term-title-ar">الخصوصية</span>
+                </h3>
+                <p>How we protect your data</p>
+                <p class="arabic-text">كيف نحمي بياناتك</p>
             </div>
-            <div class="term-card" onclick="openPolicy('terms')" role="button" tabindex="0" aria-label="View terms of service">
-                <div class="term-icon" aria-hidden="true">📋</div>
-                <div class="term-content">
-                    <h3 class="term-title-en">Terms</h3>
-                    <h3 class="term-title-ar arabic-text">الشروط</h3>
-                    <p class="term-desc-en">General conditions</p>
-                    <p class="term-desc-ar arabic-text">الشروط العامة</p>
-                </div>
+            <div class="term-card" onclick="openPolicy('terms')">
+                <h3>
+                    <span class="term-title">📋 Terms</span><br>
+                    <span class="arabic-text term-title-ar">الشروط</span>
+                </h3>
+                <p>General conditions</p>
+                <p class="arabic-text">الشروط العامة</p>
             </div>
         </div>
     </div>
 </section>
 
-<!-- Cart Sidebar -->
-<div class="cart-sidebar" id="cartSidebar" role="dialog" aria-labelledby="cart-title" aria-modal="true">
+<div class="cart-sidebar" id="cartSidebar">
     <div class="cart-header">
-        <h2 id="cart-title">Your Cart / سلة التسوق</h2>
-        <button class="close-cart" id="closeCart" aria-label="Close cart">✕</button>
+        <h2>Your Cart / سلة التسوق</h2>
+        <button class="close-cart" id="closeCart">✕</button>
     </div>
-    <div class="cart-items" id="cartItems" role="list"></div>
+    <div class="cart-items" id="cartItems"></div>
     <div class="cart-footer">
         <div class="cart-total">
             <span>Total:</span>
@@ -204,15 +195,14 @@
     </div>
 </div>
 
-<!-- Policy Modal -->
-<div id="policyModal" role="dialog" aria-labelledby="policy-title" aria-modal="true">
+<div id="policyModal">
     <div class="policy-box">
-        <button onclick="closePolicy()" aria-label="Close policy" style="float: right; background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+        <button onclick="closePolicy()" style="float: right; background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
         <div id="policyText"></div>
     </div>
 </div>
 
-<footer role="contentinfo">
+<footer>
     <p>&copy; 2026 ORLO — Dubai, UAE / دبي، الإمارات العربية المتحدة</p>
     <p class="footer-subtitle">Licensed & Family-Owned / مرخص ومملوك عائلياً</p>
 </footer>
