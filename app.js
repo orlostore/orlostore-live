@@ -71,7 +71,7 @@ function loadProducts(category = "All Products") {
 
 function createCategoryFilters() { 
     const container = document.getElementById("categoryFilters"); 
-    container.innerHTML = getCategories().map(cat => `<button class="category-btn ${cat === selectedCategory ? "active" : ""}" onclick="loadProducts('${cat}')">${cat}<br><span class="arabic-text" style="font-size: 0.9rem; margin-top: 3px;">${categoryTranslations[cat]}</span></button>`).join(""); 
+    container.innerHTML = getCategories().map(cat => `<button class="category-btn ${cat === selectedCategory ? "active" : ""}" onclick="loadProducts('${cat}')">${cat}<br><span class="arabic-text category-arabic">${categoryTranslations[cat]}</span></button>`).join(""); 
 }
 
 function updateCategoryButtons() { 
