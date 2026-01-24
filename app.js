@@ -31,7 +31,7 @@ const DELIVERY_TIME = "2-5 business days";
 const DELIVERY_TIME_AR = "٢-٥ أيام عمل";
 
 const policies = {
-    shipping: `<h2>Shipping & Delivery</h2><h2 class="arabic-heading">الشحن والتوصيل</h2><p><strong>Coverage:</strong> We currently deliver within the UAE only.</p><p class="arabic-text"><strong>التغطية:</strong> نقوم حالياً بالتوصيل داخل الإمارات العربية المتحدة فقط.</p><p><strong>Processing Time:</strong> Orders are processed within 24–48 hours of payment confirmation.</p><p class="arabic-text"><strong>وقت المعالجة:</strong> يتم معالجة الطلبات خلال ٢٤-٤٨ ساعة من تأكيد الدفع.</p><p><strong>Delivery Timeline:</strong> 2-5 business days for all locations.</p><p class="arabic-text"><strong>مدة التوصيل:</strong> ٢-٥ أيام عمل لجميع المواقع.</p><p><strong>Delivery Fees:</strong></p><p class="arabic-text"><strong>رسوم التوصيل:</strong></p><ul><li><strong>Dubai:</strong> 15 AED (FREE on orders over 150 AED)</li><li class="arabic-text"><strong>دبي:</strong> ١٥ درهم (مجاناً للطلبات فوق ١٥٠ درهم)</li><li><strong>Sharjah / Ajman:</strong> 20 AED (FREE on orders over 200 AED)</li><li class="arabic-text"><strong>الشارقة / عجمان:</strong> ٢٠ درهم (مجاناً للطلبات فوق ٢٠٠ درهم)</li><li><strong>Abu Dhabi:</strong> 30 AED (FREE on orders over 250 AED)</li><li class="arabic-text"><strong>أبو ظبي:</strong> ٣٠ درهم (مجاناً للطلبات فوق ٢٥٠ درهم)</li><li><strong>Other Emirates:</strong> 45 AED (FREE on orders over 350 AED)</li><li class="arabic-text"><strong>إمارات أخرى:</strong> ٤٥ درهم (مجاناً للطلبات فوق ٣٥٠ درهم)</li></ul><p><strong>Tracking:</strong> You will receive tracking information via WhatsApp once your order ships.</p><p class="arabic-text"><strong>التتبع:</strong> ستتلقى معلومات التتبع عبر واتساب بمجرد شحن طلبك.</p>`,
+    shipping: `<h2>Shipping & Delivery</h2><h2 class="arabic-heading">الشحن والتوصيل</h2><p><strong>Coverage:</strong> We currently deliver within the UAE only.</p><p class="arabic-text"><strong>التغطية:</strong> نقوم حالياً بالتوصيل داخل الإمارات العربية المتحدة فقط.</p><p><strong>Processing Time:</strong> Orders are processed within 24–48 hours of payment confirmation.</p><p class="arabic-text"><strong>وقت المعالجة:</strong> يتم معالجة الطلبات خلال ٢٤-٤٨ ساعة من تأكيد الدفع.</p><p><strong>Delivery Timeline:</strong> 2-5 business days for all locations.</p><p class="arabic-text"><strong>مدة التوصيل:</strong> ٢-٥ أيام عمل لجميع المواقع.</p><p><strong>Delivery Fees:</strong></p><p class="arabic-text"><strong>رسوم التوصيل:</strong></p><ul><li><strong>All UAE:</strong> 18 AED (FREE on orders over 100 AED)</li><li class="arabic-text"><strong>جميع أنحاء الإمارات:</strong> ١٨ درهم (مجاناً للطلبات فوق ١٠٠ درهم)</li></ul><p><strong>Tracking:</strong> You will receive tracking information via WhatsApp once your order ships.</p><p class="arabic-text"><strong>التتبع:</strong> ستتلقى معلومات التتبع عبر واتساب بمجرد شحن طلبك.</p>`,
     returns: `<h2>Returns & Refunds</h2><h2 class="arabic-heading">الإرجاع والاسترداد</h2><p><strong>7-Day Return Window:</strong> Returns are accepted within 7 days of delivery only. No exceptions.</p><p class="arabic-text"><strong>فترة الإرجاع ٧ أيام:</strong> يتم قبول المرتجعات خلال ٧ أيام من التسليم فقط. بدون استثناءات.</p><p><strong>Unopened Items Only:</strong> Items must be completely unused, unopened, and in original sealed packaging with all tags and seals intact.</p><p class="arabic-text"><strong>المنتجات غير المفتوحة فقط:</strong> يجب أن تكون المنتجات غير مستخدمة تماماً، غير مفتوحة، وفي العبوة الأصلية المغلقة مع جميع الملصقات والأختام سليمة.</p><p><strong>No Returns on Opened Items:</strong> Once opened, used, or packaging is damaged, items cannot be returned for any reason.</p><p class="arabic-text"><strong>لا إرجاع للمنتجات المفتوحة:</strong> بمجرد الفتح أو الاستخدام أو تلف العبوة، لا يمكن إرجاع المنتجات لأي سبب.</p><p><strong>Return Shipping Costs:</strong> All return shipping costs are the buyer's responsibility. We do not provide prepaid return labels.</p><p class="arabic-text"><strong>تكاليف شحن الإرجاع:</strong> جميع تكاليف شحن الإرجاع على عاتق المشتري. لا نوفر ملصقات إرجاع مدفوعة مسبقاً.</p><p><strong>Inspection Required:</strong> All returns are inspected upon receipt. Items showing any signs of use, missing components, or damaged packaging will be rejected.</p><p class="arabic-text"><strong>الفحص مطلوب:</strong> يتم فحص جميع المرتجعات عند الاستلام. سيتم رفض المنتجات التي تظهر أي علامات استخدام أو مكونات مفقودة أو عبوة تالفة.</p><p><strong>Refund Process:</strong> Refunds are issued only after inspection confirms the item is unopened and undamaged. Processing takes 5-7 business days after we receive the return.</p><p class="arabic-text"><strong>عملية الاسترداد:</strong> يتم إصدار المبالغ المستردة فقط بعد أن يؤكد الفحص أن المنتج غير مفتوح وغير تالف. تستغرق المعالجة ٥-٧ أيام عمل بعد استلام الإرجاع.</p><p><strong>Non-Returnable Items:</strong> Sale items, clearance items, items with damaged packaging, or items showing any signs of use are not eligible for return.</p><p class="arabic-text"><strong>المنتجات غير القابلة للإرجاع:</strong> منتجات التخفيض، منتجات التصفية، المنتجات ذات العبوة التالفة، أو المنتجات التي تظهر أي علامات استخدام غير مؤهلة للإرجاع.</p><p><strong>How to Initiate a Return:</strong> Contact us via WhatsApp or email within 7 days of delivery with your order number and reason for return.</p><p class="arabic-text"><strong>كيفية بدء الإرجاع:</strong> اتصل بنا عبر واتساب أو البريد الإلكتروني خلال ٧ أيام من التسليم مع رقم طلبك وسبب الإرجاع.</p>`,
     privacy: `<h2>Privacy Policy</h2><h2 class="arabic-heading">سياسة الخصوصية</h2><p><strong>Information Collection:</strong> We collect only the information necessary to process and fulfill your order (name, phone number, delivery address, email).</p><p class="arabic-text"><strong>جمع المعلومات:</strong> نجمع فقط المعلومات الضرورية لمعالجة وتنفيذ طلبك (الاسم، رقم الهاتف، عنوان التوصيل، البريد الإلكتروني).</p><p><strong>Data Usage:</strong> Your information is used solely for order processing, delivery coordination, and customer support.</p><p class="arabic-text"><strong>استخدام البيانات:</strong> تُستخدم معلوماتك فقط لمعالجة الطلبات، وتنسيق التوصيل، ودعم العملاء.</p><p><strong>Third-Party Sharing:</strong> Your data is never sold or shared with third parties except for delivery partners who need your address to complete delivery.</p><p class="arabic-text"><strong>المشاركة مع أطراف ثالثة:</strong> لا يتم بيع بياناتك أو مشاركتها مع أطراف ثالثة أبداً باستثناء شركاء التوصيل الذين يحتاجون إلى عنوانك لإتمام التوصيل.</p><p><strong>Data Security:</strong> We use secure communication channels (WhatsApp, encrypted email) to protect your information.</p><p class="arabic-text"><strong>أمن البيانات:</strong> نستخدم قنوات اتصال آمنة (واتساب، بريد إلكتروني مشفر) لحماية معلوماتك.</p><p><strong>Your Rights:</strong> You may request deletion of your data at any time by contacting us.</p><p class="arabic-text"><strong>حقوقك:</strong> يمكنك طلب حذف بياناتك في أي وقت عن طريق الاتصال بنا.</p>`,
     terms: `<h2>Terms of Service</h2><h2 class="arabic-heading">شروط الخدمة</h2><p><strong>Order Agreement:</strong> By placing an order, you agree to provide accurate information and accept these terms.</p><p class="arabic-text"><strong>اتفاقية الطلب:</strong> بتقديم طلب، فإنك توافق على تقديم معلومات دقيقة وقبول هذه الشروط.</p><p><strong>Payment:</strong> Full payment is required before order processing begins. We accept bank transfer and online payment methods.</p><p class="arabic-text"><strong>الدفع:</strong> يلزم الدفع الكامل قبل بدء معالجة الطلب. نقبل التحويل البنكي وطرق الدفع الإلكتروني.</p><p><strong>Product Accuracy:</strong> We strive to display accurate product information and images. Actual products may vary slightly from images shown.</p><p class="arabic-text"><strong>دقة المنتج:</strong> نسعى لعرض معلومات وصور المنتج بدقة. قد تختلف المنتجات الفعلية قليلاً عن الصور المعروضة.</p><p><strong>Right to Refuse Service:</strong> ORLO reserves the right to refuse or cancel any order if fraud, misuse, or policy violations are detected.</p><p class="arabic-text"><strong>الحق في رفض الخدمة:</strong> تحتفظ أورلو بالحق في رفض أو إلغاء أي طلب في حالة اكتشاف احتيال أو إساءة استخدام أو انتهاكات للسياسة.</p><p><strong>Liability:</strong> ORLO is not responsible for delivery delays caused by courier services, incorrect addresses provided by customers, or force majeure events.</p><p class="arabic-text"><strong>المسؤولية:</strong> أورلو غير مسؤولة عن تأخيرات التوصيل الناتجة عن خدمات التوصيل، أو العناوين غير الصحيحة المقدمة من العملاء، أو أحداث القوة القاهرة.</p><p><strong>Changes to Terms:</strong> We reserve the right to update these terms at any time. Continued use of our service constitutes acceptance of updated terms.</p><p class="arabic-text"><strong>التغييرات على الشروط:</strong> نحتفظ بالحق في تحديث هذه الشروط في أي وقت. الاستخدام المستمر لخدمتنا يشكل قبولاً للشروط المحدثة.</p><p><strong>Contact:</strong> For questions about these terms, contact us at info@orlostore.com</p><p class="arabic-text"><strong>الاتصال:</strong> للاستفسارات حول هذه الشروط، اتصل بنا على info@orlostore.com</p>`
@@ -127,7 +127,6 @@ function updateCart() {
     const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0); 
     const deliveryFee = calculateDeliveryFee(subtotal); 
     const total = subtotal + deliveryFee; 
-    const zone = deliveryZones[selectedDeliveryZone]; 
     
     cartCount.textContent = totalItems; 
     
@@ -148,35 +147,55 @@ function updateCart() {
         </div>
     `).join(""); 
     
-    // Enhanced cart footer with clean summary and upsell section
-    cartFooter.innerHTML = `
-        <div class="cart-summary-clean">
-            <div class="summary-row">
+    // Cart footer with summary
+    let footerHTML = `
+        <div style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; font-size: 1.05rem; color: #2c4a5c;">
                 <span>Subtotal / المجموع الفرعي:</span>
                 <span>${subtotal.toFixed(2)} AED</span>
             </div>
-            <div class="summary-row">
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; font-size: 1.05rem; color: #2c4a5c;">
                 <span>Delivery / التوصيل:</span>
-                <span class="${deliveryFee === 0 ? 'free-delivery' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span>
+                <span style="${deliveryFee === 0 ? 'color: #28a745; font-weight: 600;' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span>
             </div>
-            <div class="cart-total-line"></div>
-            <div class="cart-total">
+            <div style="border-top: 2px solid #ddd; margin: 0.5rem 0;"></div>
+            <div style="display: flex; justify-content: space-between; padding: 1rem 0 0.5rem; font-size: 1.3rem; font-weight: 700; color: #2c4a5c;">
                 <span>Total / الإجمالي:</span>
                 <span>${total.toFixed(2)} AED</span>
             </div>
         </div>
-        
-        <div id="upsellSection" class="upsell-section">
-            <!-- Upsell items will appear here when you add add-on products -->
-            <!-- Ready for future enhancement -->
+    `;
+    
+    // Upsell section - only show if under 100 AED AND we have add-on products
+    if (subtotal < 100) {
+        // TODO: When you add strap products to products.js, this section will show them
+        // For now, it's empty but structure is ready
+        footerHTML += `
+            <div style="padding: 1rem 1.5rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 1rem;">
+                <div style="font-weight: 600; margin-bottom: 0.75rem; color: #2c4a5c;">
+                    Add these items to unlock free delivery:
+                </div>
+                <!-- When you add products later, they'll appear here as checkboxes -->
+                <div style="color: #888; font-size: 0.95rem; padding: 1rem; text-align: center;">
+                    Add-on products coming soon
+                </div>
+            </div>
+        `;
+    }
+    
+    // Checkout button (always shown)
+    footerHTML += `
+        <div style="text-align: center; margin: 1rem 0 0.5rem; font-weight: 600; color: #666;">
+            OR
         </div>
-        
-        <div class="checkout-actions">
-            <button class="checkout-btn whatsapp-btn" onclick="checkout()">
+        <div style="padding: 0 1.5rem 1.5rem;">
+            <button style="width: 100%; padding: 1.2rem; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #25D366; color: white; transition: all 0.3s;" onclick="checkout()" onmouseover="this.style.background='#20BA5A'" onmouseout="this.style.background='#25D366'">
                 Proceed to Checkout / متابعة الدفع
             </button>
         </div>
-    `; 
+    `;
+    
+    cartFooter.innerHTML = footerHTML;
 }
 
 function changeDeliveryZone(zone) { 
