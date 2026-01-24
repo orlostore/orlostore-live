@@ -198,11 +198,17 @@ function updateCart() {
         }
     }
     
-    // Checkout buttons section with OR
+    // Checkout buttons section
+    if (subtotal < 100) {
+        // Show OR between upsell and checkout when under 100
+        footerHTML += `
+            <div style="text-align: center; margin: 1rem 0 0.5rem; font-weight: 600; color: #666; font-size: 1.1rem;">
+                OR
+            </div>
+        `;
+    }
+    
     footerHTML += `
-        <div style="text-align: center; margin: 1rem 0 0.5rem; font-weight: 600; color: #666; font-size: 1.1rem;">
-            OR
-        </div>
         <div style="padding: 0 1.5rem 1.5rem;">
             <button style="width: 100%; padding: 1.2rem; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #25D366; color: white; transition: all 0.3s; margin-bottom: 0.75rem;" onclick="checkout()" onmouseover="this.style.background='#20BA5A'" onmouseout="this.style.background='#25D366'">
                 💬 Proceed to Checkout / متابعة الدفع
