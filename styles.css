@@ -316,6 +316,76 @@ nav {
   display: block;
 }
 
+/* Enhanced Cart Summary */
+.cart-summary-clean {
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem 0;
+  font-size: 1.05rem;
+  color: #2c4a5c;
+}
+
+.cart-total-line {
+  border-top: 2px solid #ddd;
+  margin: 0.5rem 0;
+}
+
+.cart-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0 0.5rem;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #2c4a5c;
+}
+
+.free-delivery {
+  color: #28a745;
+  font-weight: 600;
+}
+
+/* Upsell Section - Ready for future */
+.upsell-section {
+  padding: 1rem 1.5rem;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  min-height: 0;
+}
+
+/* Checkout Actions */
+.checkout-actions {
+  padding: 0 1.5rem 1.5rem;
+}
+
+.checkout-btn {
+  width: 100%;
+  padding: 1.2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.whatsapp-btn {
+  background: #25D366;
+  color: white;
+}
+
+.whatsapp-btn:hover {
+  background: #20BA5A;
+  transform: translateY(-2px);
+}
+
 .products-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
