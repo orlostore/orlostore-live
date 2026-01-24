@@ -149,6 +149,14 @@ nav {
   cursor: pointer;
 }
 
+.mobile-cart-icon {
+  display: none;
+  position: relative;
+  font-size: 1.8rem;
+  cursor: pointer;
+  order: 3;
+}
+
 .cart-count {
   position: absolute;
   top: -8px;
@@ -795,9 +803,14 @@ footer p {
     order: 2;
   }
 
+  .mobile-cart-icon {
+    display: flex;
+    order: 3;
+  }
+
   .search-container {
     width: 100%;
-    order: 3;
+    order: 4;
     margin-top: 1rem;
   }
 
