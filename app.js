@@ -131,7 +131,7 @@ function updateCart() {
     
     cartCount.textContent = totalItems; 
     
-    // Cart items display
+    // Cart items display (top section - already in cartItems div)
     cartItems.innerHTML = cart.map(i => `
         <div style="display:flex; justify-content:space-between; align-items:center; padding:1.5rem; border-bottom:1px solid #eee;">
             <div style="flex:1;">
@@ -148,26 +148,10 @@ function updateCart() {
         </div>
     `).join(""); 
     
-    // Cart footer with summary
-    let footerHTML = `
-        <div style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
-            <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; font-size: 1.05rem; color: #2c4a5c;">
-                <span>Subtotal / المجموع الفرعي:</span>
-                <span>${subtotal.toFixed(2)} AED</span>
-            </div>
-            <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; font-size: 1.05rem; color: #2c4a5c;">
-                <span>Delivery / التوصيل:</span>
-                <span style="${deliveryFee === 0 ? 'color: #28a745; font-weight: 600;' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span>
-            </div>
-            <div style="border-top: 2px solid #ddd; margin: 0.5rem 0;"></div>
-            <div style="display: flex; justify-content: space-between; padding: 1rem 0 0.5rem; font-size: 1.3rem; font-weight: 700; color: #2c4a5c;">
-                <span>Total / الإجمالي:</span>
-                <span>${total.toFixed(2)} AED</span>
-            </div>
-        </div>
-    `;
+    // Build cart footer: UPSELL FIRST, then SUMMARY, then BUTTONS
+    let footerHTML = '';
     
-    // Smart product recommendations - only show if under 100 AED
+    // 1. UPSELL SECTION (only if under 100 AED)
     if (subtotal < 100) {
         const cartProductIds = cart.map(i => i.id);
         const recommendedProducts = products
@@ -198,9 +182,27 @@ function updateCart() {
         }
     }
     
-    // Checkout buttons section
+    // 2. SUMMARY SECTION (always shown)
+    footerHTML += `
+        <div style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; font-size: 1.05rem; color: #2c4a5c;">
+                <span>Subtotal / المجموع الفرعي:</span>
+                <span>${subtotal.toFixed(2)} AED</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; font-size: 1.05rem; color: #2c4a5c;">
+                <span>Delivery / التوصيل:</span>
+                <span style="${deliveryFee === 0 ? 'color: #28a745; font-weight: 600;' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span>
+            </div>
+            <div style="border-top: 2px solid #ddd; margin: 0.5rem 0;"></div>
+            <div style="display: flex; justify-content: space-between; padding: 1rem 0 0.5rem; font-size: 1.3rem; font-weight: 700; color: #2c4a5c;">
+                <span>Total / الإجمالي:</span>
+                <span>${total.toFixed(2)} AED</span>
+            </div>
+        </div>
+    `;
+    
+    // 3. OR (only if under 100)
     if (subtotal < 100) {
-        // Show OR between upsell and checkout when under 100
         footerHTML += `
             <div style="text-align: center; margin: 1rem 0 0.5rem; font-weight: 600; color: #666; font-size: 1.1rem;">
                 OR
@@ -208,6 +210,7 @@ function updateCart() {
         `;
     }
     
+    // 4. CHECKOUT BUTTONS (always shown)
     footerHTML += `
         <div style="padding: 0 1.5rem 1.5rem;">
             <button style="width: 100%; padding: 1.2rem; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #25D366; color: white; transition: all 0.3s; margin-bottom: 0.75rem;" onclick="checkout()" onmouseover="this.style.background='#20BA5A'" onmouseout="this.style.background='#25D366'">
