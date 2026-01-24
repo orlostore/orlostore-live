@@ -4,26 +4,26 @@ const deliveryZones = {
     dubai: {
         name: "Dubai",
         nameAr: "دبي",
-        fee: 15,
-        freeThreshold: 150
+        fee: 18,
+        freeThreshold: 100
     },
     sharjah_ajman: {
         name: "Sharjah / Ajman",
         nameAr: "الشارقة / عجمان",
-        fee: 20,
-        freeThreshold: 200
+        fee: 18,
+        freeThreshold: 100
     },
     abu_dhabi: {
         name: "Abu Dhabi",
         nameAr: "أبو ظبي",
-        fee: 30,
-        freeThreshold: 250
+        fee: 18,
+        freeThreshold: 100
     },
     other: {
         name: "Other Emirates",
         nameAr: "إمارات أخرى",
-        fee: 45,
-        freeThreshold: 350
+        fee: 18,
+        freeThreshold: 100
     }
 };
 
@@ -127,13 +127,56 @@ function updateCart() {
     const subtotal = cart.reduce((s, i) => s + i.price * i.quantity, 0); 
     const deliveryFee = calculateDeliveryFee(subtotal); 
     const total = subtotal + deliveryFee; 
-    const amountUntilFree = getAmountUntilFreeDelivery(subtotal); 
     const zone = deliveryZones[selectedDeliveryZone]; 
     
     cartCount.textContent = totalItems; 
-    cartItems.innerHTML = cart.map(i => `<div style="display:flex; justify-content:space-between; align-items:center; padding:1.5rem; border-bottom:1px solid #eee;"><div style="flex:1;"><strong style="font-size:1.1rem; color:#2c4a5c;">${i.name}</strong><br><span style="color:#888; font-size:1rem;">${i.price} AED × ${i.quantity}</span><br><span style="color:#e07856; font-weight:600; font-size:1.1rem;">${(i.price * i.quantity).toFixed(2)} AED</span></div><div style="display:flex; gap:0.75rem; align-items:center;"><button onclick="updateQuantity(${i.id}, -1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">-</button><span style="font-size:1.1rem; font-weight:600; min-width:30px; text-align:center;">${i.quantity}</span><button onclick="updateQuantity(${i.id}, 1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">+</button><button onclick="removeFromCart(${i.id})" style="padding:0.5rem 1rem; background:#dc3545; color:white; border:none; border-radius:4px; cursor:pointer; margin-left:0.5rem; font-size:1.1rem;">✕</button></div></div>`).join(""); 
     
-    cartFooter.innerHTML = `<div id="deliverySection" class="delivery-section"><div class="delivery-header"><span class="delivery-icon">🚚</span><span>Delivery Location / موقع التوصيل</span></div><select id="deliveryZoneSelect" class="delivery-select" onchange="changeDeliveryZone(this.value)">${Object.entries(deliveryZones).map(([key, zone]) => `<option value="${key}" ${key === selectedDeliveryZone ? 'selected' : ''}>${zone.name} / ${zone.nameAr}</option>`).join('')}</select>${amountUntilFree > 0 ? `<div class="free-delivery-hint">Add <strong>${amountUntilFree.toFixed(2)} AED</strong> more for FREE delivery!<br><span style="font-family: 'Almarai', sans-serif; direction: rtl; display: block; margin-top: 5px;">أضف <strong>${amountUntilFree.toFixed(2)} درهم</strong> للحصول على توصيل مجاني!</span></div>` : `<div class="free-delivery-achieved">✓ You qualify for FREE delivery! / توصيل مجاني!</div>`}<div class="delivery-time"><span>Delivery: ${DELIVERY_TIME} / التوصيل: ${DELIVERY_TIME_AR}</span></div></div><div class="cart-summary"><div class="summary-row"><span>Subtotal / المجموع الفرعي:</span><span>${subtotal.toFixed(2)} AED</span></div><div class="summary-row delivery-row"><span>Delivery / التوصيل (${zone.name} / ${zone.nameAr}):</span><span class="${deliveryFee === 0 ? 'free-delivery' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span></div><div class="cart-total"><span>Total / الإجمالي:</span><span id="cartTotal">${total.toFixed(2)} AED</span></div></div><button class="checkout-btn whatsapp-btn" id="checkoutBtn" onclick="checkout()">Order via WhatsApp / اطلب عبر واتساب</button>`; 
+    // Cart items display
+    cartItems.innerHTML = cart.map(i => `
+        <div style="display:flex; justify-content:space-between; align-items:center; padding:1.5rem; border-bottom:1px solid #eee;">
+            <div style="flex:1;">
+                <strong style="font-size:1.1rem; color:#2c4a5c;">${i.name}</strong><br>
+                <span style="color:#888; font-size:1rem;">${i.price} AED × ${i.quantity}</span><br>
+                <span style="color:#e07856; font-weight:600; font-size:1.1rem;">${(i.price * i.quantity).toFixed(2)} AED</span>
+            </div>
+            <div style="display:flex; gap:0.75rem; align-items:center;">
+                <button onclick="updateQuantity(${i.id}, -1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">-</button>
+                <span style="font-size:1.1rem; font-weight:600; min-width:30px; text-align:center;">${i.quantity}</span>
+                <button onclick="updateQuantity(${i.id}, 1)" style="padding:0.5rem 1rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:1.1rem; font-weight:600;">+</button>
+                <button onclick="removeFromCart(${i.id})" style="padding:0.5rem 1rem; background:#dc3545; color:white; border:none; border-radius:4px; cursor:pointer; margin-left:0.5rem; font-size:1.1rem;">✕</button>
+            </div>
+        </div>
+    `).join(""); 
+    
+    // Enhanced cart footer with clean summary and upsell section
+    cartFooter.innerHTML = `
+        <div class="cart-summary-clean">
+            <div class="summary-row">
+                <span>Subtotal / المجموع الفرعي:</span>
+                <span>${subtotal.toFixed(2)} AED</span>
+            </div>
+            <div class="summary-row">
+                <span>Delivery / التوصيل:</span>
+                <span class="${deliveryFee === 0 ? 'free-delivery' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span>
+            </div>
+            <div class="cart-total-line"></div>
+            <div class="cart-total">
+                <span>Total / الإجمالي:</span>
+                <span>${total.toFixed(2)} AED</span>
+            </div>
+        </div>
+        
+        <div id="upsellSection" class="upsell-section">
+            <!-- Upsell items will appear here when you add add-on products -->
+            <!-- Ready for future enhancement -->
+        </div>
+        
+        <div class="checkout-actions">
+            <button class="checkout-btn whatsapp-btn" onclick="checkout()">
+                Proceed to Checkout / متابعة الدفع
+            </button>
+        </div>
+    `; 
 }
 
 function changeDeliveryZone(zone) { 
