@@ -162,17 +162,17 @@ function updateCart() {
         
         if (recommendedProducts.length > 0) {
             footerHTML += `
-                <div style="padding: 0.75rem 1rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 0.75rem;">
-                    <div style="font-weight: 600; margin-bottom: 0.75rem; color: #2c4a5c; font-size: 0.95rem;">
+                <div style="padding: 1rem 1.5rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 1rem;">
+                    <div style="font-weight: 600; margin-bottom: 1rem; color: #2c4a5c; font-size: 1.05rem;">
                         Add these items to unlock free delivery:
                     </div>
                     ${recommendedProducts.map(p => `
-                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #f0f0f0;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid #f0f0f0;">
                             <div style="flex: 1;">
-                                <div style="font-weight: 500; color: #2c4a5c; font-size: 0.9rem;">${p.name}</div>
-                                <div style="font-size: 0.85rem; color: #888;">${p.price} AED</div>
+                                <div style="font-weight: 500; color: #2c4a5c;">${p.name}</div>
+                                <div style="font-size: 0.9rem; color: #888;">${p.price} AED</div>
                             </div>
-                            <button onclick="addToCart(${p.id}, event)" style="padding: 0.4rem 0.8rem; background: #2c4a5c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.85rem; white-space: nowrap;">
+                            <button onclick="addToCart(${p.id}, event)" style="padding: 0.5rem 1rem; background: #2c4a5c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.95rem; white-space: nowrap;">
                                 Add
                             </button>
                         </div>
@@ -184,17 +184,17 @@ function updateCart() {
     
     // 2. SUMMARY SECTION (always shown)
     footerHTML += `
-        <div style="padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.75rem;">
-            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 1rem; color: #2c4a5c;">
+        <div style="padding: 1.5rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; font-size: 1.05rem; color: #2c4a5c;">
                 <span>Subtotal / المجموع الفرعي:</span>
                 <span>${subtotal.toFixed(2)} AED</span>
             </div>
-            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 1rem; color: #2c4a5c;">
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem 0; font-size: 1.05rem; color: #2c4a5c;">
                 <span>Delivery / التوصيل:</span>
                 <span style="${deliveryFee === 0 ? 'color: #28a745; font-weight: 600;' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span>
             </div>
-            <div style="border-top: 2px solid #ddd; margin: 0.4rem 0;"></div>
-            <div style="display: flex; justify-content: space-between; padding: 0.75rem 0 0.4rem; font-size: 1.2rem; font-weight: 700; color: #2c4a5c;">
+            <div style="border-top: 2px solid #ddd; margin: 0.5rem 0;"></div>
+            <div style="display: flex; justify-content: space-between; padding: 1rem 0 0.5rem; font-size: 1.3rem; font-weight: 700; color: #2c4a5c;">
                 <span>Total / الإجمالي:</span>
                 <span>${total.toFixed(2)} AED</span>
             </div>
@@ -204,7 +204,7 @@ function updateCart() {
     // 3. OR (only if under 100)
     if (subtotal < 100) {
         footerHTML += `
-            <div style="text-align: center; margin: 0.5rem 0; font-weight: 600; color: #666; font-size: 1rem;">
+            <div style="text-align: center; margin: 1rem 0 0.5rem; font-weight: 600; color: #666; font-size: 1.1rem;">
                 OR
             </div>
         `;
@@ -212,11 +212,11 @@ function updateCart() {
     
     // 4. CHECKOUT BUTTONS (always shown)
     footerHTML += `
-        <div style="padding: 0 1rem 1rem;">
-            <button style="width: 100%; padding: 1rem; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #25D366; color: white; transition: all 0.3s; margin-bottom: 0.5rem;" onclick="checkout()" onmouseover="this.style.background='#20BA5A'" onmouseout="this.style.background='#25D366'">
+        <div style="padding: 0 1.5rem 1.5rem;">
+            <button style="width: 100%; padding: 1.2rem; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #25D366; color: white; transition: all 0.3s; margin-bottom: 0.75rem;" onclick="checkout()" onmouseover="this.style.background='#20BA5A'" onmouseout="this.style.background='#25D366'">
                 💬 Proceed to Checkout / متابعة الدفع
             </button>
-            <button style="width: 100%; padding: 1rem; font-size: 1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #0066FF; color: white; transition: all 0.3s;" onclick="alert('Stripe payment coming soon! / الدفع عبر سترايب قريباً!')" onmouseover="this.style.background='#0052CC'" onmouseout="this.style.background='#0066FF'">
+            <button style="width: 100%; padding: 1.2rem; font-size: 1.1rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #0066FF; color: white; transition: all 0.3s;" onclick="alert('Stripe payment coming soon! / الدفع عبر سترايب قريباً!')" onmouseover="this.style.background='#0052CC'" onmouseout="this.style.background='#0066FF'">
                 💳 Pay with Card / الدفع بالبطاقة (Coming Soon)
             </button>
         </div>
