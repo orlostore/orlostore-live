@@ -62,14 +62,12 @@ body {
 
 /* ============================================
    CHROME-ONLY FONT FIX
-   Edge and Safari unaffected
+   Uses .chrome-browser class added by JavaScript
    ============================================ */
 
-/* This targets Chrome/Chromium but NOT Edge */
-@supports (-webkit-appearance:none) and (not (-ms-ime-align:auto)) {
-  body {
-    font-size: 23px !important; /* Chrome: 23px, Edge stays: 16px */
-  }
+html.chrome-browser body,
+body.chrome-browser {
+  font-size: 23px !important;
 }
 
 /* End of Chrome-only adjustments */
