@@ -7,6 +7,32 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Almarai:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Browser Detection Script - Must be first -->
+    <script>
+    (function() {
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isChrome = /chrome/.test(userAgent) && !/edg/.test(userAgent) && !/opr/.test(userAgent);
+        const isSafari = /safari/.test(userAgent) && !/chrome/.test(userAgent);
+        const isEdge = /edg/.test(userAgent);
+        
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', addBrowserClass);
+        } else {
+            addBrowserClass();
+        }
+        
+        function addBrowserClass() {
+            if (isChrome) {
+                document.body.classList.add('chrome');
+            } else if (isSafari) {
+                document.body.classList.add('safari');
+            } else if (isEdge) {
+                document.body.classList.add('edge');
+            }
+        }
+    })();
+    </script>
 </head>
 <body>
 <header>
@@ -90,7 +116,7 @@
             </div>
             <div class="contact-details-row">
                 <div class="contact-detail"><strong>📍 Location:</strong> Dubai, UAE (Online Only)</div>
-                <div class="contact-detail"><strong>✉️ Email:</strong> <a href="/cdn-cgi/l/email-protection#1e777078715e716c72716d6a716c7b307d7173"><span class="__cf_email__" data-cfemail="e980878f86a9869b85869a9d869b8cc78a8684">[email&#160;protected]</span></a></div>
+                <div class="contact-detail"><strong>✉️ Email:</strong> <a href="mailto:info@orlostore.com">info@orlostore.com</a></div>
                 <div class="contact-detail"><strong>📱 WhatsApp:</strong> <a href="https://wa.me/971XXXXXXXXX" target="_blank">+971 XX XXX XXXX</a></div>
             </div>
         </div>
