@@ -296,13 +296,13 @@ function showNotification(message, clickEvent) {
         if (productCard) {
             const cardRect = productCard.getBoundingClientRect();
             // Position notification centered horizontally over the card, slightly above it
-            topPos = (cardRect.top + window.scrollY - 60) + 'px';
+            topPos = (cardRect.top + window.scrollY - 20) + 'px'; // Changed from -60 to -20
             leftPos = (cardRect.left + cardRect.width / 2) + 'px';
             transform = 'translateX(-50%)'; // Center horizontally
         } else {
             // Fallback if product card not found
             const rect = button.getBoundingClientRect();
-            topPos = (rect.top + window.scrollY - 60) + 'px';
+            topPos = (rect.top + window.scrollY - 20) + 'px'; // Changed from -60 to -20
             leftPos = (rect.left + rect.width / 2) + 'px';
             transform = 'translateX(-50%)';
         }
