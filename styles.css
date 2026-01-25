@@ -60,17 +60,9 @@ body {
   font-size: 16px;
 }
 
-/* ============================================
-   CHROME-ONLY FONT FIX
-   Uses .chrome-browser class added by JavaScript
-   ============================================ */
+/* Chrome font will be set to 23px via JavaScript at page load */
+/* Edge stays at default 16px */
 
-html.chrome-browser body,
-body.chrome-browser {
-  font-size: 23px !important;
-}
-
-/* End of Chrome-only adjustments */
 
 header {
   background: var(--white);
