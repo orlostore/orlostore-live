@@ -1,966 +1,171 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* ============================================
-   PREVENT HORIZONTAL SCROLLING (Like Amazon)
-   ============================================ */
-html {
-  overflow-x: hidden;
-  width: 100%;
-  position: relative;
-}
-
-body {
-  overflow-x: hidden;
-  max-width: 100vw;
-  width: 100%;
-  position: relative;
-  margin: 0;
-  padding: 0;
-}
-
-/* Prevent any child elements from breaking out */
-body > * {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-/* Container constraint */
-.container,
-header,
-nav,
-section,
-footer {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-:root {
-  --primary: #2c4a5c;
-  --accent: #e07856;
-  --text: #333;
-  --bg: #f8f9fa;
-  --white: #ffffff;
-}
-
-.arabic-text {
-  font-family: 'Almarai', sans-serif;
-  direction: rtl;
-  display: block;
-}
-
-body {
-  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  font-size: 16px;
-}
-
-/* ============================================
-   CHROME-ONLY FONT FIX
-   Uses .chrome-browser class added by JavaScript
-   ============================================ */
-
-html.chrome-browser body,
-body.chrome-browser {
-  font-size: 23px !important;
-}
-
-/* End of Chrome-only adjustments */
-
-header {
-  background: var(--white);
-  box-shadow: 0 2px 8px rgba(0,0,0,.06);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  width: 100%;
-}
-
-nav {
-  max-width: 1600px;
-  margin: auto;
-  padding: 1.5rem 2.5rem;
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-}
-
-.logo-img {
-  width: 160px;
-  height: 160px;
-}
-
-.hamburger {
-  display: none;
-  flex-direction: column;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem;
-  z-index: 1001;
-}
-
-.hamburger span {
-  width: 25px;
-  height: 3px;
-  background: var(--primary);
-  margin: 3px 0;
-  transition: 0.3s;
-  border-radius: 3px;
-}
-
-.hamburger.active span:nth-child(1) {
-  transform: rotate(-45deg) translate(-5px, 6px);
-}
-
-.hamburger.active span:nth-child(2) {
-  opacity: 0;
-}
-
-.hamburger.active span:nth-child(3) {
-  transform: rotate(45deg) translate(-5px, -6px);
-}
-
-.search-container {
-  flex: 1;
-  max-width: 700px;
-  display: flex;
-}
-
-.search-input {
-  flex: 1;
-  padding: 1rem 1.5rem;
-  border: 2px solid #ddd;
-  border-radius: 28px 0 0 28px;
-  font-size: 1.05rem;
-}
-
-.search-btn {
-  padding: 1rem 2rem;
-  border-radius: 0 28px 28px 0;
-  border: none;
-  background: var(--accent);
-  color: #fff;
-  cursor: pointer;
-  font-size: 1.4rem;
-}
-
-.nav-links {
-  display: flex;
-  gap: 2rem;
-  list-style: none;
-  align-items: center;
-}
-
-.nav-links li {
-  list-style: none;
-}
-
-.nav-links a {
-  text-decoration: none;
-  color: var(--text);
-  font-weight: 500;
-  font-size: 1.1rem;
-  text-align: center;
-  line-height: 1.4;
-}
-
-.nav-links a .arabic-text {
-  font-size: 0.95rem;
-  color: #666;
-  margin-top: 2px;
-}
-
-.nav-links a:hover,
-.nav-links a:hover .arabic-text {
-  color: var(--accent);
-}
-
-.cart-icon {
-  position: relative;
-  font-size: 2rem;
-  cursor: pointer;
-}
-
-.mobile-cart-icon {
-  display: none;
-  position: relative;
-  font-size: 1.8rem;
-  cursor: pointer;
-  order: 3;
-}
-
-.cart-count {
-  position: absolute;
-  top: -8px;
-  right: -8px;
-  background: var(--accent);
-  color: white;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  font-size: .85rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-}
-
-.hero {
-  background: linear-gradient(135deg, var(--primary), #3a5f75);
-  color: #fff;
-  padding: 5rem 2rem;
-  text-align: center;
-  transition: display 0.3s;
-}
-
-.hero.hidden {
-  display: none;
-}
-
-.hero h1 {
-  font-size: 3.25rem;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-}
-
-.hero-arabic {
-  font-size: 3.25rem;
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-}
-
-.hero p {
-  font-size: 1.35rem;
-  opacity: .95;
-  max-width: 800px;
-  margin: 0 auto 1rem;
-}
-
-.hero p.arabic-text {
-  font-size: 1.25rem;
-  margin-bottom: 2rem;
-}
-
-.trust-badges {
-  display: flex;
-  justify-content: center;
-  gap: 2.5rem;
-  margin: 2.5rem auto 2.5rem;
-  flex-wrap: wrap;
-}
-
-.trust-badge {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: white;
-  opacity: 0.95;
-  font-size: 1.15rem;
-  font-weight: 500;
-}
-
-.badge-icon {
-  color: #4ade80;
-  font-weight: bold;
-  font-size: 1.4rem;
-}
-
-.badge-text {
-  font-weight: 500;
-}
-
-.hero .btn {
-  background: var(--accent);
-  padding: 1.15rem 3rem;
-  border-radius: 8px;
-  color: white;
-  text-decoration: none;
-  display: inline-block;
-  font-weight: 600;
-  font-size: 1.2rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-  line-height: 1.6;
-}
-
-.hero .btn .btn-arabic {
-  font-size: 1.1rem;
-  margin-top: 4px;
-}
-
-.hero .btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(224, 120, 86, 0.4);
-}
-
-.container {
-  max-width: 1600px;
-  margin: auto;
-  padding: 3.5rem 2.5rem;
-}
-
-.section-title {
-  text-align: center;
-  margin-bottom: 2.5rem;
-  color: var(--primary);
-  font-size: 2.5rem;
-  font-weight: 700;
-  line-height: 1.4;
-}
-
-.section-arabic {
-  font-size: 2.2rem;
-  color: #555;
-  margin-top: 0.5rem;
-}
-
-.arabic-inline {
-  font-family: 'Almarai', sans-serif;
-  font-size: 2.2rem;
-  color: #555;
-  margin-left: 1.5rem;
-}
-
-.category-filters {
-  display: flex;
-  justify-content: center;
-  gap: 1.25rem;
-  margin-bottom: 3rem;
-  flex-wrap: wrap;
-}
-
-.category-btn {
-  padding: 0.75rem 2rem;
-  border-radius: 28px;
-  border: 2px solid var(--primary);
-  background: white;
-  cursor: pointer;
-  font-size: 1.05rem;
-  font-weight: 500;
-  transition: all 0.3s;
-}
-
-.category-btn:hover {
-  background: var(--primary);
-  color: white;
-}
-
-.category-btn.active {
-  background: var(--accent);
-  border-color: var(--accent);
-  color: white;
-}
-
-.category-arabic {
-  font-size: 0.9rem;
-  margin-top: 3px;
-  display: block;
-}
-
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2.5rem;
-  max-width: 1600px;
-  margin: 0 auto;
-}
-
-.product-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.1);
-  overflow: hidden;
-  position: relative;
-  transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,.15);
-}
-
-.badge {
-  position: absolute;
-  top: 15px;
-  right: 15px;
-  background: var(--accent);
-  color: white;
-  padding: 0.5rem 1.25rem;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  z-index: 10;
-  text-transform: uppercase;
-}
-
-.product-image {
-  height: 260px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 4.5rem;
-  background: #f5f5f5;
-}
-
-.product-info {
-  padding: 2rem;
-}
-
-.product-info small {
-  color: #888;
-  font-size: 0.95rem;
-  text-transform: uppercase;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-}
-
-.product-title {
-  font-weight: 600;
-  color: var(--primary);
-  margin: 1rem 0 0.75rem;
-  font-size: 1.3rem;
-}
-
-.product-info p {
-  font-size: 1.05rem;
-  color: #666;
-  margin-bottom: 1.25rem;
-  line-height: 1.6;
-}
-
-.product-price {
-  color: var(--accent);
-  font-weight: bold;
-  margin: 1rem 0;
-  font-size: 1.75rem;
-}
-
-.add-to-cart {
-  width: 100%;
-  padding: 1rem;
-  background: var(--primary);
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 1.1rem;
-  transition: background 0.3s;
-}
-
-.add-to-cart:hover {
-  background: #1e3545;
-}
-
-.about-section {
-  background: white;
-  padding: 4rem 0;
-}
-
-.about-section p {
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto 1rem;
-  color: #555;
-  font-size: 1.2rem;
-  line-height: 1.8;
-}
-
-.about-section p.arabic-text {
-  font-size: 1.15rem;
-  color: #666;
-  margin-bottom: 2.5rem;
-  padding-top: 0.5rem;
-  font-weight: 500;
-}
-
-.contact-section {
-  background: var(--bg);
-  padding: 0;
-}
-
-.contact-container {
-  max-width: 1600px;
-  margin: 3.5rem auto;
-  padding: 0 2.5rem;
-}
-
-.contact-box {
-  background: white;
-  padding: 3rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.08);
-}
-
-.contact-text-row {
-  text-align: center;
-  margin-bottom: 2.5rem;
-  padding-bottom: 2rem;
-  border-bottom: 2px solid #e0e0e0;
-}
-
-.contact-text-en {
-  font-size: 1.25rem;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-}
-
-.contact-text-ar {
-  font-size: 1.2rem;
-  color: #555;
-  line-height: 1.7;
-  font-family: 'Almarai', sans-serif;
-  direction: rtl;
-}
-
-.contact-details-row {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 3rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.contact-detail {
-  text-align: center;
-  font-size: 1.15rem;
-}
-
-.contact-detail strong {
-  color: var(--primary);
-  display: block;
-  margin-bottom: 0.75rem;
-  font-size: 1.2rem;
-}
-
-.contact-detail a {
-  color: #e07856;
-  text-decoration: none;
-  font-weight: 500;
-  font-size: 1.15rem;
-}
-
-.contact-detail a:hover {
-  text-decoration: underline;
-}
-
-.terms-section {
-  background: #f8f9fa;
-  padding: 4rem 0;
-}
-
-.terms-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  margin-top: 2.5rem;
-  max-width: 1600px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.term-card {
-  background: white;
-  padding: 1.75rem;
-  border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,.08);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-  text-align: center;
-}
-
-.term-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 20px rgba(0,0,0,.12);
-}
-
-.term-card h3 {
-  margin-bottom: 0.5rem;
-  line-height: 1.6;
-}
-
-.term-card h3 .term-title {
-  color: var(--primary);
-  font-size: 1.15rem;
-  transition: color 0.3s;
-}
-
-.term-card h3 .term-title-ar {
-  font-size: 1.05rem;
-  color: #666;
-  margin-top: 4px;
-  transition: color 0.3s;
-}
-
-.term-card:hover h3 .term-title,
-.term-card:hover h3 .term-title-ar {
-  color: var(--accent);
-}
-
-.term-card p {
-  color: #666;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  margin-bottom: 0.5rem;
-}
-
-.term-card p.arabic-text {
-  font-size: 0.9rem;
-}
-
-.cart-sidebar {
-  position: fixed;
-  top: 0;
-  right: -500px;
-  width: 500px;
-  height: 100vh;
-  background: white;
-  z-index: 5000;
-  box-shadow: -2px 0 20px rgba(0,0,0,.3);
-  transition: right .3s ease;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.cart-sidebar.active {
-  right: 0;
-}
-
-.cart-header {
-  background: var(--primary);
-  color: white;
-  padding: 1.2rem 1.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.cart-header h2 {
-  font-size: 1.3rem;
-}
-
-.close-cart {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 2rem;
-  cursor: pointer;
-  width: 45px;
-  height: 45px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cart-items {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem;
-  padding-bottom: 0.5rem;
-}
-
-.cart-footer {
-  border-top: 2px solid #eee;
-  padding: 1rem;
-  background: #f8f9fa;
-}
-
-.cart-total {
-  display: flex;
-  justify-content: space-between;
-  font-size: 2rem;
-  font-weight: bold;
-  margin-bottom: 2rem;
-  color: var(--primary);
-}
-
-.checkout-btn {
-  width: 100%;
-  padding: 1.5rem;
-  background: var(--accent);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  font-size: 1.3rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: background 0.3s;
-  margin-bottom: 0.75rem;
-}
-
-.checkout-btn:last-child {
-  margin-bottom: 0;
-}
-
-.checkout-btn:hover {
-  background: #c96644;
-}
-
-.checkout-btn.stripe-btn {
-  background: #635bff;
-}
-
-.checkout-btn.stripe-btn:hover {
-  background: #5046e5;
-}
-
-.checkout-btn.whatsapp-btn {
-  background: #25d366;
-}
-
-.checkout-btn.whatsapp-btn:hover {
-  background: #1da851;
-}
-
-.checkout-btn:disabled {
-  background: #999;
-  cursor: not-allowed;
-}
-
-#policyModal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,.7);
-  z-index: 6000;
-  overflow-y: auto;
-  padding: 2rem;
-}
-
-.policy-box {
-  background: #fff;
-  color: #000;
-  max-width: 900px;
-  margin: 5% auto;
-  padding: 3.5rem;
-  border-radius: 12px;
-  box-shadow: 0 10px 50px rgba(0,0,0,.4);
-}
-
-.policy-box h2 {
-  color: var(--primary);
-  margin-bottom: 2rem;
-  font-size: 2.25rem;
-}
-
-.policy-box h2.arabic-heading {
-  font-family: 'Almarai', sans-serif;
-  direction: rtl;
-  text-align: right;
-  font-size: 2rem;
-  color: #555;
-  margin-top: 0.5rem;
-}
-
-.policy-box p {
-  margin-bottom: 1.5rem;
-  line-height: 1.8;
-  font-size: 1.1rem;
-}
-
-.policy-box p.arabic-text {
-  font-family: 'Almarai', sans-serif;
-  direction: rtl;
-  text-align: right;
-  font-size: 1.05rem;
-  color: #666;
-}
-
-.policy-box ul {
-  margin-left: 2.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.policy-box li {
-  margin-bottom: 0.75rem;
-  line-height: 1.7;
-  font-size: 1.05rem;
-}
-
-.policy-box strong {
-  color: var(--accent);
-}
-
-footer {
-  background: var(--primary);
-  color: white;
-  text-align: center;
-  padding: 2rem 2rem;
-}
-
-footer p {
-  font-size: 1.05rem;
-  margin: 0.25rem 0;
-}
-
-.footer-subtitle {
-  font-size: 1rem;
-  opacity: 0.85;
-}
-
-@media (max-width: 1200px) {
-  .terms-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 1024px) {
-  .hero h1 {
-    font-size: 2.5rem;
-  }
-  
-  .hero-arabic {
-    font-size: 2.5rem;
-  }
-  
-  .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
-}
-
-@media (max-width: 768px) {
-  nav {
-    padding: 1rem 1rem;
-    position: relative;
-  }
-
-  .logo-img {
-    width: 80px;
-    height: 80px;
-  }
-
-  .hamburger {
-    display: flex;
-    order: 2;
-  }
-
-  .mobile-cart-icon {
-    display: flex;
-    order: 3;
-  }
-
-  .search-container {
-    width: 100%;
-    order: 4;
-    margin-top: 1rem;
-  }
-
-  .nav-links {
-    position: fixed;
-    top: 0;
-    right: -100%;
-    width: 75%;
-    max-width: 300px;
-    height: 100vh;
-    background: white;
-    flex-direction: column;
-    padding: 5rem 2rem 2rem;
-    box-shadow: -2px 0 10px rgba(0,0,0,0.3);
-    transition: right 0.3s ease;
-    z-index: 999;
-    gap: 1.5rem;
-  }
-
-  .nav-links.active {
-    right: 0;
-  }
-
-  .nav-links li {
-    width: 100%;
-  }
-
-  .nav-links a {
-    font-size: 1.2rem;
-    padding: 0.75rem 0;
-    display: block;
-  }
-
-  .hero h1 {
-    font-size: 2rem;
-  }
-
-  .hero-arabic {
-    font-size: 2rem;
-  }
-
-  .hero p {
-    font-size: 1.05rem;
-  }
-
-  .trust-badges {
-    gap: 1rem;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .trust-badge {
-    font-size: 0.9rem;
-  }
-
-  .cart-sidebar {
-    width: 100%;
-    right: -100%;
-  }
-
-  .cart-footer {
-    padding: 1.5rem;
-  }
-
-  .terms-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .products-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .container {
-    padding: 2.5rem 1.5rem;
-  }
-
-  .section-title {
-    font-size: 1.75rem;
-  }
-  
-  .section-arabic, .arabic-inline {
-    font-size: 1.5rem;
-  }
-
-  .contact-container {
-    margin: 2.5rem auto;
-    padding: 0 1.5rem;
-  }
-
-  .contact-box {
-    padding: 2.5rem 1.5rem;
-  }
-
-  .contact-details-row {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
-  .contact-text-en {
-    font-size: 1.1rem;
-  }
-
-  .contact-text-ar {
-    font-size: 1.05rem;
-  }
-
-  footer {
-    padding: 1.5rem 1rem;
-  }
-
-  footer p {
-    font-size: 0.95rem;
-  }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ORLO — Smart Tech & Home Essentials</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Almarai:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Browser Detection Script - Runs after DOM loads -->
+    <script>
+    // Detect Chrome specifically (not Edge)
+    const isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor) && !/Edg/.test(navigator.userAgent);
+    
+    // Add class immediately when script runs
+    if (isChrome) {
+        document.documentElement.classList.add('chrome-browser');
+    }
+    
+    // Also add when DOM loads (backup)
+    window.addEventListener('DOMContentLoaded', function() {
+        if (isChrome) {
+            document.documentElement.classList.add('chrome-browser');
+            document.body.classList.add('chrome-browser');
+        }
+    });
+    </script>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo-container">
+            <a href="/">
+                <img src="logo.png" class="logo-img" alt="ORLO Logo">
+            </a>
+        </div>
+        
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <div class="mobile-cart-icon" id="mobileCartIcon">
+            🛒 <span class="cart-count" id="mobileCartCount">0</span>
+        </div>
+        
+        <div class="search-container">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search products... | بحث عن المنتجات...">
+            <button class="search-btn" id="searchBtn">🔍</button>
+        </div>
+        
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#products">Shop<br><span class="arabic-text">تسوق</span></a></li>
+            <li><a href="javascript:void(0);" onclick="toggleAbout();">About<br><span class="arabic-text">من نحن</span></a></li>
+            <li><a href="#contact">Contact<br><span class="arabic-text">اتصل بنا</span></a></li>
+            <li><div class="cart-icon" id="cartIcon">🛒 <span class="cart-count" id="cartCount">0</span></div></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero" id="heroSection">
+    <h1>Smart Tech & Home Essentials</h1>
+    <h1 class="arabic-text hero-arabic">التكنولوجيا الذكية ومستلزمات المنزل</h1>
+    <p>Curated gadgets for your desk, car, and home — delivered across the UAE.</p>
+    <p class="arabic-text">أدوات مختارة لمكتبك وسيارتك ومنزلك - التوصيل لجميع أنحاء الإمارات العربية المتحدة</p>
+    
+    <div class="trust-badges">
+        <div class="trust-badge">
+            <span class="badge-icon">✔</span>
+            <span class="badge-text">Dubai-based<br><span class="arabic-text" style="font-size: 0.85em; margin-top: 2px; display: block;">من دبي</span></span>
+        </div>
+        <div class="trust-badge">
+            <span class="badge-icon">✔</span>
+            <span class="badge-text">Secure checkout<br><span class="arabic-text" style="font-size: 0.85em; margin-top: 2px; display: block;">دفع آمن</span></span>
+        </div>
+        <div class="trust-badge">
+            <span class="badge-icon">✔</span>
+            <span class="badge-text">WhatsApp support<br><span class="arabic-text" style="font-size: 0.85em; margin-top: 2px; display: block;">دعم واتساب</span></span>
+        </div>
+    </div>
+    
+    <a href="#products" class="btn">Shop Best Sellers<br><span class="arabic-text btn-arabic">تسوق الأكثر مبيعاً</span></a>
+</section>
+
+<div class="container" id="products">
+    <h2 class="section-title">Best Sellers<span class="arabic-text section-arabic">الأكثر مبيعاً</span></h2>
+    <div class="category-filters" id="categoryFilters"></div>
+    <div class="products-grid" id="productsGrid"></div>
+</div>
+
+<section class="about-section" id="about" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">Our Story<span class="arabic-text section-arabic">قصتنا</span></h2>
+        <div style="max-width: 900px; margin: 0 auto;">
+            <p style="margin-bottom: 3rem;">ORLO is a family-owned Dubai brand built around the essentials we genuinely love and use every day. We believe in quality that lasts, thoughtful choices, and keeping things simple — no clutter, no gimmicks. Every order you place helps support a local UAE business rooted in trust, simplicity, and fair pricing <span style="color: #e07856; font-size: 1.2em;">♥</span></p>
+            <p class="arabic-text">أورلو علامة تجارية عائلية من دبي، نشارككم فيها أساسيات نحبّها ونستخدمها يوميًا في حياتنا. نؤمن بالجودة اللي تعيش معك، وبالاختيارات البسيطة اللي فعلاً تفرق — بدون تعقيد ولا إضافات مالها داعي. كل طلب منك يدعم مشروعًا محليًا إماراتيًا بُني على الثقة، والبساطة، والتسعير العادل <span style="color: #e07856; font-size: 1.2em;">♥</span></p>
+        </div>
+    </div>
+</section>
+
+<section class="contact-section" id="contact">
+    <div class="contact-container">
+        <div class="contact-box">
+            <div class="contact-text-row">
+                <p class="contact-text-en">We'd love to hear from you! Reach out for orders, questions, or support.</p>
+                <p class="contact-text-ar">يسعدنا التواصل معك! لا تتردد في التواصل معنا للطلبات أو الاستفسارات أو الدعم.</p>
+            </div>
+            <div class="contact-details-row">
+                <div class="contact-detail"><strong>📍 Location:</strong> Dubai, UAE (Online Only)</div>
+                <div class="contact-detail"><strong>✉️ Email:</strong> <a href="/cdn-cgi/l/email-protection#056c6b636a456a77696a76716a77602b666a68"><span class="__cf_email__" data-cfemail="4821262e2708273a24273b3c273a2d662b2725">[email&#160;protected]</span></a></div>
+                <div class="contact-detail"><strong>📱 WhatsApp:</strong> <a href="https://wa.me/971XXXXXXXXX" target="_blank">+971 XX XXX XXXX</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="terms-section" id="terms">
+    <div class="container">
+        <h2 class="section-title">Terms & Conditions <span class="arabic-inline">الشروط والأحكام</span></h2>
+        <div class="terms-grid">
+            <div class="term-card" onclick="openPolicy('shipping')">
+                <h3><span class="term-title">📦 Shipping</span><br><span class="arabic-text term-title-ar">الشحن</span></h3>
+                <p>Delivery process & timelines</p>
+                <p class="arabic-text">عملية التوصيل والمواعيد</p>
+            </div>
+            <div class="term-card" onclick="openPolicy('returns')">
+                <h3><span class="term-title">↩️ Returns</span><br><span class="arabic-text term-title-ar">الإرجاع</span></h3>
+                <p>7-day return policy</p>
+                <p class="arabic-text">سياسة الإرجاع خلال ٧ أيام</p>
+            </div>
+            <div class="term-card" onclick="openPolicy('privacy')">
+                <h3><span class="term-title">🔒 Privacy</span><br><span class="arabic-text term-title-ar">الخصوصية</span></h3>
+                <p>How we protect your data</p>
+                <p class="arabic-text">كيف نحمي بياناتك</p>
+            </div>
+            <div class="term-card" onclick="openPolicy('terms')">
+                <h3><span class="term-title">📋 Terms</span><br><span class="arabic-text term-title-ar">الشروط</span></h3>
+                <p>General conditions</p>
+                <p class="arabic-text">الشروط العامة</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+        <h2>Your Cart / سلة التسوق</h2>
+        <button class="close-cart" id="closeCart">✕</button>
+    </div>
+    <div class="cart-items" id="cartItems"></div>
+    <div class="cart-footer"></div>
+</div>
+
+<div id="policyModal">
+    <div class="policy-box">
+        <button onclick="closePolicy()" style="float: right; background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
+        <div id="policyText"></div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2026 ORLO — Dubai, UAE / دبي، الإمارات العربية المتحدة</p>
+    <p class="footer-subtitle">Licensed & Family-Owned / مرخصة ومملوكة للعائلة</p>
+</footer>
+
+<script src="products.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
