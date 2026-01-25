@@ -68,7 +68,7 @@ body {
 /* This targets Chrome/Chromium but NOT Edge */
 @supports (-webkit-appearance:none) and (not (-ms-ime-align:auto)) {
   body {
-    font-size: 20px !important; /* 25% larger: 16px * 1.25 = 20px */
+    font-size: 23px !important; /* Chrome: 23px, Edge stays: 16px */
   }
 }
 
