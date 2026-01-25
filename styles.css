@@ -62,256 +62,257 @@ body {
 
 /* ============================================
    BROWSER-SPECIFIC FONT ADJUSTMENTS
-   Chrome and Safari get 12% larger fonts to match Edge
+   Chrome gets 18% larger fonts to match Edge
+   Safari gets 18% larger fonts to match Edge
    ============================================ */
 body.chrome,
 body.safari {
-  font-size: 17.92px; /* 16px * 1.12 = 17.92px */
+  font-size: 18.88px; /* 16px * 1.18 = 18.88px */
 }
 
 body.chrome .search-input,
 body.safari .search-input {
-  font-size: 1.176rem; /* 1.05rem * 1.12 */
+  font-size: 1.239rem; /* 1.05rem * 1.18 */
 }
 
 body.chrome .search-btn,
 body.safari .search-btn {
-  font-size: 1.568rem; /* 1.4rem * 1.12 */
+  font-size: 1.652rem; /* 1.4rem * 1.18 */
 }
 
 body.chrome .nav-links a,
 body.safari .nav-links a {
-  font-size: 1.232rem; /* 1.1rem * 1.12 */
+  font-size: 1.298rem; /* 1.1rem * 1.18 */
 }
 
 body.chrome .nav-links a .arabic-text,
 body.safari .nav-links a .arabic-text {
-  font-size: 1.064rem; /* 0.95rem * 1.12 */
+  font-size: 1.121rem; /* 0.95rem * 1.18 */
 }
 
 body.chrome .cart-icon,
 body.safari .cart-icon {
-  font-size: 2.24rem; /* 2rem * 1.12 */
+  font-size: 2.36rem; /* 2rem * 1.18 */
 }
 
 body.chrome .mobile-cart-icon,
 body.safari .mobile-cart-icon {
-  font-size: 2.016rem; /* 1.8rem * 1.12 */
+  font-size: 2.124rem; /* 1.8rem * 1.18 */
 }
 
 body.chrome .cart-count,
 body.safari .cart-count {
-  font-size: 0.952rem; /* 0.85rem * 1.12 */
+  font-size: 1.003rem; /* 0.85rem * 1.18 */
 }
 
 body.chrome .hero h1,
 body.safari .hero h1 {
-  font-size: 3.64rem; /* 3.25rem * 1.12 */
+  font-size: 3.835rem; /* 3.25rem * 1.18 */
 }
 
 body.chrome .hero-arabic,
 body.safari .hero-arabic {
-  font-size: 3.64rem; /* 3.25rem * 1.12 */
+  font-size: 3.835rem; /* 3.25rem * 1.18 */
 }
 
 body.chrome .hero p,
 body.safari .hero p {
-  font-size: 1.512rem; /* 1.35rem * 1.12 */
+  font-size: 1.593rem; /* 1.35rem * 1.18 */
 }
 
 body.chrome .hero p.arabic-text,
 body.safari .hero p.arabic-text {
-  font-size: 1.4rem; /* 1.25rem * 1.12 */
+  font-size: 1.475rem; /* 1.25rem * 1.18 */
 }
 
 body.chrome .trust-badge,
 body.safari .trust-badge {
-  font-size: 1.288rem; /* 1.15rem * 1.12 */
+  font-size: 1.357rem; /* 1.15rem * 1.18 */
 }
 
 body.chrome .badge-icon,
 body.safari .badge-icon {
-  font-size: 1.568rem; /* 1.4rem * 1.12 */
+  font-size: 1.652rem; /* 1.4rem * 1.18 */
 }
 
 body.chrome .hero .btn,
 body.safari .hero .btn {
-  font-size: 1.344rem; /* 1.2rem * 1.12 */
+  font-size: 1.416rem; /* 1.2rem * 1.18 */
 }
 
 body.chrome .hero .btn .btn-arabic,
 body.safari .hero .btn .btn-arabic {
-  font-size: 1.232rem; /* 1.1rem * 1.12 */
+  font-size: 1.298rem; /* 1.1rem * 1.18 */
 }
 
 body.chrome .section-title,
 body.safari .section-title {
-  font-size: 2.8rem; /* 2.5rem * 1.12 */
+  font-size: 2.95rem; /* 2.5rem * 1.18 */
 }
 
 body.chrome .section-arabic,
 body.safari .section-arabic {
-  font-size: 2.464rem; /* 2.2rem * 1.12 */
+  font-size: 2.596rem; /* 2.2rem * 1.18 */
 }
 
 body.chrome .arabic-inline,
 body.safari .arabic-inline {
-  font-size: 2.464rem; /* 2.2rem * 1.12 */
+  font-size: 2.596rem; /* 2.2rem * 1.18 */
 }
 
 body.chrome .category-btn,
 body.safari .category-btn {
-  font-size: 1.176rem; /* 1.05rem * 1.12 */
+  font-size: 1.239rem; /* 1.05rem * 1.18 */
 }
 
 body.chrome .category-arabic,
 body.safari .category-arabic {
-  font-size: 1.008rem; /* 0.9rem * 1.12 */
+  font-size: 1.062rem; /* 0.9rem * 1.18 */
 }
 
 body.chrome .badge,
 body.safari .badge {
-  font-size: 1.008rem; /* 0.9rem * 1.12 */
+  font-size: 1.062rem; /* 0.9rem * 1.18 */
 }
 
 body.chrome .product-image,
 body.safari .product-image {
-  font-size: 5.04rem; /* 4.5rem * 1.12 */
+  font-size: 5.31rem; /* 4.5rem * 1.18 */
 }
 
 body.chrome .product-info small,
 body.safari .product-info small {
-  font-size: 1.064rem; /* 0.95rem * 1.12 */
+  font-size: 1.121rem; /* 0.95rem * 1.18 */
 }
 
 body.chrome .product-title,
 body.safari .product-title {
-  font-size: 1.456rem; /* 1.3rem * 1.12 */
+  font-size: 1.534rem; /* 1.3rem * 1.18 */
 }
 
 body.chrome .product-info p,
 body.safari .product-info p {
-  font-size: 1.176rem; /* 1.05rem * 1.12 */
+  font-size: 1.239rem; /* 1.05rem * 1.18 */
 }
 
 body.chrome .product-price,
 body.safari .product-price {
-  font-size: 1.96rem; /* 1.75rem * 1.12 */
+  font-size: 2.065rem; /* 1.75rem * 1.18 */
 }
 
 body.chrome .add-to-cart,
 body.safari .add-to-cart {
-  font-size: 1.232rem; /* 1.1rem * 1.12 */
+  font-size: 1.298rem; /* 1.1rem * 1.18 */
 }
 
 body.chrome .about-section p,
 body.safari .about-section p {
-  font-size: 1.344rem; /* 1.2rem * 1.12 */
+  font-size: 1.416rem; /* 1.2rem * 1.18 */
 }
 
 body.chrome .about-section p.arabic-text,
 body.safari .about-section p.arabic-text {
-  font-size: 1.288rem; /* 1.15rem * 1.12 */
+  font-size: 1.357rem; /* 1.15rem * 1.18 */
 }
 
 body.chrome .contact-text-en,
 body.safari .contact-text-en {
-  font-size: 1.4rem; /* 1.25rem * 1.12 */
+  font-size: 1.475rem; /* 1.25rem * 1.18 */
 }
 
 body.chrome .contact-text-ar,
 body.safari .contact-text-ar {
-  font-size: 1.344rem; /* 1.2rem * 1.12 */
+  font-size: 1.416rem; /* 1.2rem * 1.18 */
 }
 
 body.chrome .contact-detail,
 body.safari .contact-detail {
-  font-size: 1.288rem; /* 1.15rem * 1.12 */
+  font-size: 1.357rem; /* 1.15rem * 1.18 */
 }
 
 body.chrome .contact-detail strong,
 body.safari .contact-detail strong {
-  font-size: 1.344rem; /* 1.2rem * 1.12 */
+  font-size: 1.416rem; /* 1.2rem * 1.18 */
 }
 
 body.chrome .contact-detail a,
 body.safari .contact-detail a {
-  font-size: 1.288rem; /* 1.15rem * 1.12 */
+  font-size: 1.357rem; /* 1.15rem * 1.18 */
 }
 
 body.chrome .term-card h3 .term-title,
 body.safari .term-card h3 .term-title {
-  font-size: 1.288rem; /* 1.15rem * 1.12 */
+  font-size: 1.357rem; /* 1.15rem * 1.18 */
 }
 
 body.chrome .term-card h3 .term-title-ar,
 body.safari .term-card h3 .term-title-ar {
-  font-size: 1.176rem; /* 1.05rem * 1.12 */
+  font-size: 1.239rem; /* 1.05rem * 1.18 */
 }
 
 body.chrome .term-card p,
 body.safari .term-card p {
-  font-size: 1.064rem; /* 0.95rem * 1.12 */
+  font-size: 1.121rem; /* 0.95rem * 1.18 */
 }
 
 body.chrome .term-card p.arabic-text,
 body.safari .term-card p.arabic-text {
-  font-size: 1.008rem; /* 0.9rem * 1.12 */
+  font-size: 1.062rem; /* 0.9rem * 1.18 */
 }
 
 body.chrome .cart-header h2,
 body.safari .cart-header h2 {
-  font-size: 1.456rem; /* 1.3rem * 1.12 */
+  font-size: 1.534rem; /* 1.3rem * 1.18 */
 }
 
 body.chrome .close-cart,
 body.safari .close-cart {
-  font-size: 2.24rem; /* 2rem * 1.12 */
+  font-size: 2.36rem; /* 2rem * 1.18 */
 }
 
 body.chrome .cart-total,
 body.safari .cart-total {
-  font-size: 2.24rem; /* 2rem * 1.12 */
+  font-size: 2.36rem; /* 2rem * 1.18 */
 }
 
 body.chrome .checkout-btn,
 body.safari .checkout-btn {
-  font-size: 1.456rem; /* 1.3rem * 1.12 */
+  font-size: 1.534rem; /* 1.3rem * 1.18 */
 }
 
 body.chrome .policy-box h2,
 body.safari .policy-box h2 {
-  font-size: 2.52rem; /* 2.25rem * 1.12 */
+  font-size: 2.655rem; /* 2.25rem * 1.18 */
 }
 
 body.chrome .policy-box h2.arabic-heading,
 body.safari .policy-box h2.arabic-heading {
-  font-size: 2.24rem; /* 2rem * 1.12 */
+  font-size: 2.36rem; /* 2rem * 1.18 */
 }
 
 body.chrome .policy-box p,
 body.safari .policy-box p {
-  font-size: 1.232rem; /* 1.1rem * 1.12 */
+  font-size: 1.298rem; /* 1.1rem * 1.18 */
 }
 
 body.chrome .policy-box p.arabic-text,
 body.safari .policy-box p.arabic-text {
-  font-size: 1.176rem; /* 1.05rem * 1.12 */
+  font-size: 1.239rem; /* 1.05rem * 1.18 */
 }
 
 body.chrome .policy-box li,
 body.safari .policy-box li {
-  font-size: 1.176rem; /* 1.05rem * 1.12 */
+  font-size: 1.239rem; /* 1.05rem * 1.18 */
 }
 
 body.chrome footer p,
 body.safari footer p {
-  font-size: 1.176rem; /* 1.05rem * 1.12 */
+  font-size: 1.239rem; /* 1.05rem * 1.18 */
 }
 
 body.chrome .footer-subtitle,
 body.safari .footer-subtitle {
-  font-size: 1.12rem; /* 1rem * 1.12 */
+  font-size: 1.18rem; /* 1rem * 1.18 */
 }
 
 /* End of browser-specific adjustments */
@@ -1066,12 +1067,12 @@ footer p {
   
   body.chrome .hero h1,
   body.safari .hero h1 {
-    font-size: 2.8rem; /* 2.5rem * 1.12 */
+    font-size: 2.95rem; /* 2.5rem * 1.18 */
   }
   
   body.chrome .hero-arabic,
   body.safari .hero-arabic {
-    font-size: 2.8rem; /* 2.5rem * 1.12 */
+    font-size: 2.95rem; /* 2.5rem * 1.18 */
   }
   
   .products-grid {
@@ -1138,7 +1139,7 @@ footer p {
   
   body.chrome .nav-links a,
   body.safari .nav-links a {
-    font-size: 1.344rem; /* 1.2rem * 1.12 */
+    font-size: 1.416rem; /* 1.2rem * 1.18 */
   }
 
   .hero h1 {
@@ -1151,12 +1152,12 @@ footer p {
   
   body.chrome .hero h1,
   body.safari .hero h1 {
-    font-size: 2.24rem; /* 2rem * 1.12 */
+    font-size: 2.36rem; /* 2rem * 1.18 */
   }
   
   body.chrome .hero-arabic,
   body.safari .hero-arabic {
-    font-size: 2.24rem; /* 2rem * 1.12 */
+    font-size: 2.36rem; /* 2rem * 1.18 */
   }
 
   .hero p {
@@ -1165,7 +1166,7 @@ footer p {
   
   body.chrome .hero p,
   body.safari .hero p {
-    font-size: 1.176rem; /* 1.05rem * 1.12 */
+    font-size: 1.239rem; /* 1.05rem * 1.18 */
   }
 
   .trust-badges {
@@ -1180,7 +1181,7 @@ footer p {
   
   body.chrome .trust-badge,
   body.safari .trust-badge {
-    font-size: 1.008rem; /* 0.9rem * 1.12 */
+    font-size: 1.062rem; /* 0.9rem * 1.18 */
   }
 
   .cart-sidebar {
@@ -1211,7 +1212,7 @@ footer p {
   
   body.chrome .section-title,
   body.safari .section-title {
-    font-size: 1.96rem; /* 1.75rem * 1.12 */
+    font-size: 2.065rem; /* 1.75rem * 1.18 */
   }
   
   .section-arabic, .arabic-inline {
@@ -1222,7 +1223,7 @@ footer p {
   body.safari .section-arabic,
   body.chrome .arabic-inline,
   body.safari .arabic-inline {
-    font-size: 1.68rem; /* 1.5rem * 1.12 */
+    font-size: 1.77rem; /* 1.5rem * 1.18 */
   }
 
   .contact-container {
@@ -1245,7 +1246,7 @@ footer p {
   
   body.chrome .contact-text-en,
   body.safari .contact-text-en {
-    font-size: 1.232rem; /* 1.1rem * 1.12 */
+    font-size: 1.298rem; /* 1.1rem * 1.18 */
   }
 
   .contact-text-ar {
@@ -1254,7 +1255,7 @@ footer p {
   
   body.chrome .contact-text-ar,
   body.safari .contact-text-ar {
-    font-size: 1.176rem; /* 1.05rem * 1.12 */
+    font-size: 1.239rem; /* 1.05rem * 1.18 */
   }
 
   footer {
@@ -1267,6 +1268,6 @@ footer p {
   
   body.chrome footer p,
   body.safari footer p {
-    font-size: 1.064rem; /* 0.95rem * 1.12 */
+    font-size: 1.121rem; /* 0.95rem * 1.18 */
   }
 }
