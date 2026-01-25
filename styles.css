@@ -218,7 +218,7 @@ nav {
 .hero {
   background: linear-gradient(135deg, var(--primary), #3a5f75);
   color: #fff;
-  padding: 2rem 1.34rem;
+  padding: 1rem 1.34rem 2rem 1.34rem; /* Top: 1rem (half), Bottom: 2rem (same) */
   text-align: center;
   transition: display 0.3s;
 }
@@ -229,7 +229,7 @@ nav {
 
 .hero h1 {
   font-size: 1.84rem;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.1rem; /* Reduced from 0.2rem (50% reduction) */
   font-weight: 700;
   line-height: 1.2;
 }
@@ -251,7 +251,7 @@ nav {
 
 .hero p.arabic-text {
   font-size: 0.74rem;
-  margin-bottom: 0.8rem;
+  margin-bottom: 1.3rem; /* Increased to match badges-to-button spacing */
   line-height: 1.4;
 }
 
@@ -259,7 +259,7 @@ nav {
   display: flex;
   justify-content: center;
   gap: 1.2rem;
-  margin: 1rem auto 1rem;
+  margin: 1rem auto 1.3rem; /* Bottom increased to match top spacing */
   flex-wrap: wrap;
 }
 
