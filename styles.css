@@ -504,6 +504,8 @@ nav {
   padding: 2.01rem;
   border-radius: 8.04px;
   box-shadow: 0 2.68px 8.04px rgba(0,0,0,.08);
+  max-width: 1180px; /* Match products-grid width exactly */
+  margin: 0 auto;
 }
 
 .contact-text-row {
