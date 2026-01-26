@@ -28,24 +28,36 @@ if (product.detailedDescriptionAr) {
 
 if (product.colors) {
   descriptionHTML += `
-    <h3 style="margin-top:1.5rem;">Available Colors</h3>
-    <p><strong>الألوان المتاحة:</strong> ${product.colors}</p>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; border-bottom:2px solid #e0e0e0; padding-bottom:0.5rem;">
+      <h3 style="margin:0;">Available Colors</h3>
+      <h3 style="margin:0; font-family: 'Almarai', sans-serif;">الألوان المتاحة</h3>
+    </div>
+    <p style="margin-top:0.75rem;">${product.colors}</p>
+    ${product.colorsAr ? `<p class="arabic-text" style="font-family: 'Almarai', sans-serif; direction: rtl; text-align: right;">${product.colorsAr}</p>` : ''}
   `;
 }
 
 if (product.packaging) {
   descriptionHTML += `
-    <h3 style="margin-top:1.5rem;">Packaging</h3>
-    <p><strong>التعبئة:</strong> ${product.packaging}</p>
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; border-bottom:2px solid #e0e0e0; padding-bottom:0.5rem;">
+      <h3 style="margin:0;">Packaging</h3>
+      <h3 style="margin:0; font-family: 'Almarai', sans-serif;">التعبئة والتغليف</h3>
+    </div>
+    <p style="margin-top:0.75rem;">${product.packaging}</p>
+    ${product.packagingAr ? `<p class="arabic-text" style="font-family: 'Almarai', sans-serif; direction: rtl; text-align: right;">${product.packagingAr}</p>` : ''}
   `;
 }
 
 if (product.specifications && product.specifications.length > 0) {
   descriptionHTML += `
-    <h3 style="margin-top:1.5rem;">Specifications</h3>
-    <ul style="line-height:1.8;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; border-bottom:2px solid #e0e0e0; padding-bottom:0.5rem;">
+      <h3 style="margin:0;">Specifications</h3>
+      <h3 style="margin:0; font-family: 'Almarai', sans-serif;">المواصفات</h3>
+    </div>
+    <ul style="line-height:1.8; margin-top:0.75rem;">
       ${product.specifications.map(spec => `<li>${spec}</li>`).join('')}
     </ul>
+    ${product.specificationsAr ? `<ul class="arabic-text" style="line-height:1.8; font-family: 'Almarai', sans-serif; direction: rtl; text-align: right;">${product.specificationsAr.map(spec => `<li>${spec}</li>`).join('')}</ul>` : ''}
   `;
 }
 
