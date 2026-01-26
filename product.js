@@ -28,13 +28,13 @@ if (product.detailedDescriptionAr) {
 
 if (product.colors) {
   descriptionHTML += `
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem; margin-top:1.5rem; padding:1rem; border:1px solid #e0e0e0; border-radius:8px;">
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem; margin-top:1.5rem;">
       <div>
-        <h3 style="margin:0 0 0.75rem 0; border-bottom:2px solid #2c4a5c; padding-bottom:0.5rem;">Available Colors</h3>
+        <h3 style="margin:0 0 0.75rem 0;">Available Colors</h3>
         <p style="margin:0;">${product.colors}</p>
       </div>
       <div style="text-align:right;">
-        <h3 style="margin:0 0 0.75rem 0; border-bottom:2px solid #2c4a5c; padding-bottom:0.5rem; font-family: 'Almarai', sans-serif;">الألوان المتاحة</h3>
+        <h3 style="margin:0 0 0.75rem 0; font-family: 'Almarai', sans-serif;">الألوان المتاحة</h3>
         <p style="margin:0; font-family: 'Almarai', sans-serif; direction: rtl;">${product.colorsAr || ''}</p>
       </div>
     </div>
@@ -43,13 +43,13 @@ if (product.colors) {
 
 if (product.packaging) {
   descriptionHTML += `
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem; margin-top:1.5rem; padding:1rem; border:1px solid #e0e0e0; border-radius:8px;">
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem; margin-top:1.5rem;">
       <div>
-        <h3 style="margin:0 0 0.75rem 0; border-bottom:2px solid #2c4a5c; padding-bottom:0.5rem;">Packaging</h3>
+        <h3 style="margin:0 0 0.75rem 0;">Packaging</h3>
         <p style="margin:0;">${product.packaging}</p>
       </div>
       <div style="text-align:right;">
-        <h3 style="margin:0 0 0.75rem 0; border-bottom:2px solid #2c4a5c; padding-bottom:0.5rem; font-family: 'Almarai', sans-serif;">التعبئة والتغليف</h3>
+        <h3 style="margin:0 0 0.75rem 0; font-family: 'Almarai', sans-serif;">التعبئة والتغليف</h3>
         <p style="margin:0; font-family: 'Almarai', sans-serif; direction: rtl;">${product.packagingAr || ''}</p>
       </div>
     </div>
@@ -58,15 +58,15 @@ if (product.packaging) {
 
 if (product.specifications && product.specifications.length > 0) {
   descriptionHTML += `
-    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem; margin-top:1.5rem; padding:1rem; border:1px solid #e0e0e0; border-radius:8px;">
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap:2rem; margin-top:1.5rem;">
       <div>
-        <h3 style="margin:0 0 0.75rem 0; border-bottom:2px solid #2c4a5c; padding-bottom:0.5rem;">Specifications</h3>
+        <h3 style="margin:0 0 0.75rem 0;">Specifications</h3>
         <ul style="margin:0; padding-left:1.5rem; line-height:1.8;">
           ${product.specifications.map(spec => `<li>${spec}</li>`).join('')}
         </ul>
       </div>
       <div style="text-align:right;">
-        <h3 style="margin:0 0 0.75rem 0; border-bottom:2px solid #2c4a5c; padding-bottom:0.5rem; font-family: 'Almarai', sans-serif;">المواصفات</h3>
+        <h3 style="margin:0 0 0.75rem 0; font-family: 'Almarai', sans-serif;">المواصفات</h3>
         ${product.specificationsAr ? `<ul style="margin:0; padding-right:1.5rem; line-height:1.8; font-family: 'Almarai', sans-serif; direction: rtl;">${product.specificationsAr.map(spec => `<li>${spec}</li>`).join('')}</ul>` : ''}
       </div>
     </div>
