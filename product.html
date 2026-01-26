@@ -1,104 +1,81 @@
-// Get product slug from URL
-const params = new URLSearchParams(window.location.search);
-const slug = params.get("product");
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product - ORLO Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
 
-// Find product
-const product = products.find(p => p.slug === slug);
-
-if (!product) {
-  document.body.innerHTML = "<h2 style='text-align:center;padding:3rem;'>Product not found</h2>";
-  throw new Error("Product not found");
-}
-
-// Fill product data
-document.getElementById("productTitle").innerText = product.name;
-document.getElementById("productCategory").innerText = product.category;
-
-// Build detailed description
-let descriptionHTML = `
-  <h3 style="margin-top:1.5rem;">Description</h3>
-  <p>${product.detailedDescription || product.description}</p>
-`;
-
-console.log("Product detailedDescriptionAr:", product.detailedDescriptionAr); // Debug
-
-if (product.detailedDescriptionAr) {
-  descriptionHTML += `<p class="arabic-text" style="margin-top:1rem; font-family: 'Almarai', sans-serif; direction: rtl; text-align: right;">${product.detailedDescriptionAr}</p>`;
-}
-
-if (product.colors) {
-  descriptionHTML += `
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; border-bottom:2px solid #e0e0e0; padding-bottom:0.5rem;">
-      <h3 style="margin:0;">Available Colors</h3>
-      <h3 style="margin:0; font-family: 'Almarai', sans-serif;">الألوان المتاحة</h3>
+<header>
+  <nav>
+    <a href="index.html" class="logo-link">
+      <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'%3E%3Ccircle cx='100' cy='100' r='95' fill='%232c4a5c'/%3E%3Ccircle cx='100' cy='45' r='15' fill='%23e07856'/%3E%3Ctext x='100' y='130' font-family='Arial, sans-serif' font-size='60' font-weight='bold' fill='white' text-anchor='middle'%3EORLO%3C/text%3E%3Ctext x='100' y='160' font-family='Arial, sans-serif' font-size='14' fill='white' text-anchor='middle'%3EQUALITY IS A CLICK AWAY%3C/text%3E%3C/svg%3E" alt="ORLO" class="logo-img">
+    </a>
+    
+    <div class="search-container">
+      <input type="text" class="search-input" placeholder="Search products...">
+      <button class="search-btn">🔍</button>
     </div>
-    <p style="margin-top:0.75rem;">${product.colors}</p>
-    ${product.colorsAr ? `<p class="arabic-text" style="font-family: 'Almarai', sans-serif; direction: rtl; text-align: right;">${product.colorsAr}</p>` : ''}
-  `;
-}
-
-if (product.packaging) {
-  descriptionHTML += `
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; border-bottom:2px solid #e0e0e0; padding-bottom:0.5rem;">
-      <h3 style="margin:0;">Packaging</h3>
-      <h3 style="margin:0; font-family: 'Almarai', sans-serif;">التعبئة والتغليف</h3>
-    </div>
-    <p style="margin-top:0.75rem;">${product.packaging}</p>
-    ${product.packagingAr ? `<p class="arabic-text" style="font-family: 'Almarai', sans-serif; direction: rtl; text-align: right;">${product.packagingAr}</p>` : ''}
-  `;
-}
-
-if (product.specifications && product.specifications.length > 0) {
-  descriptionHTML += `
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-top:1.5rem; border-bottom:2px solid #e0e0e0; padding-bottom:0.5rem;">
-      <h3 style="margin:0;">Specifications</h3>
-      <h3 style="margin:0; font-family: 'Almarai', sans-serif;">المواصفات</h3>
-    </div>
-    <ul style="line-height:1.8; margin-top:0.75rem;">
-      ${product.specifications.map(spec => `<li>${spec}</li>`).join('')}
+    
+    <ul class="nav-links">
+      <li><a href="index.html#products">Shop<br><span class="arabic-text">تسوق</span></a></li>
+      <li><a href="index.html#about">About<br><span class="arabic-text">من نحن</span></a></li>
+      <li><a href="index.html#contact">Contact<br><span class="arabic-text">اتصل بنا</span></a></li>
+      <li>
+        <div class="cart-icon" onclick="toggleCart()">
+          🛒
+          <span class="cart-count" id="cartCount">0</span>
+        </div>
+      </li>
     </ul>
-    ${product.specificationsAr ? `<ul class="arabic-text" style="line-height:1.8; font-family: 'Almarai', sans-serif; direction: rtl; text-align: right;">${product.specificationsAr.map(spec => `<li>${spec}</li>`).join('')}</ul>` : ''}
-  `;
-}
+  </nav>
+</header>
 
-document.getElementById("productDescription").innerHTML = descriptionHTML;
-document.getElementById("productPrice").innerText = product.price + " AED";
-
-// Display images
-const gallery = document.getElementById("gallery");
-gallery.innerHTML = product.images
-  .map(img => `<img src="${img}" alt="${product.name}" style="font-size:80px; text-align:center; display:block; margin:1rem auto;">`)
-  .join("");
-
-// Add to cart functionality (uses same cart logic as main page)
-document.getElementById("addToCartBtn").onclick = () => {
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  const item = cart.find(i => i.id === product.id);
-  if (item) {
-    item.quantity++;
-  } else {
-    cart.push({ ...product, quantity: 1 });
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
+<div class="product-page-container">
+  <a href="index.html" class="back-link">← Back to Products</a>
   
-  // Update cart count if element exists
-  const cartCount = document.getElementById("cartCount");
-  if (cartCount) {
-    const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
-    cartCount.textContent = totalItems;
-  }
-  
-  alert(`${product.name} added to cart!`);
-};
+  <div class="product-page">
+    <!-- LEFT: Images -->
+    <div class="product-gallery" id="gallery"></div>
 
-// Initialize cart count on page load
-window.addEventListener('DOMContentLoaded', () => {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  const cartCount = document.getElementById("cartCount");
-  if (cartCount) {
-    const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
-    cartCount.textContent = totalItems;
-  }
-});
+    <!-- CENTER: Info -->
+    <div class="product-details">
+      <h1 id="productTitle"></h1>
+      <div class="product-category" id="productCategory"></div>
+      <p id="productDescription"></p>
+    </div>
+
+    <!-- RIGHT: Buy box -->
+    <div class="product-buybox">
+      <div class="price" id="productPrice"></div>
+      <button class="add-to-cart-btn" id="addToCartBtn">Add to Cart</button>
+      <div class="delivery-info">
+        <p>✓ Free delivery on orders over 100 AED</p>
+        <p>✓ 2-5 business days delivery</p>
+        <p>✓ 7-day return policy</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cart Sidebar -->
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header">
+    <h2>Your Cart / سلة التسوق</h2>
+    <button class="close-cart" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer"></div>
+</div>
+
+<script src="products.js?v=2"></script>
+<script src="product.js?v=2"></script>
+<script src="app.js?v=2"></script>
+</body>
+</html>
