@@ -508,7 +508,7 @@ nav {
 
 .contact-container {
   max-width: 1234px; /* Match products container width */
-  margin: 2.35rem auto;
+  margin: 2.35rem auto 1rem auto; /* Reduced bottom margin from 2.35rem to 1rem */
   padding: 0 1.68rem;
 }
 
@@ -584,7 +584,7 @@ nav {
   grid-template-columns: repeat(4, 1fr);
   gap: 1.01rem;
   margin-top: 1.68rem;
-  max-width: 1072.0px;
+  max-width: 1180px; /* Match products-grid width */
   margin-left: auto;
   margin-right: auto;
 }
