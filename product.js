@@ -1,140 +1,90 @@
-const products = [
-  {
-    id: 1,
-    name: "Cable Management Kit",
-    nameAr: "طقم تنظيم الكابلات",
-    slug: "cable-management-kit",
-    description: "315-piece adhesive cable organizer",
-    descriptionAr: "منظم كابلات لاصق من 315 قطعة",
-    price: 65,
-    category: "Workspace",
-    featured: false,
-    image: "📦",
-    images: ["📦"]
-  },
-  {
-    id: 2,
-    name: "Wireless Charging Stand",
-    nameAr: "حامل شحن لاسلكي",
-    slug: "wireless-charging-stand",
-    description: "Fast Qi charging stand",
-    descriptionAr: "حامل شحن سريع Qi",
-    price: 120,
-    category: "Phone Accessories",
-    featured: true,
-    image: "📱",
-    images: ["📱"]
-  },
-  {
-    id: 3,
-    name: "LED Strip Lights",
-    nameAr: "أضواء LED الشريطية",
-    slug: "led-strip-lights",
-    description: "RGB smart LED strip (5m)",
-    descriptionAr: "شريط LED ذكي RGB (5 متر)",
-    price: 95,
-    category: "Home",
-    featured: false,
-    image: "💡",
-    images: ["💡"]
-  },
-  {
-    id: 4,
-    name: "Laptop Stand",
-    nameAr: "حامل لابتوب",
-    slug: "laptop-stand",
-    description: "Adjustable aluminum stand",
-    descriptionAr: "حامل ألمنيوم قابل للتعديل",
-    price: 110,
-    category: "Workspace",
-    featured: false,
-    image: "💻",
-    images: ["💻"]
-  },
-  {
-    id: 5,
-    name: "Phone Car Mount",
-    nameAr: "حامل هاتف للسيارة",
-    slug: "phone-car-mount",
-    description: "360° magnetic car holder",
-    descriptionAr: "حامل مغناطيسي 360 درجة",
-    price: 45,
-    category: "Car Accessories",
-    featured: false,
-    image: "🚗",
-    images: ["🚗"]
-  },
-  {
-    id: 6,
-    name: "Desk Organizer",
-    nameAr: "منظم مكتب",
-    slug: "desk-organizer",
-    description: "Multi-compartment desk caddy",
-    descriptionAr: "منظم مكتب متعدد الأقسام",
-    price: 85,
-    category: "Workspace",
-    featured: true,
-    image: "📝",
-    images: ["📝"]
-  },
-  {
-    id: 7,
-    name: "Smart Plug",
-    nameAr: "مقبس ذكي",
-    slug: "smart-plug",
-    description: "WiFi-enabled smart socket",
-    descriptionAr: "مقبس ذكي بخاصية WiFi",
-    price: 55,
-    category: "Home",
-    featured: true,
-    image: "🔌",
-    images: ["🔌"]
-  },
-  {
-    id: 8,
-    name: "USB Hub",
-    nameAr: "موزع USB",
-    slug: "usb-hub",
-    description: "7-port USB 3.0 hub",
-    descriptionAr: "موزع USB 3.0 بـ 7 منافذ",
-    price: 75,
-    category: "Workspace",
-    featured: false,
-    image: "🔗",
-    images: ["🔗"]
-  },
-  {
-    id: 9,
-    name: "Product 9",
-    nameAr: "منتج 9",
-    slug: "product-9",
-    description: "Placeholder product 9",
-    descriptionAr: "منتج تجريبي 9",
-    price: 100,
-    category: "Home",
-    featured: false,
-    image: "🎁",
-    images: ["🎁"]
-  },
-  {
-    id: 10,
-    name: "Product 10",
-    nameAr: "منتج 10",
-    slug: "product-10",
-    description: "Placeholder product 10",
-    descriptionAr: "منتج تجريبي 10",
-    price: 90,
-    category: "Workspace",
-    featured: false,
-    image: "🎉",
-    images: ["🎉"]
-  }
-];
+// Get product slug from URL
+const params = new URLSearchParams(window.location.search);
+const slug = params.get("product");
 
-const categoryTranslations = {
-  "All Products": "جميع المنتجات",
-  "Workspace": "مساحة العمل",
-  "Phone Accessories": "إكسسوارات الهاتف",
-  "Home": "المنزل",
-  "Car Accessories": "إكسسوارات السيارة"
+// Find product
+const product = products.find(p => p.slug === slug);
+
+if (!product) {
+  document.body.innerHTML = "<h2 style='text-align:center;padding:3rem;'>Product not found</h2>";
+  throw new Error("Product not found");
+}
+
+// Fill product data
+document.getElementById("productTitle").innerText = product.name;
+document.getElementById("productCategory").innerText = product.category;
+
+// Build detailed description
+let descriptionHTML = `
+  <h3 style="margin-top:1.5rem;">Description</h3>
+  <p>${product.detailedDescription || product.description}</p>
+`;
+
+if (product.detailedDescriptionAr) {
+  descriptionHTML += `<p class="arabic-text" style="margin-top:1rem;">${product.detailedDescriptionAr}</p>`;
+}
+
+if (product.colors) {
+  descriptionHTML += `
+    <h3 style="margin-top:1.5rem;">Available Colors</h3>
+    <p><strong>الألوان المتاحة:</strong> ${product.colors}</p>
+  `;
+}
+
+if (product.packaging) {
+  descriptionHTML += `
+    <h3 style="margin-top:1.5rem;">Packaging</h3>
+    <p><strong>التعبئة:</strong> ${product.packaging}</p>
+  `;
+}
+
+if (product.specifications && product.specifications.length > 0) {
+  descriptionHTML += `
+    <h3 style="margin-top:1.5rem;">Specifications</h3>
+    <ul style="line-height:1.8;">
+      ${product.specifications.map(spec => `<li>${spec}</li>`).join('')}
+    </ul>
+  `;
+}
+
+document.getElementById("productDescription").innerHTML = descriptionHTML;
+document.getElementById("productPrice").innerText = product.price + " AED";
+
+// Display images
+const gallery = document.getElementById("gallery");
+gallery.innerHTML = product.images
+  .map(img => `<img src="${img}" alt="${product.name}" style="font-size:80px; text-align:center; display:block; margin:1rem auto;">`)
+  .join("");
+
+// Add to cart functionality (uses same cart logic as main page)
+document.getElementById("addToCartBtn").onclick = () => {
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  const item = cart.find(i => i.id === product.id);
+  if (item) {
+    item.quantity++;
+  } else {
+    cart.push({ ...product, quantity: 1 });
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  
+  // Update cart count if element exists
+  const cartCount = document.getElementById("cartCount");
+  if (cartCount) {
+    const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
+    cartCount.textContent = totalItems;
+  }
+  
+  alert(`${product.name} added to cart!`);
 };
+
+// Initialize cart count on page load
+window.addEventListener('DOMContentLoaded', () => {
+  const cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const cartCount = document.getElementById("cartCount");
+  if (cartCount) {
+    const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
+    cartCount.textContent = totalItems;
+  }
+});
