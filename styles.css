@@ -372,9 +372,9 @@ nav {
 
 .products-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(214.4px, 1fr));
+  grid-template-columns: repeat(5, 1fr); /* Exactly 5 products per row */
   gap: 1.68rem;
-  max-width: 1072.0px;
+  max-width: 1400px; /* Increased to use more space */
   margin: 0 auto;
 }
 
