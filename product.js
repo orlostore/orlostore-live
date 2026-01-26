@@ -20,8 +20,10 @@ let descriptionHTML = `
   <p>${product.detailedDescription || product.description}</p>
 `;
 
+console.log("Product detailedDescriptionAr:", product.detailedDescriptionAr); // Debug
+
 if (product.detailedDescriptionAr) {
-  descriptionHTML += `<p class="arabic-text" style="margin-top:1rem;">${product.detailedDescriptionAr}</p>`;
+  descriptionHTML += `<p class="arabic-text" style="margin-top:1rem; font-family: 'Almarai', sans-serif; direction: rtl; text-align: right;">${product.detailedDescriptionAr}</p>`;
 }
 
 if (product.colors) {
