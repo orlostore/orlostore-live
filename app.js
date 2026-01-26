@@ -63,9 +63,9 @@ function renderProducts(list) {
             <div class="product-info">
                 <small>${p.category}</small>
                 <a href="product.html?product=${p.slug}" style="text-decoration:none; color:inherit;">
-                    <h3 class="product-title">${p.name}<br><span class="arabic-text" style="font-size:0.9rem;">${p.nameAr}</span></h3>
+                    <h3 class="product-title">${p.name}${p.nameAr ? `<br><span class="arabic-text" style="font-size:0.9rem;">${p.nameAr}</span>` : ''}</h3>
                 </a>
-                <p>${p.description}<br><span class="arabic-text" style="font-size:0.72rem;">${p.descriptionAr}</span></p>
+                <p>${p.description}${p.descriptionAr ? `<br><span class="arabic-text" style="font-size:0.72rem;">${p.descriptionAr}</span>` : ''}</p>
                 <div class="product-price">${p.price} AED</div>
                 <button class="add-to-cart" onclick="addToCart(${p.id}, event)">Add to Cart</button>
             </div>
