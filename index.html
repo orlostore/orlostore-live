@@ -7,6 +7,60 @@
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="styles.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Almarai:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* 1. Reset Container to exact 1200px width */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 2. Fix Top Spacing between Hero and Products */
+        #products {
+            padding-top: 60px;
+            padding-bottom: 60px;
+        }
+
+        /* 3. Automated Category Bar: Aligned P1 to P5 */
+        .category-filters {
+            display: flex;
+            justify-content: space-between; /* Spans from start of P1 to end of P5 */
+            flex-wrap: wrap;
+            gap: 15px; /* Consistent spacing */
+            width: 100%;
+            margin-bottom: 40px;
+            padding: 0;
+        }
+
+        .category-btn {
+            flex: 1; /* Automatically adjusts width based on number of categories */
+            min-width: 160px; /* Prevents squishing */
+            text-align: center;
+            padding: 12px;
+            /* No max-width so they can stretch to fill the row as requested */
+        }
+
+        /* 4. Locked 5-Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr) !important; /* Forces exactly 5 products */
+            gap: 20px;
+            width: 100%;
+        }
+
+        /* Responsive fixes */
+        @media (max-width: 1100px) {
+            .products-grid { grid-template-columns: repeat(4, 1fr) !important; }
+        }
+        @media (max-width: 900px) {
+            .products-grid { grid-template-columns: repeat(3, 1fr) !important; }
+        }
+        @media (max-width: 768px) {
+            .products-grid { grid-template-columns: repeat(2, 1fr) !important; }
+            .category-filters { justify-content: center; }
+            .category-btn { flex: 0 1 auto; width: 45%; }
+        }
+    </style>
 </head>
 <body>
 <header>
@@ -89,7 +143,7 @@
             </div>
             <div class="contact-details-row">
                 <div class="contact-detail"><strong>📍 Location:</strong> Dubai, UAE (Online Only)</div>
-                <div class="contact-detail"><strong>✉️ Email:</strong> <a href="/cdn-cgi/l/email-protection#056c6b636a456a77696a76716a77602b666a68"><span class="__cf_email__" data-cfemail="4821262e2708273a24273b3c273a2d662b2725">[email&#160;protected]</span></a></div>
+                <div class="contact-detail"><strong>✉️ Email:</strong> <a href="mailto:support@orlostore.ae">support@orlostore.ae</a></div>
                 <div class="contact-detail"><strong>📱 WhatsApp:</strong> <a href="https://wa.me/971XXXXXXXXX" target="_blank">+971 XX XXX XXXX</a></div>
             </div>
         </div>
