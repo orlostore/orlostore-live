@@ -310,10 +310,10 @@ function toggleMobileMenu() {
         overlay.className = 'mobile-menu-overlay';
         overlay.innerHTML = `
             <div class="mobile-menu">
-                <a href="#products" onclick="closeMobileMenu()">🛍️ Shop | تسوق</a>
-                <a href="javascript:void(0);" onclick="toggleAbout(); closeMobileMenu();">ℹ️ About | من نحن</a>
-                <a href="#contact" onclick="closeMobileMenu()">📧 Contact | اتصل بنا</a>
-                <a href="#terms" onclick="closeMobileMenu()">📋 Terms | الشروط</a>
+                <a href="#products" onclick="closeMobileMenu()"><span class="menu-en">🛍️ Shop</span> | <span class="menu-ar">تسوق</span></a>
+                <a href="javascript:void(0);" onclick="toggleAbout(); closeMobileMenu();"><span class="menu-en">ℹ️ About</span> | <span class="menu-ar">من نحن</span></a>
+                <a href="#contact" onclick="closeMobileMenu()"><span class="menu-en">📧 Contact</span> | <span class="menu-ar">اتصل بنا</span></a>
+                <a href="#terms" onclick="closeMobileMenu()"><span class="menu-en">📋 Terms</span> | <span class="menu-ar">الشروط</span></a>
             </div>
         `;
         document.body.appendChild(overlay);
