@@ -68,13 +68,11 @@ async function initProductPage() {
       <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.6rem; margin-top:1.2rem;">
         <div>
           <h3 style="margin:0 0 0.6rem 0;">Specifications</h3>
-          <ul style="margin:0; padding-left:1.2rem; line-height:1.8;">
-            ${product.specifications.map(spec => `<li>${spec}</li>`).join('')}
-          </ul>
+          <p style="margin:0; line-height:1.8;">${product.specifications.join(' | ')}</p>
         </div>
         <div style="text-align:right;">
           <h3 style="margin:0 0 0.6rem 0; font-family: 'Almarai', sans-serif;">المواصفات</h3>
-          ${product.specificationsAr && product.specificationsAr.length > 0 ? `<ul style="margin:0; padding-right:1.2rem; line-height:1.8; font-family: 'Almarai', sans-serif; direction: rtl;">${product.specificationsAr.map(spec => `<li>${spec}</li>`).join('')}</ul>` : ''}
+          <p style="margin:0; line-height:1.8; font-family: 'Almarai', sans-serif; direction: rtl;">${product.specificationsAr ? product.specificationsAr.join(' | ') : ''}</p>
         </div>
       </div>
     `;
