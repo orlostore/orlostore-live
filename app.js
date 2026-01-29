@@ -129,12 +129,14 @@ function addToCart(id, event) {
 
 function updateCart() { 
     const cartItems = document.getElementById("cartItems"); 
-    const cartCount = document.getElementById("cartCount"); 
+    const cartCount = document.getElementById("cartCount");
+    const mobileCartCount = document.getElementById("mobileCartCount");
     const cartFooter = document.querySelector(".cart-footer"); 
     
     if (!cart.length) { 
         cartItems.innerHTML = "<p style='text-align:center;padding:3rem;color:#999;font-size:1.1rem;'>Your cart is empty</p>"; 
-        cartCount.textContent = 0; 
+        if (cartCount) cartCount.textContent = 0;
+        if (mobileCartCount) mobileCartCount.textContent = 0;
         cartFooter.innerHTML = `<div class="cart-total"><span>Total / الإجمالي:</span><span>0.00 AED</span></div>`; 
         return; 
     } 
@@ -145,7 +147,8 @@ function updateCart() {
     const total = subtotal + deliveryFee; 
     const amountNeeded = Math.max(0, 100 - subtotal);
     
-    cartCount.textContent = totalItems; 
+    if (cartCount) cartCount.textContent = totalItems;
+    if (mobileCartCount) mobileCartCount.textContent = totalItems; 
     
     // Cart items display
     cartItems.innerHTML = cart.map(i => `
@@ -420,7 +423,9 @@ window.onload = () => {
             searchProducts(); 
         } 
     }; 
-    document.getElementById("cartIcon").onclick = toggleCart; 
+    document.getElementById("cartIcon").onclick = toggleCart;
+    const mobileCartIcon = document.getElementById("mobileCartIcon");
+    if (mobileCartIcon) mobileCartIcon.onclick = toggleCart;
     document.getElementById("closeCart").onclick = toggleCart; 
     document.getElementById("policyModal").onclick = (e) => { 
         if (e.target.id === "policyModal") { 
