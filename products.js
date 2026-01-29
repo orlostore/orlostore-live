@@ -1,7 +1,12 @@
 // Google Sheets CSV URL
 const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vRPRs_Wd4lFMv_WF6qfxHffAauQ8DoWvrPAIgs0vmz4m1lwBvIwqe0pLcsQc2PcA4xo96IsP5J0v50L/pub?output=csv';
 
-// Products array - will be populated from Google Sheets
+// Cache settings
+const CACHE_KEY = 'orlo_products_cache';
+const CACHE_TIME_KEY = 'orlo_products_cache_time';
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
+
+// Products array - will be populated from cache or Google Sheets
 let products = [];
 
 // Category translations
@@ -92,39 +97,121 @@ function rowToProduct(row, index) {
   };
 }
 
-// Fetch products from Google Sheets
-async function fetchProducts() {
+// Load from cache (instant)
+function loadFromCache() {
+  try {
+    const cached = localStorage.getItem(CACHE_KEY);
+    if (cached) {
+      products = JSON.parse(cached);
+      console.log('⚡ Loaded', products.length, 'products from cache (instant!)');
+      return true;
+    }
+  } catch (e) {
+    console.log('No cache available');
+  }
+  return false;
+}
+
+// Save to cache
+function saveToCache(data) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(data));
+    localStorage.setItem(CACHE_TIME_KEY, Date.now().toString());
+    console.log('💾 Saved', data.length, 'products to cache');
+  } catch (e) {
+    console.log('Could not save to cache');
+  }
+}
+
+// Check if cache is expired
+function isCacheExpired() {
+  const cacheTime = localStorage.getItem(CACHE_TIME_KEY);
+  if (!cacheTime) return true;
+  return (Date.now() - parseInt(cacheTime)) > CACHE_DURATION;
+}
+
+// Fetch fresh products from Google Sheets
+async function fetchFreshProducts() {
   try {
     const response = await fetch(SHEET_URL);
     const csv = await response.text();
     const rows = parseCSV(csv);
     
-    products = rows
-      .filter(row => row.name && row.name.trim()) // Only rows with names
+    const freshProducts = rows
+      .filter(row => row.name && row.name.trim())
       .map((row, index) => rowToProduct(row, index));
     
-    console.log('✅ Loaded', products.length, 'products from Google Sheets');
-    return products;
+    console.log('🌐 Fetched', freshProducts.length, 'products from Google Sheets');
+    return freshProducts;
   } catch (error) {
-    console.error('❌ Error loading products:', error);
-    // Return empty array on error
-    return [];
+    console.error('❌ Error fetching products:', error);
+    return null;
   }
 }
 
-// Initialize products on page load
-async function initProducts() {
-  await fetchProducts();
+// Update UI if products changed
+function updateUIIfNeeded(newProducts) {
+  // Check if products changed
+  const oldJSON = JSON.stringify(products);
+  const newJSON = JSON.stringify(newProducts);
   
-  // Trigger page update if functions exist
-  if (typeof createCategoryFilters === 'function') {
-    createCategoryFilters();
+  if (oldJSON !== newJSON) {
+    products = newProducts;
+    saveToCache(newProducts);
+    
+    // Refresh UI
+    if (typeof createCategoryFilters === 'function') {
+      createCategoryFilters();
+    }
+    if (typeof loadProducts === 'function') {
+      loadProducts();
+    }
+    console.log('🔄 Products updated!');
+  } else {
+    console.log('✅ Products unchanged');
   }
-  if (typeof loadProducts === 'function') {
-    loadProducts();
+}
+
+// Main initialization
+async function initProducts() {
+  // Step 1: Load from cache INSTANTLY
+  const hasCache = loadFromCache();
+  
+  // Step 2: Show cached products immediately
+  if (hasCache) {
+    if (typeof createCategoryFilters === 'function') {
+      createCategoryFilters();
+    }
+    if (typeof loadProducts === 'function') {
+      loadProducts();
+    }
+    if (typeof updateCart === 'function') {
+      updateCart();
+    }
   }
-  if (typeof updateCart === 'function') {
-    updateCart();
+  
+  // Step 3: Fetch fresh data in background
+  const freshProducts = await fetchFreshProducts();
+  
+  if (freshProducts && freshProducts.length > 0) {
+    if (hasCache) {
+      // Update only if changed
+      updateUIIfNeeded(freshProducts);
+    } else {
+      // First load - set products and update UI
+      products = freshProducts;
+      saveToCache(freshProducts);
+      
+      if (typeof createCategoryFilters === 'function') {
+        createCategoryFilters();
+      }
+      if (typeof loadProducts === 'function') {
+        loadProducts();
+      }
+      if (typeof updateCart === 'function') {
+        updateCart();
+      }
+    }
   }
 }
 
