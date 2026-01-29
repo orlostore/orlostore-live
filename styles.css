@@ -1415,7 +1415,10 @@ footer p {
 }
 
 .mobile-menu a {
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
   padding: 15px;
   color: var(--primary);
   text-decoration: none;
@@ -1423,6 +1426,15 @@ footer p {
   font-size: 1.1rem;
   border-bottom: 1px solid #eee;
   text-align: center;
+}
+
+.mobile-menu a .menu-en {
+  direction: ltr;
+}
+
+.mobile-menu a .menu-ar {
+  direction: rtl;
+  font-family: 'Almarai', sans-serif;
 }
 
 .mobile-menu a:last-child {
