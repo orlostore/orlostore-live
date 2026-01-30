@@ -204,16 +204,12 @@ function updateCart() {
     
     let footerHTML = '';
     
-    // UPSELL SECTION
-    // Option 1: subtotal >= 60 → show 2 items directly
-    // Option 2: subtotal < 60 → show message + dropdown
     const amountNeededForFree = FREE_DELIVERY_THRESHOLD - subtotal;
     const showUpsell = subtotal < FREE_DELIVERY_THRESHOLD && !(isMobile && upsellUsed);
     
     if (showUpsell) {
         const cartProductIds = cart.map(i => i.id);
         
-        // Calculate fresh every time - item price must be >= amountNeededForFree
         const upsellProducts = products
             .filter(p => !cartProductIds.includes(p.id))
             .filter(p => p.price >= amountNeededForFree)
@@ -221,7 +217,6 @@ function updateCart() {
             .slice(0, 2);
         
         if (subtotal >= 60) {
-            // OPTION 1: subtotal 60-99 - show 2 items directly
             if (upsellProducts.length > 0) {
                 footerHTML += `
                     <div style="padding: 0.75rem 1rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 0.75rem;">
@@ -239,7 +234,6 @@ function updateCart() {
                 `;
             }
         } else {
-            // OPTION 2: subtotal < 60 - show message + dropdown
             footerHTML += `
                 <div style="padding: 0.75rem 1rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 0.75rem;">
                     <div style="font-weight: 600; color: #2c4a5c; font-size: 0.9rem; margin-bottom: 0.5rem;">
@@ -264,7 +258,6 @@ function updateCart() {
         }
     }
     
-    // Reset saved upsell if threshold reached
     if (subtotal >= FREE_DELIVERY_THRESHOLD) {
         savedUpsellProducts = null;
     }
@@ -319,7 +312,6 @@ function updateQuantity(id, change) {
 
 function removeFromCart(id) { 
     cart = cart.filter(i => i.id !== id); 
-    // Reset upsellUsed so upsell can reappear on mobile
     upsellUsed = false;
     saveCart(); 
     updateCart(); 
@@ -419,6 +411,12 @@ window.onload = () => {
     if (promoBanner) {
         promoBanner.innerHTML = `🚚 Free delivery over ${FREE_DELIVERY_THRESHOLD} AED | <span class="arabic-text">توصيل مجاني فوق ${FREE_DELIVERY_THRESHOLD} درهم</span>`;
     }
+    
+    // Update hero section threshold
+    const heroThreshold = document.getElementById('heroThreshold');
+    const heroThresholdAr = document.getElementById('heroThresholdAr');
+    if (heroThreshold) heroThreshold.textContent = FREE_DELIVERY_THRESHOLD;
+    if (heroThresholdAr) heroThresholdAr.textContent = FREE_DELIVERY_THRESHOLD;
     
     const hamburger = document.getElementById("hamburger");
     const navLinks = document.getElementById("navLinks");
