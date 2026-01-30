@@ -650,12 +650,12 @@ nav {
   width: 500px;
   height: 100vh;
   background: white;
-  z-index: 7000;
+  z-index: 5000;
   box-shadow: -2px 0 13.4px rgba(0,0,0,.3);
   transition: right .3s ease;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: auto;
 }
 
 .cart-sidebar.active {
@@ -669,7 +669,6 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-shrink: 0;
 }
 
 .cart-header h2 {
@@ -700,7 +699,6 @@ nav {
   border-top: 2px solid #eee;
   padding: 1rem;
   background: #f8f9fa;
-  flex-shrink: 0;
 }
 
 .cart-total {
@@ -1285,14 +1283,6 @@ footer p {
 
 .bottom-nav-item.active {
   color: var(--accent);
-}
-
-.bottom-nav-item.home-active,
-.bottom-nav-item.cart-active,
-.bottom-nav-item.menu-active {
-  color: var(--accent);
-  border-bottom: 3px solid var(--accent);
-  padding-bottom: 5px;
 }
 
 .bottom-nav-item .nav-icon {

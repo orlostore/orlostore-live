@@ -168,17 +168,23 @@ function updateCart() {
     const amountNeeded = Math.max(0, FREE_DELIVERY_THRESHOLD - subtotal);
     
     if (cartCount) cartCount.textContent = totalItems;
-    if (bottomCartCount) bottomCartCount.textContent = totalItems;
+    if (bottomCartCount) bottomCartCount.textContent = totalItems; 
     
     const checkoutBtnHTML = `
         <button id="stripeBtn" 
-            style="width: 100%; padding: 0.9rem; font-size: 0.95rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #0066FF; color: white; transition: all 0.3s; margin-top: 0.5rem;" 
+            style="width: 100%; padding: 0.9rem; font-size: 0.95rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #0066FF; color: white; transition: all 0.3s;" 
             onclick="checkout()" 
             onmouseover="this.style.background='#0052CC'" 
             onmouseout="this.style.background='#0066FF'">
             💳 Pay with Card / الدفع بالبطاقة
         </button>
     `;
+    
+    if (isMobile && cartCheckoutFixed) {
+        cartCheckoutFixed.innerHTML = checkoutBtnHTML;
+    } else if (cartCheckoutFixed) {
+        cartCheckoutFixed.innerHTML = '';
+    }
     
     cartItems.innerHTML = cart.map(i => `
         <div style="display:flex; justify-content:space-between; align-items:center; padding:0.5rem; border-bottom:1px solid #eee;">
@@ -196,13 +202,18 @@ function updateCart() {
         </div>
     `).join(""); 
     
-    // UPSELL SECTION - Add to cartItems (scrollable)
+    let footerHTML = '';
+    
+    // UPSELL SECTION
+    // Option 1: subtotal >= 60 → show 2 items directly
+    // Option 2: subtotal < 60 → show message + dropdown
     const amountNeededForFree = FREE_DELIVERY_THRESHOLD - subtotal;
     const showUpsell = subtotal < FREE_DELIVERY_THRESHOLD && !(isMobile && upsellUsed);
     
     if (showUpsell) {
         const cartProductIds = cart.map(i => i.id);
         
+        // Calculate fresh every time - item price must be >= amountNeededForFree
         const upsellProducts = products
             .filter(p => !cartProductIds.includes(p.id))
             .filter(p => p.price >= amountNeededForFree)
@@ -210,9 +221,10 @@ function updateCart() {
             .slice(0, 2);
         
         if (subtotal >= 60) {
+            // OPTION 1: subtotal 60-99 - show 2 items directly
             if (upsellProducts.length > 0) {
-                cartItems.innerHTML += `
-                    <div style="padding: 0.75rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-top: 0.75rem;">
+                footerHTML += `
+                    <div style="padding: 0.75rem 1rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 0.75rem;">
                         <div style="font-weight: 600; margin-bottom: 0.75rem; color: #2c4a5c; font-size: 0.9rem;">
                             Add ${amountNeededForFree.toFixed(0)} AED more for free delivery:
                         </div>
@@ -227,8 +239,9 @@ function updateCart() {
                 `;
             }
         } else {
-            cartItems.innerHTML += `
-                <div style="padding: 0.75rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-top: 0.75rem;">
+            // OPTION 2: subtotal < 60 - show message + dropdown
+            footerHTML += `
+                <div style="padding: 0.75rem 1rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 0.75rem;">
                     <div style="font-weight: 600; color: #2c4a5c; font-size: 0.9rem; margin-bottom: 0.5rem;">
                         🚚 Add ${amountNeededForFree.toFixed(0)} AED more to qualify for free delivery
                     </div>
@@ -251,27 +264,36 @@ function updateCart() {
         }
     }
     
+    // Reset saved upsell if threshold reached
     if (subtotal >= FREE_DELIVERY_THRESHOLD) {
         savedUpsellProducts = null;
     }
     
-    // FOOTER - Fixed totals + button
-    let footerHTML = `
-        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem; color: #2c4a5c;">
-            <span>Subtotal / المجموع الفرعي:</span>
-            <span>${subtotal.toFixed(2)} AED</span>
+    footerHTML += `
+        <div style="padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.75rem;">
+            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem; color: #2c4a5c;">
+                <span>Subtotal / المجموع الفرعي:</span>
+                <span>${subtotal.toFixed(2)} AED</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem; color: #2c4a5c;">
+                <span>Delivery / التوصيل:</span>
+                <span style="${deliveryFee === 0 ? 'color: #28a745; font-weight: 600;' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span>
+            </div>
+            <div style="border-top: 2px solid #ddd; margin: 0.5rem 0;"></div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem 0 0.5rem; font-size: 1.1rem; font-weight: 700; color: #2c4a5c;">
+                <span>Total / الإجمالي:</span>
+                <span>${total.toFixed(2)} AED</span>
+            </div>
         </div>
-        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem; color: #2c4a5c;">
-            <span>Delivery / التوصيل:</span>
-            <span style="${deliveryFee === 0 ? 'color: #28a745; font-weight: 600;' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span>
-        </div>
-        <div style="border-top: 2px solid #ddd; margin: 0.5rem 0;"></div>
-        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0 0.75rem; font-size: 1.1rem; font-weight: 700; color: #2c4a5c;">
-            <span>Total / الإجمالي:</span>
-            <span>${total.toFixed(2)} AED</span>
-        </div>
-        ${checkoutBtnHTML}
     `;
+    
+    if (!isMobile) {
+        footerHTML += `
+            <div style="padding: 0 1rem 1rem;">
+                ${checkoutBtnHTML}
+            </div>
+        `;
+    }
     
     cartFooter.innerHTML = footerHTML;
 }
