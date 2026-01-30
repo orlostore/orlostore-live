@@ -292,18 +292,19 @@ function removeFromCart(id) {
 function toggleCart() { 
     const cartSidebar = document.getElementById("cartSidebar");
     const bottomCartBtn = document.getElementById("bottomCartBtn");
+    const bottomHomeBtn = document.getElementById("bottomHomeBtn");
     
     cartSidebar.classList.toggle("active");
     
     // Toggle orange indicator on mobile bottom nav
-    if (bottomCartBtn) {
-        if (cartSidebar.classList.contains("active")) {
-            bottomCartBtn.classList.add("cart-active");
-        } else {
-            bottomCartBtn.classList.remove("cart-active");
-            // Reset upsell when cart closes
-            upsellUsed = false;
-        }
+    if (cartSidebar.classList.contains("active")) {
+        if (bottomCartBtn) bottomCartBtn.classList.add("cart-active");
+        if (bottomHomeBtn) bottomHomeBtn.classList.remove("home-active");
+    } else {
+        if (bottomCartBtn) bottomCartBtn.classList.remove("cart-active");
+        if (bottomHomeBtn) bottomHomeBtn.classList.add("home-active");
+        // Reset upsell when cart closes
+        upsellUsed = false;
     }
     
     // Re-render cart to update layout based on current screen size
@@ -419,6 +420,9 @@ window.onload = () => {
     const bottomMenuBtn = document.getElementById("bottomMenuBtn");
     
     if (bottomHomeBtn) {
+        // Set Home as active by default
+        bottomHomeBtn.classList.add("home-active");
+        
         bottomHomeBtn.onclick = function() {
             console.log("Home clicked");
             // Close cart if open
@@ -430,6 +434,8 @@ window.onload = () => {
             }
             // Close mobile menu if open
             closeMobileMenu();
+            // Set Home as active
+            bottomHomeBtn.classList.add("home-active");
             // Scroll to top
             window.scrollTo({top: 0, behavior: 'smooth'});
         };
