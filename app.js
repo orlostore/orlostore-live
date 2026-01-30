@@ -39,6 +39,7 @@ const policies = {
 
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let upsellUsed = false;
+let savedUpsellProducts = null;
 let selectedCategory = "All Products";
 let selectedDeliveryZone = localStorage.getItem("deliveryZone") || "dubai";
 
@@ -125,7 +126,6 @@ function addToCart(id, event) {
     saveCart(); 
     updateCart(); 
     
-    // Button turns green with "✓ Added!"
     if (event && event.target) {
         const btn = event.target;
         const originalText = btn.textContent;
@@ -167,7 +167,6 @@ function updateCart() {
     if (cartCount) cartCount.textContent = totalItems;
     if (bottomCartCount) bottomCartCount.textContent = totalItems; 
     
-    // Checkout button HTML
     const checkoutBtnHTML = `
         <button id="stripeBtn" 
             style="width: 100%; padding: 0.9rem; font-size: 0.95rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #0066FF; color: white; transition: all 0.3s;" 
@@ -178,14 +177,12 @@ function updateCart() {
         </button>
     `;
     
-    // On mobile, put checkout button in fixed header
     if (isMobile && cartCheckoutFixed) {
         cartCheckoutFixed.innerHTML = checkoutBtnHTML;
     } else if (cartCheckoutFixed) {
         cartCheckoutFixed.innerHTML = '';
     }
     
-    // Cart items display
     cartItems.innerHTML = cart.map(i => `
         <div style="display:flex; justify-content:space-between; align-items:center; padding:0.5rem; border-bottom:1px solid #eee;">
             <div style="flex:1;">
@@ -202,26 +199,31 @@ function updateCart() {
         </div>
     `).join(""); 
     
-    // Build cart footer
     let footerHTML = '';
     
-    // 1. UPSELL SECTION (only if under 100 AED AND not already used on mobile)
+    // UPSELL SECTION - uses savedUpsellProducts to show same A,B,C consistently
     const showUpsell = subtotal < 100 && !(isMobile && upsellUsed);
     if (showUpsell) {
         const cartProductIds = cart.map(i => i.id);
-        const recommendedProducts = products
-            .filter(p => !cartProductIds.includes(p.id))
-            .filter(p => p.price <= amountNeeded + 30)
-            .sort((a, b) => Math.abs(a.price - amountNeeded) - Math.abs(b.price - amountNeeded))
-            .slice(0, 3);
         
-        if (recommendedProducts.length > 0) {
+        // First time: save the 3 upsell products, reuse same ones after
+        if (!savedUpsellProducts) {
+            savedUpsellProducts = products
+                .filter(p => p.price <= 100)
+                .sort((a, b) => Math.abs(a.price - amountNeeded) - Math.abs(b.price - amountNeeded))
+                .slice(0, 3);
+        }
+        
+        // Filter out items already in cart from saved list
+        const availableUpsell = savedUpsellProducts.filter(p => !cartProductIds.includes(p.id));
+        
+        if (availableUpsell.length > 0) {
             footerHTML += `
                 <div style="padding: 0.75rem 1rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 0.75rem;">
                     <div style="font-weight: 600; margin-bottom: 0.75rem; color: #2c4a5c; font-size: 0.9rem;">
                         Add these items to unlock free delivery:
                     </div>
-                    ${recommendedProducts.map(p => `
+                    ${availableUpsell.map(p => `
                         <div style="display: flex; align-items: center; padding: 0.25rem 0; border-bottom: 1px solid #f0f0f0; gap: 0.5rem;">
                             <div style="flex: 1; font-weight: 500; color: #2c4a5c; font-size: 0.8rem;">${p.name}</div>
                             <div style="font-size: 0.75rem; color: #888; white-space: nowrap;">${p.price} AED</div>
@@ -233,7 +235,11 @@ function updateCart() {
         }
     }
     
-    // 2. SUMMARY SECTION (always shown)
+    // Reset saved upsell if threshold reached
+    if (subtotal >= 100) {
+        savedUpsellProducts = null;
+    }
+    
     footerHTML += `
         <div style="padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.75rem;">
             <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem; color: #2c4a5c;">
@@ -252,7 +258,6 @@ function updateCart() {
         </div>
     `;
     
-    // 3. CHECKOUT BUTTON (only on desktop - mobile has it fixed at top)
     if (!isMobile) {
         footerHTML += `
             <div style="padding: 0 1rem 1rem;">
@@ -296,22 +301,19 @@ function toggleCart() {
     
     cartSidebar.classList.toggle("active");
     
-    // Toggle orange indicator on mobile bottom nav
     if (cartSidebar.classList.contains("active")) {
         if (bottomCartBtn) bottomCartBtn.classList.add("cart-active");
         if (bottomHomeBtn) bottomHomeBtn.classList.remove("home-active");
     } else {
         if (bottomCartBtn) bottomCartBtn.classList.remove("cart-active");
         if (bottomHomeBtn) bottomHomeBtn.classList.add("home-active");
-        // Reset upsell when cart closes
         upsellUsed = false;
+        savedUpsellProducts = null;
     }
     
-    // Re-render cart to update layout based on current screen size
     updateCart();
 }
 
-// Special function for upsell items - marks upsell as used on mobile
 function addUpsellItem(id, event) {
     const isMobile = window.innerWidth <= 768;
     if (isMobile) {
@@ -347,7 +349,6 @@ function toggleMobileMenu() {
     let overlay = document.querySelector('.mobile-menu-overlay');
     
     if (!overlay) {
-        // Create menu overlay
         overlay = document.createElement('div');
         overlay.className = 'mobile-menu-overlay';
         overlay.innerHTML = `
@@ -414,29 +415,23 @@ window.onload = () => {
         } 
     };
     
-    // Mobile bottom nav handlers
     const bottomHomeBtn = document.getElementById("bottomHomeBtn");
     const bottomCartBtn = document.getElementById("bottomCartBtn");
     const bottomMenuBtn = document.getElementById("bottomMenuBtn");
     
     if (bottomHomeBtn) {
-        // Set Home as active by default
         bottomHomeBtn.classList.add("home-active");
         
         bottomHomeBtn.onclick = function() {
-            console.log("Home clicked");
-            // Close cart if open
             const cartSidebar = document.getElementById("cartSidebar");
             if (cartSidebar.classList.contains("active")) {
                 cartSidebar.classList.remove("active");
                 if (bottomCartBtn) bottomCartBtn.classList.remove("cart-active");
                 upsellUsed = false;
+                savedUpsellProducts = null;
             }
-            // Close mobile menu if open
             closeMobileMenu();
-            // Set Home as active
             bottomHomeBtn.classList.add("home-active");
-            // Scroll to top
             window.scrollTo({top: 0, behavior: 'smooth'});
         };
     }
@@ -447,20 +442,18 @@ window.onload = () => {
     
     if (bottomMenuBtn) {
         bottomMenuBtn.onclick = function() {
-            // Close cart if open
             const cartSidebar = document.getElementById("cartSidebar");
             if (cartSidebar.classList.contains("active")) {
                 cartSidebar.classList.remove("active");
                 if (bottomCartBtn) bottomCartBtn.classList.remove("cart-active");
                 upsellUsed = false;
+                savedUpsellProducts = null;
             }
-            // Open mobile menu
             toggleMobileMenu();
         };
     }
 };
 
-// --- STRIPE PAYMENT ADD-ON ---
 async function checkout() {
     const btn = document.getElementById("stripeBtn");
     const originalText = btn ? btn.innerHTML : "Pay with Card";
