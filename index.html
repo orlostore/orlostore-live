@@ -41,6 +41,11 @@
     </nav>
 </header>
 
+<!-- Desktop Promo Banner -->
+<div class="desktop-promo-banner">
+    🚚 Free delivery over 100 AED | <span class="arabic-text">توصيل مجاني فوق ١٠٠ درهم</span>
+</div>
+
 <!-- Mobile Promo Banner -->
 <div class="mobile-promo-banner">
     🚚 Free delivery over 100 AED | <span class="arabic-text">توصيل مجاني فوق ١٠٠ درهم</span>
@@ -98,7 +103,7 @@ Every order supports a local UAE business built on trust, simplicity, and fair p
             </div>
             <div class="contact-details-row">
                 <div class="contact-detail"><strong>📍 Location:</strong> Dubai, UAE (Online Only)</div>
-                <div class="contact-detail"><strong>✉️ Email:</strong> <a href="/cdn-cgi/l/email-protection#74070104041b0600341b06181b07001b06115a171b19"><span class="__cf_email__" data-cfemail="d0a3a5a0a0bfa2a490bfa2bcbfa3a4bfa2b5feb3bfbd">[email&#160;protected]</span></a></div>
+                <div class="contact-detail"><strong>✉️ Email:</strong> <a href="/cdn-cgi/l/email-protection#c1b2b4b1b1aeb3b581aeb3adaeb2b5aeb3a4efa2aeac"><span class="__cf_email__" data-cfemail="11626461617e6365517e637d7e62657e63743f727e7c">[email&#160;protected]</span></a></div>
                 <div class="contact-detail"><strong>📱 WhatsApp:</strong> <a href="https://wa.me/971XXXXXXXXX" target="_blank">+971 XX XXX XXXX</a></div>
             </div>
         </div>
@@ -134,7 +139,6 @@ Every order supports a local UAE business built on trust, simplicity, and fair p
 </section>
 
 <div class="cart-sidebar" id="cartSidebar">
-    <div class="cart-checkout-fixed" id="cartCheckoutFixed"></div>
     <div class="cart-header">
         <h2>Your Cart / سلة التسوق</h2>
         <button class="close-cart" id="closeCart">✕</button>
@@ -143,7 +147,9 @@ Every order supports a local UAE business built on trust, simplicity, and fair p
     <div class="cart-footer"></div>
 </div>
 
-<div id="policyModal"em; cursor: pointer;">✕</button>
+<div id="policyModal">
+    <div class="policy-box">
+        <button onclick="closePolicy()" style="float: right; background: none; border: none; font-size: 1.5rem; cursor: pointer;">✕</button>
         <div id="policyText"></div>
     </div>
 </div>
@@ -155,10 +161,10 @@ Every order supports a local UAE business built on trust, simplicity, and fair p
 
 <!-- Mobile Bottom Navigation -->
 <nav class="mobile-bottom-nav">
-    <div class="bottom-nav-item" id="bottomHomeBtn">
+    <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="bottom-nav-item active">
         <span class="nav-icon">🏠</span>
         <span class="nav-label">Home</span>
-    </div>
+    </a>
     <div class="bottom-nav-item" id="bottomCartBtn">
         <span class="nav-icon cart-icon-wrapper">
             🛒
@@ -168,11 +174,4 @@ Every order supports a local UAE business built on trust, simplicity, and fair p
     </div>
     <div class="bottom-nav-item" id="bottomMenuBtn">
         <span class="nav-icon">☰</span>
-        <span class="nav-label">Menu</span>
-    </div>
-</nav>
-
-<script src="products.js"></script>
-<script src="app.js?v=3"></script>
-</body>
-</html>
+        <sp
