@@ -20,6 +20,7 @@ body {
   position: relative;
   margin: 0;
   padding: 0;
+  padding-top: 90px;
 }
 
 /* Prevent any child elements from breaking out */
@@ -63,16 +64,18 @@ body {
 header {
   background: var(--white);
   box-shadow: 0 2px 5.36px rgba(0,0,0,.06);
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 1000;
   width: 100%;
 }
 
 nav {
-  max-width: 1400px;
+  max-width: 1180px;
   margin: auto;
-  padding: 0.8rem 2rem;
+  padding: 0.8rem 1.34rem;
   display: flex;
   align-items: center;
   gap: 0;
@@ -1123,7 +1126,7 @@ footer p {
   padding: 1.6rem;
   height: fit-content;
   position: sticky;
-  top: 80px;
+  top: 100px;
   background: white;
 }
 
@@ -1400,6 +1403,7 @@ footer p {
   
   /* Add padding to body for bottom nav */
   body {
+    padding-top: 60px;
     padding-bottom: 70px;
   }
   
