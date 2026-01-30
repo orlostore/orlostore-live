@@ -1,32 +1,32 @@
 const WHATSAPP_NUMBER = "971XXXXXXXXX";
 
 // === FREE DELIVERY THRESHOLD - Change this value to adjust ===
-const FREE_DELIVERY_THRESHOLD = 100;
+const FREE_DELIVERY_THRESHOLD = 75;
 
 const deliveryZones = {
     dubai: {
         name: "Dubai",
         nameAr: "دبي",
         fee: 18,
-        freeThreshold: 100
+        freeThreshold: FREE_DELIVERY_THRESHOLD
     },
     sharjah_ajman: {
         name: "Sharjah / Ajman",
         nameAr: "الشارقة / عجمان",
         fee: 18,
-        freeThreshold: 100
+        freeThreshold: FREE_DELIVERY_THRESHOLD
     },
     abu_dhabi: {
         name: "Abu Dhabi",
         nameAr: "أبو ظبي",
         fee: 18,
-        freeThreshold: 100
+        freeThreshold: FREE_DELIVERY_THRESHOLD
     },
     other: {
         name: "Other Emirates",
         nameAr: "إمارات أخرى",
         fee: 18,
-        freeThreshold: 100
+        freeThreshold: FREE_DELIVERY_THRESHOLD
     }
 };
 
