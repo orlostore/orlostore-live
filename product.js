@@ -176,28 +176,82 @@ async function initProductPage() {
     }
   }
 
-  // Mobile specs
-  const specsSection = document.getElementById("mobileSpecsSection");
-  if (product.specifications && product.specifications.length > 0) {
-    specsSection.innerHTML = `
-      <div class="mobile-specs-title">
-        <span>Specifications</span>
-        <span class="arabic-text">المواصفات</span>
-      </div>
-      ${product.specifications.map((spec, i) => `
-        <div class="mobile-spec-row">
-          <span class="mobile-spec-en">${spec}</span>
-          <span class="mobile-spec-ar arabic-text">${product.specificationsAr && product.specificationsAr[i] ? product.specificationsAr[i] : ''}</span>
+  // =====================
+  // MOBILE DETAILS SECTION (Colors, Packaging, Specs, Description - in order)
+  // =====================
+  const detailsContainer = document.getElementById("mobileDetailsSection");
+  let detailsHTML = '';
+
+  // 1. Colors (if available)
+  if (product.colors) {
+    detailsHTML += `
+      <div class="mobile-detail-block">
+        <div class="mobile-detail-title">
+          <span>Available Colors</span>
+          <span class="arabic-text">الألوان المتاحة</span>
         </div>
-      `).join('')}
+        <div class="mobile-detail-content">
+          <p>${product.colors}</p>
+          ${product.colorsAr ? `<p class="arabic-text">${product.colorsAr}</p>` : ''}
+        </div>
+      </div>
     `;
-  } else {
-    specsSection.style.display = 'none';
   }
 
-  // Mobile description (no header, just content)
-  document.getElementById("mobileDescriptionEn").innerText = product.detailedDescription || product.description || '';
-  document.getElementById("mobileDescriptionAr").innerText = product.detailedDescriptionAr || product.descriptionAr || '';
+  // 2. Packaging (if available)
+  if (product.packaging) {
+    detailsHTML += `
+      <div class="mobile-detail-block">
+        <div class="mobile-detail-title">
+          <span>Packaging</span>
+          <span class="arabic-text">التعبئة والتغليف</span>
+        </div>
+        <div class="mobile-detail-content">
+          <p>${product.packaging}</p>
+          ${product.packagingAr ? `<p class="arabic-text">${product.packagingAr}</p>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  // 3. Specifications (if available)
+  if (product.specifications && product.specifications.length > 0) {
+    detailsHTML += `
+      <div class="mobile-detail-block">
+        <div class="mobile-detail-title">
+          <span>Specifications</span>
+          <span class="arabic-text">المواصفات</span>
+        </div>
+        <div class="mobile-detail-content">
+          ${product.specifications.map((spec, i) => `
+            <div class="mobile-spec-row">
+              <span class="mobile-spec-en">${spec}</span>
+              <span class="mobile-spec-ar arabic-text">${product.specificationsAr && product.specificationsAr[i] ? product.specificationsAr[i] : ''}</span>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+  }
+
+  // 4. Description (always show if available)
+  const descEn = product.detailedDescription || product.description || '';
+  const descAr = product.detailedDescriptionAr || product.descriptionAr || '';
+  
+  if (descEn || descAr) {
+    detailsHTML += `
+      <div class="mobile-detail-block">
+        <div class="mobile-detail-content mobile-description-content">
+          ${descEn ? `<p>${descEn}</p>` : ''}
+          ${descAr ? `<p class="arabic-text">${descAr}</p>` : ''}
+        </div>
+      </div>
+    `;
+  }
+
+  if (detailsContainer) {
+    detailsContainer.innerHTML = detailsHTML;
+  }
 
   // =====================
   // ADD TO CART BUTTONS
@@ -221,7 +275,6 @@ async function initProductPage() {
     if (cartCount) cartCount.textContent = totalItems;
     if (bottomCartCount) bottomCartCount.textContent = totalItems;
     
-    // Button feedback
     return true;
   };
 
@@ -322,14 +375,14 @@ function setupGalleryOverlay(product) {
     
     // Show overlay, hide bottom nav
     overlay.classList.add('active');
-    bottomNav.style.display = 'none';
+    if (bottomNav) bottomNav.style.display = 'none';
     document.body.style.overflow = 'hidden';
   });
   
   // Close gallery
   closeBtn.addEventListener('click', () => {
     overlay.classList.remove('active');
-    bottomNav.style.display = '';
+    if (bottomNav) bottomNav.style.display = '';
     document.body.style.overflow = '';
   });
   
@@ -337,7 +390,7 @@ function setupGalleryOverlay(product) {
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) {
       overlay.classList.remove('active');
-      bottomNav.style.display = '';
+      if (bottomNav) bottomNav.style.display = '';
       document.body.style.overflow = '';
     }
   });
@@ -353,8 +406,137 @@ window.changeMainImage = function(imgSrc, index) {
   });
 };
 
-// Initialize cart count on page load
+// =====================
+// SEARCH FUNCTIONALITY
+// =====================
+function setupSearch() {
+  const searchBtn = document.getElementById('searchBtn');
+  const searchInput = document.getElementById('searchInput');
+  
+  const doSearch = () => {
+    const term = searchInput.value.trim();
+    if (term) {
+      // Redirect to index.html with search parameter
+      window.location.href = `index.html?search=${encodeURIComponent(term)}`;
+    } else {
+      window.location.href = 'index.html';
+    }
+  };
+  
+  if (searchBtn) {
+    searchBtn.onclick = doSearch;
+  }
+  
+  if (searchInput) {
+    searchInput.onkeypress = (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        doSearch();
+      }
+    };
+  }
+}
+
+// =====================
+// BOTTOM NAV FUNCTIONALITY
+// =====================
+function setupBottomNav() {
+  const bottomHomeBtn = document.getElementById('bottomHomeBtn');
+  const bottomCartBtn = document.getElementById('bottomCartBtn');
+  const bottomMenuBtn = document.getElementById('bottomMenuBtn');
+  const cartSidebar = document.getElementById('cartSidebar');
+  
+  // Home button - go to index.html
+  if (bottomHomeBtn) {
+    bottomHomeBtn.onclick = function() {
+      window.location.href = 'index.html';
+    };
+  }
+  
+  // Cart button - toggle cart sidebar
+  if (bottomCartBtn) {
+    bottomCartBtn.onclick = function() {
+      if (cartSidebar) {
+        cartSidebar.classList.toggle('active');
+        
+        if (cartSidebar.classList.contains('active')) {
+          bottomCartBtn.classList.add('cart-active');
+          if (bottomHomeBtn) bottomHomeBtn.classList.remove('home-active');
+          // Update cart display
+          if (typeof updateCart === 'function') {
+            updateCart();
+          }
+        } else {
+          bottomCartBtn.classList.remove('cart-active');
+        }
+      }
+    };
+  }
+  
+  // Menu button - show mobile menu overlay
+  if (bottomMenuBtn) {
+    bottomMenuBtn.onclick = function() {
+      // Close cart if open
+      if (cartSidebar && cartSidebar.classList.contains('active')) {
+        cartSidebar.classList.remove('active');
+        if (bottomCartBtn) bottomCartBtn.classList.remove('cart-active');
+      }
+      
+      toggleMobileMenu();
+    };
+  }
+  
+  // Close cart button
+  const closeCart = document.getElementById('closeCart');
+  if (closeCart) {
+    closeCart.onclick = function() {
+      if (cartSidebar) {
+        cartSidebar.classList.remove('active');
+        if (bottomCartBtn) bottomCartBtn.classList.remove('cart-active');
+      }
+    };
+  }
+}
+
+// Mobile menu toggle
+function toggleMobileMenu() {
+  let overlay = document.querySelector('.mobile-menu-overlay');
+  
+  if (!overlay) {
+    overlay = document.createElement('div');
+    overlay.className = 'mobile-menu-overlay';
+    overlay.innerHTML = `
+      <div class="mobile-menu">
+        <a href="index.html#products" onclick="closeMobileMenu()"><span class="menu-en">🛍️ Shop</span> | <span class="menu-ar">تسوق</span></a>
+        <a href="index.html#about" onclick="closeMobileMenu()"><span class="menu-en">ℹ️ About</span> | <span class="menu-ar">من نحن</span></a>
+        <a href="index.html#contact" onclick="closeMobileMenu()"><span class="menu-en">📧 Contact</span> | <span class="menu-ar">اتصل بنا</span></a>
+        <a href="index.html#terms" onclick="closeMobileMenu()"><span class="menu-en">📋 Terms</span> | <span class="menu-ar">الشروط</span></a>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+    
+    overlay.onclick = (e) => {
+      if (e.target === overlay) {
+        closeMobileMenu();
+      }
+    };
+  }
+  
+  overlay.classList.toggle('active');
+}
+
+function closeMobileMenu() {
+  const overlay = document.querySelector('.mobile-menu-overlay');
+  if (overlay) {
+    overlay.classList.remove('active');
+  }
+}
+
+// =====================
+// INITIALIZE
+// =====================
 window.addEventListener('DOMContentLoaded', () => {
+  // Update cart count
   const cart = JSON.parse(localStorage.getItem("cart")) || [];
   const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
   
@@ -362,6 +544,12 @@ window.addEventListener('DOMContentLoaded', () => {
   const bottomCartCount = document.getElementById("bottomCartCount");
   if (cartCount) cartCount.textContent = totalItems;
   if (bottomCartCount) bottomCartCount.textContent = totalItems;
+  
+  // Setup search
+  setupSearch();
+  
+  // Setup bottom nav
+  setupBottomNav();
 });
 
 // Start loading product page
