@@ -50,8 +50,8 @@ footer {
 /* UAE Dirham Symbol - Official SVG */
 .dirham-symbol {
   display: inline-block;
-  width: 1em;
-  height: 1em;
+  width: 0.85em;
+  height: 0.85em;
   background-image: url('dirham.svg');
   background-size: contain;
   background-repeat: no-repeat;
@@ -538,7 +538,7 @@ nav {
   color: #1a1a1a;
   font-weight: bold;
   margin: 0.67rem 0;
-  font-size: 1.27rem;
+  font-size: 1rem;
   margin-top: auto;
 }
 
