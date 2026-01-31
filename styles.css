@@ -1183,22 +1183,15 @@ footer p {
 }
 
 .delivery-item {
-  display: flex;
-  align-items: center;
+  display: grid;
+  grid-template-columns: auto 1fr 1fr;
   gap: 0.5rem;
+  align-items: center;
   padding: 0.4rem 0;
 }
 
 .delivery-icon {
   font-size: 1rem;
-  flex-shrink: 0;
-}
-
-.delivery-text-columns {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2rem;
-  flex: 1;
 }
 
 .delivery-en {
