@@ -189,10 +189,10 @@ function updateCart() {
     
     const checkoutBtnHTML = `
         <button id="stripeBtn" 
-            style="width: 100%; padding: 0.9rem; font-size: 0.95rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #0066FF; color: white; transition: all 0.3s;" 
+            style="width: 100%; padding: 0.9rem; font-size: 0.95rem; font-weight: 600; border: none; border-radius: 8px; cursor: pointer; background: #2c4a5c; color: white; transition: all 0.3s;" 
             onclick="checkout()" 
-            onmouseover="this.style.background='#0052CC'" 
-            onmouseout="this.style.background='#0066FF'">
+            onmouseover="this.style.background='#1e3545'" 
+            onmouseout="this.style.background='#2c4a5c'">
             💳 Pay with Card / الدفع بالبطاقة
         </button>
     `;
