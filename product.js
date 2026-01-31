@@ -257,19 +257,29 @@ async function initProductPage() {
   // ADD TO CART BUTTONS
   // =====================
   const addToCartHandler = () => {
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
-    const item = cart.find(i => i.id === product.id);
+    // Get current cart from localStorage
+    let localCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const item = localCart.find(i => i.id === product.id);
     
     if (item) {
       item.quantity++;
     } else {
-      cart.push({ ...product, quantity: 1 });
+      localCart.push({ ...product, quantity: 1 });
     }
     
-    localStorage.setItem("cart", JSON.stringify(cart));
+    // Save to localStorage
+    localStorage.setItem("cart", JSON.stringify(localCart));
+    
+    // IMPORTANT: Sync app.js cart variable with localStorage
+    // This is needed because app.js has its own cart variable
+    if (typeof cart !== 'undefined') {
+      // Clear and repopulate the app.js cart array
+      cart.length = 0;
+      localCart.forEach(item => cart.push(item));
+    }
     
     // Update cart counts
-    const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
+    const totalItems = localCart.reduce((s, i) => s + i.quantity, 0);
     const cartCount = document.getElementById("cartCount");
     const bottomCartCount = document.getElementById("bottomCartCount");
     if (cartCount) cartCount.textContent = totalItems;
