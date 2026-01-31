@@ -367,7 +367,7 @@ nav {
 .container {
   max-width: 1234px;
   margin: auto;
-  padding: 2.35rem 1.68rem;
+  padding: 1rem 1.68rem 2.35rem 1.68rem;
 }
 
 .section-title {
@@ -396,7 +396,7 @@ nav {
   display: flex;
   justify-content: center;
   gap: 0.84rem;
-  margin-bottom: 2.01rem;
+  margin-bottom: 1rem;
   flex-wrap: wrap;
 }
 
