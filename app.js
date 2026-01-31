@@ -375,7 +375,8 @@ function closePolicy() {
 
 function toggleAbout() {
     const aboutSection = document.getElementById('about');
-    const isVisible = aboutSection.style.display !== 'none';
+    const computedStyle = window.getComputedStyle(aboutSection);
+    const isVisible = computedStyle.display !== 'none';
     
     if (isVisible) {
         aboutSection.style.display = 'none';
