@@ -1089,6 +1089,19 @@ footer p {
   font-size: 0.85rem;
 }
 
+/* Product Description Section Headings */
+.product-details h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.product-details h3 .arabic-text,
+.product-details h3[style*="Almarai"] {
+  font-size: 0.95rem;
+}
+
 /* Buybox integrated into details */
 .product-buybox {
   background: #f9f9f9;
