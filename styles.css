@@ -1647,6 +1647,7 @@ footer p {
 .mobile-carousel-slide {
   min-width: 100%;
   scroll-snap-align: start;
+  scroll-snap-stop: always;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1802,6 +1803,48 @@ footer p {
 
 .mobile-description-text:last-child {
   margin-bottom: 0;
+}
+
+/* Mobile Details Section (unified for Colors, Packaging, Specs, Description) */
+.mobile-details-section {
+  margin-top: 8px;
+}
+
+.mobile-detail-block {
+  background: white;
+  padding: 15px;
+  margin-bottom: 8px;
+}
+
+.mobile-detail-block:last-child {
+  margin-bottom: 0;
+}
+
+.mobile-detail-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #2c4a5c;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.mobile-detail-content {
+  font-size: 0.85rem;
+  color: #555;
+  line-height: 1.6;
+}
+
+.mobile-detail-content p {
+  margin-bottom: 8px;
+}
+
+.mobile-detail-content p:last-child {
+  margin-bottom: 0;
+}
+
+.mobile-description-content {
+  padding-top: 5px;
 }
 
 /* Gallery Overlay (Full Screen) */
