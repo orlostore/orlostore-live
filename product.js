@@ -38,59 +38,70 @@ async function initProductPage() {
   document.getElementById("productTitle").innerText = product.name;
   document.getElementById("productCategory").innerText = product.category;
 
-  // Build detailed description with bilingual header
-  let descriptionHTML = `
-    <h3 style="margin-top:1.2rem; display: flex; justify-content: space-between;">
-      <span>Description</span>
-      <span class="arabic-text" style="font-family: 'Almarai', sans-serif;">معلومات المنتج</span>
-    </h3>
-    <p>${product.detailedDescription || product.description}</p>
-  `;
-
-  if (product.detailedDescriptionAr || product.descriptionAr) {
-    descriptionHTML += `<p class="arabic-text" style="margin-top:0.8rem; font-family: 'Almarai', sans-serif; direction: rtl; text-align: right;">${product.detailedDescriptionAr || product.descriptionAr}</p>`;
-  }
-
-  if (product.colors) {
+  // Build detailed description with two-column bilingual layout
+  let descriptionHTML = '';
+  
+  // 1. Description
+  const descEn = product.detailedDescription || product.description || '';
+  const descAr = product.detailedDescriptionAr || product.descriptionAr || '';
+  if (descEn || descAr) {
     descriptionHTML += `
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.6rem; margin-top:1.2rem;">
-        <div>
-          <h3 style="margin:0 0 0.6rem 0;">Available Colors</h3>
-          <p style="margin:0;">${product.colors}</p>
+      <div class="product-desc-block">
+        <div class="product-desc-en">
+          <div class="product-desc-label">Description</div>
+          <div class="product-desc-value">${descEn}</div>
         </div>
-        <div style="text-align:right;">
-          <h3 style="margin:0 0 0.6rem 0; font-family: 'Almarai', sans-serif;">الألوان المتاحة</h3>
-          <p style="margin:0; font-family: 'Almarai', sans-serif; direction: rtl;">${product.colorsAr || ''}</p>
+        <div class="product-desc-ar">
+          <div class="product-desc-label">معلومات المنتج</div>
+          <div class="product-desc-value">${descAr}</div>
         </div>
       </div>
     `;
   }
 
-  if (product.packaging) {
+  // 2. Colors
+  if (product.colors || product.colorsAr) {
     descriptionHTML += `
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.6rem; margin-top:1.2rem;">
-        <div>
-          <h3 style="margin:0 0 0.6rem 0;">Packaging</h3>
-          <p style="margin:0;">${product.packaging}</p>
+      <div class="product-desc-block">
+        <div class="product-desc-en">
+          <div class="product-desc-label">Available Colors</div>
+          <div class="product-desc-value">${product.colors || ''}</div>
         </div>
-        <div style="text-align:right;">
-          <h3 style="margin:0 0 0.6rem 0; font-family: 'Almarai', sans-serif;">التعبئة والتغليف</h3>
-          <p style="margin:0; font-family: 'Almarai', sans-serif; direction: rtl;">${product.packagingAr || ''}</p>
+        <div class="product-desc-ar">
+          <div class="product-desc-label">الألوان المتاحة</div>
+          <div class="product-desc-value">${product.colorsAr || ''}</div>
         </div>
       </div>
     `;
   }
 
-  if (product.specifications && product.specifications.length > 0) {
+  // 3. Packaging
+  if (product.packaging || product.packagingAr) {
     descriptionHTML += `
-      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:1.6rem; margin-top:1.2rem;">
-        <div>
-          <h3 style="margin:0 0 0.6rem 0;">Specifications</h3>
-          <p style="margin:0; line-height:2;">${product.specifications.join('<br>')}</p>
+      <div class="product-desc-block">
+        <div class="product-desc-en">
+          <div class="product-desc-label">Packaging</div>
+          <div class="product-desc-value">${product.packaging || ''}</div>
         </div>
-        <div style="text-align:right;">
-          <h3 style="margin:0 0 0.6rem 0; font-family: 'Almarai', sans-serif;">المواصفات</h3>
-          <p style="margin:0; line-height:2; font-family: 'Almarai', sans-serif; direction: rtl;">${product.specificationsAr ? product.specificationsAr.join('<br>') : ''}</p>
+        <div class="product-desc-ar">
+          <div class="product-desc-label">التعبئة والتغليف</div>
+          <div class="product-desc-value">${product.packagingAr || ''}</div>
+        </div>
+      </div>
+    `;
+  }
+
+  // 4. Specifications
+  if ((product.specifications && product.specifications.length > 0) || (product.specificationsAr && product.specificationsAr.length > 0)) {
+    descriptionHTML += `
+      <div class="product-desc-block">
+        <div class="product-desc-en">
+          <div class="product-desc-label">Specifications</div>
+          <div class="product-desc-value">${product.specifications ? product.specifications.join('<br>') : ''}</div>
+        </div>
+        <div class="product-desc-ar">
+          <div class="product-desc-label">المواصفات</div>
+          <div class="product-desc-value">${product.specificationsAr ? product.specificationsAr.join('<br>') : ''}</div>
         </div>
       </div>
     `;
@@ -339,74 +350,76 @@ function openEnhancedLightbox(product, startIndex) {
   let currentIndex = startIndex;
   const images = product.images;
   
-  // Build info HTML
+  // Build info HTML - Two column layout (English left, Arabic right)
   let infoHTML = `
-    <div class="lightbox-title">${product.name}</div>
-    ${product.nameAr ? `<div class="lightbox-title-ar">${product.nameAr}</div>` : ''}
+    <div class="lightbox-title-row">
+      <div class="lightbox-title">${product.name}</div>
+      <div class="lightbox-title-ar">${product.nameAr || ''}</div>
+    </div>
     <div class="lightbox-divider"></div>
   `;
   
   // 1. Description (first - what is the product?)
   const desc = product.detailedDescription || product.description;
   const descAr = product.detailedDescriptionAr || product.descriptionAr;
-  if (desc) {
+  if (desc || descAr) {
     infoHTML += `
       <div class="lightbox-detail-block">
-        <div class="lightbox-detail-label">
-          <span>Description</span>
-          <span class="ar">معلومات المنتج</span>
+        <div class="lightbox-detail-en">
+          <div class="lightbox-detail-label">Description</div>
+          <div class="lightbox-detail-value">${desc || ''}</div>
         </div>
-        <div class="lightbox-detail-value">
-          ${desc}
-          ${descAr ? `<span class="ar">${descAr}</span>` : ''}
+        <div class="lightbox-detail-ar">
+          <div class="lightbox-detail-label">معلومات المنتج</div>
+          <div class="lightbox-detail-value">${descAr || ''}</div>
         </div>
       </div>
     `;
   }
   
   // 2. Colors
-  if (product.colors) {
+  if (product.colors || product.colorsAr) {
     infoHTML += `
       <div class="lightbox-detail-block">
-        <div class="lightbox-detail-label">
-          <span>Available Colors</span>
-          <span class="ar">الألوان المتاحة</span>
+        <div class="lightbox-detail-en">
+          <div class="lightbox-detail-label">Available Colors</div>
+          <div class="lightbox-detail-value">${product.colors || ''}</div>
         </div>
-        <div class="lightbox-detail-value">
-          ${product.colors}
-          ${product.colorsAr ? `<span class="ar">${product.colorsAr}</span>` : ''}
+        <div class="lightbox-detail-ar">
+          <div class="lightbox-detail-label">الألوان المتاحة</div>
+          <div class="lightbox-detail-value">${product.colorsAr || ''}</div>
         </div>
       </div>
     `;
   }
   
   // 3. Packaging
-  if (product.packaging) {
+  if (product.packaging || product.packagingAr) {
     infoHTML += `
       <div class="lightbox-detail-block">
-        <div class="lightbox-detail-label">
-          <span>Packaging</span>
-          <span class="ar">التعبئة والتغليف</span>
+        <div class="lightbox-detail-en">
+          <div class="lightbox-detail-label">Packaging</div>
+          <div class="lightbox-detail-value">${product.packaging || ''}</div>
         </div>
-        <div class="lightbox-detail-value">
-          ${product.packaging}
-          ${product.packagingAr ? `<span class="ar">${product.packagingAr}</span>` : ''}
+        <div class="lightbox-detail-ar">
+          <div class="lightbox-detail-label">التعبئة والتغليف</div>
+          <div class="lightbox-detail-value">${product.packagingAr || ''}</div>
         </div>
       </div>
     `;
   }
   
   // 4. Specifications (last - technical details)
-  if (product.specifications && product.specifications.length > 0) {
+  if ((product.specifications && product.specifications.length > 0) || (product.specificationsAr && product.specificationsAr.length > 0)) {
     infoHTML += `
       <div class="lightbox-detail-block">
-        <div class="lightbox-detail-label">
-          <span>Specifications</span>
-          <span class="ar">المواصفات</span>
+        <div class="lightbox-detail-en">
+          <div class="lightbox-detail-label">Specifications</div>
+          <div class="lightbox-detail-value">${product.specifications ? product.specifications.join('<br>') : ''}</div>
         </div>
-        <div class="lightbox-detail-value">
-          ${product.specifications.join('<br>')}
-          ${product.specificationsAr ? `<span class="ar">${product.specificationsAr.join('<br>')}</span>` : ''}
+        <div class="lightbox-detail-ar">
+          <div class="lightbox-detail-label">المواصفات</div>
+          <div class="lightbox-detail-value">${product.specificationsAr ? product.specificationsAr.join('<br>') : ''}</div>
         </div>
       </div>
     `;
