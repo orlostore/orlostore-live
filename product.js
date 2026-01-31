@@ -476,18 +476,28 @@ function openEnhancedLightbox(product, startIndex) {
   const counter = lightbox.querySelector('.lightbox-counter');
   const thumbs = lightbox.querySelectorAll('.lightbox-thumb');
   
-  // Dynamic zoom on hover - follows cursor
+  // Click to toggle 2x zoom
   let isZoomed = false;
   
-  lightboxMainImageContainer.addEventListener('mouseenter', () => {
-    isZoomed = true;
-    lightboxImg.style.transform = 'scale(2)';
-  });
-  
-  lightboxMainImageContainer.addEventListener('mouseleave', () => {
-    isZoomed = false;
-    lightboxImg.style.transform = 'scale(1)';
-    lightboxImg.style.transformOrigin = 'center center';
+  lightboxMainImageContainer.addEventListener('click', (e) => {
+    // Don't zoom if clicking on arrows
+    if (e.target.classList.contains('lightbox-arrow')) return;
+    
+    isZoomed = !isZoomed;
+    
+    if (isZoomed) {
+      lightboxImg.style.transform = 'scale(2)';
+      lightboxImg.style.cursor = 'zoom-out';
+      // Set initial position based on click
+      const rect = lightboxMainImageContainer.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      lightboxImg.style.transformOrigin = `${x}% ${y}%`;
+    } else {
+      lightboxImg.style.transform = 'scale(1)';
+      lightboxImg.style.cursor = 'zoom-in';
+      lightboxImg.style.transformOrigin = 'center center';
+    }
   });
   
   lightboxMainImageContainer.addEventListener('mousemove', (e) => {
