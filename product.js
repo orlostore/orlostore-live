@@ -108,7 +108,7 @@ async function initProductPage() {
   }
 
   document.getElementById("productDescription").innerHTML = descriptionHTML;
-  document.getElementById("productPrice").innerHTML = '<span class="dirham-symbol"></span>' + product.price;
+  document.getElementById("productPrice").innerText = product.price + " AED";
 
   // Desktop gallery
   const gallery = document.getElementById("gallery");
@@ -155,7 +155,7 @@ async function initProductPage() {
   document.getElementById("mobileProductTitle").innerText = product.name;
   document.getElementById("mobileProductTitleAr").innerText = product.nameAr || '';
   document.getElementById("mobileProductCategory").innerText = product.category;
-  document.getElementById("mobileProductPrice").innerHTML = '<span class="dirham-symbol"></span>' + product.price;
+  document.getElementById("mobileProductPrice").innerText = product.price + " AED";
 
   // Mobile carousel
   const mobileCarousel = document.getElementById("mobileCarousel");
