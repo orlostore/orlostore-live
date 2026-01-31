@@ -3,6 +3,12 @@ const WHATSAPP_NUMBER = "971XXXXXXXXX";
 // === FREE DELIVERY THRESHOLD - Change this value to adjust ===
 const FREE_DELIVERY_THRESHOLD = 75;
 
+// Format price with Dirham symbol
+function formatPrice(amount, includeDecimals = true) {
+    const formattedAmount = includeDecimals ? parseFloat(amount).toFixed(2) : Math.round(amount);
+    return `<span class="dirham-symbol"></span>${formattedAmount}`;
+}
+
 const deliveryZones = {
     dubai: {
         name: "Dubai",
@@ -84,7 +90,7 @@ function renderProducts(list) {
                     <h3 class="product-title">${p.name}</h3>
                     ${p.nameAr ? `<p class="product-title-ar">${p.nameAr}</p>` : ''}
                 </a>
-                <div class="product-price">${p.price} AED</div>
+                <div class="product-price"><span class="dirham-symbol"></span>${p.price}</div>
                 <button class="add-to-cart" onclick="addToCart(${p.id}, event)">Add to Cart</button>
             </div>
         </div>
@@ -173,7 +179,7 @@ function updateCart() {
         cartItems.innerHTML = "<p style='text-align:center;padding:3rem;color:#999;font-size:1.1rem;'>Your cart is empty</p>"; 
         if (cartCount) cartCount.textContent = 0;
         if (bottomCartCount) bottomCartCount.textContent = 0;
-        cartFooter.innerHTML = `<div style="display: flex; justify-content: space-between; padding: 0.75rem 0 0.5rem; font-size: 1.1rem; font-weight: 700; color: #2c4a5c;"><span>Total / الإجمالي:</span><span>0.00 AED</span></div>`;
+        cartFooter.innerHTML = `<div style="display: flex; justify-content: space-between; padding: 0.75rem 0 0.5rem; font-size: 1.1rem; font-weight: 700; color: #2c4a5c;"><span>Total / الإجمالي:</span><span><span class="dirham-symbol"></span>0.00</span></div>`;
         if (cartCheckoutFixed) cartCheckoutFixed.innerHTML = '';
         return; 
     } 
@@ -207,8 +213,8 @@ function updateCart() {
         <div style="display:flex; justify-content:space-between; align-items:center; padding:0.5rem; border-bottom:1px solid #eee;">
             <div style="flex:1;">
                 <strong style="font-size:0.9rem; color:#2c4a5c;">${i.name}</strong><br>
-                <span style="color:#888; font-size:0.8rem;">${i.price} AED × ${i.quantity}</span><br>
-                <span style="color:#e07856; font-weight:600; font-size:0.9rem;">${(i.price * i.quantity).toFixed(2)} AED</span>
+                <span style="color:#888; font-size:0.8rem;"><span class="dirham-symbol"></span>${i.price} × ${i.quantity}</span><br>
+                <span style="color:#e07856; font-weight:600; font-size:0.9rem;"><span class="dirham-symbol"></span>${(i.price * i.quantity).toFixed(2)}</span>
             </div>
             <div style="display:flex; gap:0.4rem; align-items:center;">
                 <button onclick="updateQuantity(${i.id}, -1)" style="padding:0.3rem 0.6rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:0.85rem; font-weight:600;">-</button>
@@ -238,12 +244,12 @@ function updateCart() {
                 footerHTML += `
                     <div style="padding: 0.75rem 1rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 0.75rem;">
                         <div style="font-weight: 600; margin-bottom: 0.75rem; color: #2c4a5c; font-size: 0.9rem;">
-                            Add ${amountNeededForFree.toFixed(0)} AED more for free delivery:
+                            Add <span class="dirham-symbol"></span>${amountNeededForFree.toFixed(0)} more for free delivery:
                         </div>
                         ${upsellProducts.map(p => `
                             <div style="display: flex; align-items: center; padding: 0.25rem 0; border-bottom: 1px solid #f0f0f0; gap: 0.5rem;">
                                 <div style="flex: 1; font-weight: 500; color: #2c4a5c; font-size: 0.8rem;">${p.name}</div>
-                                <div style="font-size: 0.75rem; color: #888; white-space: nowrap;">${p.price} AED</div>
+                                <div style="font-size: 0.75rem; color: #888; white-space: nowrap;"><span class="dirham-symbol"></span>${p.price}</div>
                                 <button onclick="addUpsellItem(${p.id}, event)" style="padding: 0.25rem 0.5rem; background: #2c4a5c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.75rem;">Add</button>
                             </div>
                         `).join('')}
@@ -254,7 +260,7 @@ function updateCart() {
             footerHTML += `
                 <div style="padding: 0.75rem 1rem; background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; margin-bottom: 0.75rem;">
                     <div style="font-weight: 600; color: #2c4a5c; font-size: 0.9rem; margin-bottom: 0.5rem;">
-                        🚚 Add ${amountNeededForFree.toFixed(0)} AED more to qualify for free delivery
+                        🚚 Add <span class="dirham-symbol"></span>${amountNeededForFree.toFixed(0)} more to qualify for free delivery
                     </div>
                     ${upsellProducts.length > 0 ? `
                         <div style="cursor: pointer;" onclick="this.querySelector('.upsell-dropdown').style.display = this.querySelector('.upsell-dropdown').style.display === 'none' ? 'block' : 'none'; this.querySelector('.arrow').textContent = this.querySelector('.upsell-dropdown').style.display === 'none' ? '▶' : '▼';">
@@ -263,7 +269,7 @@ function updateCart() {
                                 ${upsellProducts.map(p => `
                                     <div style="display: flex; align-items: center; padding: 0.25rem 0; border-bottom: 1px solid #f0f0f0; gap: 0.5rem;">
                                         <div style="flex: 1; font-weight: 500; color: #2c4a5c; font-size: 0.8rem;">${p.name}</div>
-                                        <div style="font-size: 0.75rem; color: #888; white-space: nowrap;">${p.price} AED</div>
+                                        <div style="font-size: 0.75rem; color: #888; white-space: nowrap;"><span class="dirham-symbol"></span>${p.price}</div>
                                         <button onclick="event.stopPropagation(); addUpsellItem(${p.id}, event)" style="padding: 0.25rem 0.5rem; background: #2c4a5c; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 0.75rem;">Add</button>
                                     </div>
                                 `).join('')}
@@ -283,16 +289,16 @@ function updateCart() {
         <div style="padding: 1rem; background: #f8f9fa; border-radius: 8px; margin-bottom: 0.75rem;">
             <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem; color: #2c4a5c;">
                 <span>Subtotal / المجموع الفرعي:</span>
-                <span>${subtotal.toFixed(2)} AED</span>
+                <span><span class="dirham-symbol"></span>${subtotal.toFixed(2)}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; font-size: 0.9rem; color: #2c4a5c;">
                 <span>Delivery / التوصيل:</span>
-                <span style="${deliveryFee === 0 ? 'color: #28a745; font-weight: 600;' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : deliveryFee.toFixed(2) + ' AED'}</span>
+                <span style="${deliveryFee === 0 ? 'color: #28a745; font-weight: 600;' : ''}">${deliveryFee === 0 ? 'FREE / مجاني' : '<span class="dirham-symbol"></span>' + deliveryFee.toFixed(2)}</span>
             </div>
             <div style="border-top: 2px solid #ddd; margin: 0.5rem 0;"></div>
             <div style="display: flex; justify-content: space-between; padding: 0.75rem 0 0.5rem; font-size: 1.1rem; font-weight: 700; color: #2c4a5c;">
                 <span>Total / الإجمالي:</span>
-                <span>${total.toFixed(2)} AED</span>
+                <span><span class="dirham-symbol"></span>${total.toFixed(2)}</span>
             </div>
         </div>
     `;
@@ -448,7 +454,7 @@ window.onload = () => {
     // Update mobile promo banner with current threshold
     const promoBanner = document.querySelector('.mobile-promo-banner');
     if (promoBanner) {
-        promoBanner.innerHTML = `🚚 Free delivery over ${FREE_DELIVERY_THRESHOLD} AED | <span class="arabic-text">توصيل مجاني فوق ${FREE_DELIVERY_THRESHOLD} درهم</span>`;
+        promoBanner.innerHTML = `🚚 Free delivery over <span class="dirham-symbol"></span>${FREE_DELIVERY_THRESHOLD} | <span class="arabic-text">توصيل مجاني فوق ${FREE_DELIVERY_THRESHOLD} درهم</span>`;
     }
     
     // Update hero section threshold
