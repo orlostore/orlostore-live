@@ -1338,18 +1338,16 @@ footer p {
   align-items: center;
   justify-content: center;
   min-height: 350px;
+  overflow: hidden;
 }
 
 .lightbox-main-image img {
   max-width: 100%;
   max-height: 400px;
   object-fit: contain;
-  transition: transform 0.3s ease;
+  transition: transform 0.1s ease-out;
   cursor: zoom-in;
-}
-
-.lightbox-main-image img:hover {
-  transform: scale(2);
+  transform-origin: center center;
 }
 
 /* Arrow Navigation */
