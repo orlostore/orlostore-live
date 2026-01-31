@@ -214,7 +214,7 @@ function updateCart() {
             <div style="flex:1;">
                 <strong style="font-size:0.9rem; color:#2c4a5c;">${i.name}</strong><br>
                 <span style="color:#888; font-size:0.8rem;"><span class="dirham-symbol"></span>${i.price} × ${i.quantity}</span><br>
-                <span style="color:#e07856; font-weight:600; font-size:0.9rem;"><span class="dirham-symbol"></span>${(i.price * i.quantity).toFixed(2)}</span>
+                <span style="color:#1a1a1a; font-weight:600; font-size:0.9rem;"><span class="dirham-symbol"></span>${(i.price * i.quantity).toFixed(2)}</span>
             </div>
             <div style="display:flex; gap:0.4rem; align-items:center;">
                 <button onclick="updateQuantity(${i.id}, -1)" style="padding:0.3rem 0.6rem; background:#f0f0f0; border:none; border-radius:4px; cursor:pointer; font-size:0.85rem; font-weight:600;">-</button>
