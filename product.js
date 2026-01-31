@@ -107,27 +107,32 @@ async function initProductPage() {
     if (isEmoji) {
       gallery.innerHTML = `
         <div class="image-gallery">
-          <div class="main-image-container" style="font-size: 100px; display: flex; align-items: center; justify-content: center; height: 300px; background: #f5f5f5; border-radius: 8px;">
+          <div class="main-image-container" style="font-size: 100px; display: flex; align-items: center; justify-content: center; min-height: 350px;">
             ${product.images[0]}
           </div>
         </div>
       `;
     } else {
+      // Only show thumbnails if more than 1 image
+      const thumbnailsHTML = product.images.length > 1 ? `
+        <div class="thumbnail-strip">
+          ${product.images.map((img, index) => `
+            <img src="${img}" 
+                 alt="${product.name} ${index + 1}" 
+                 class="thumbnail ${index === 0 ? 'active' : ''}" 
+                 onclick="changeMainImage('${img}', ${index})"
+                 style="object-fit:contain;">
+          `).join('')}
+        </div>
+      ` : '';
+      
       gallery.innerHTML = `
         <div class="image-gallery">
           <div class="main-image-container">
             <img id="mainImage" src="${product.images[0]}" alt="${product.name}" class="main-product-image">
             <div class="zoom-hint">🔍 Click to zoom</div>
           </div>
-          <div class="thumbnail-strip">
-            ${product.images.map((img, index) => `
-              <img src="${img}" 
-                   alt="${product.name} ${index + 1}" 
-                   class="thumbnail ${index === 0 ? 'active' : ''}" 
-                   onclick="changeMainImage('${img}', ${index})"
-                   style="cursor:pointer; object-fit:contain;">
-            `).join('')}
-          </div>
+          ${thumbnailsHTML}
         </div>
       `;
     }
