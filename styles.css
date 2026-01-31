@@ -1344,6 +1344,12 @@ footer p {
   max-width: 100%;
   max-height: 400px;
   object-fit: contain;
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+}
+
+.lightbox-main-image img:hover {
+  transform: scale(2);
 }
 
 /* Arrow Navigation */
