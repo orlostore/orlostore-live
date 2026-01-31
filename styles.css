@@ -1182,10 +1182,31 @@ footer p {
   padding-top: 0.5rem;
 }
 
-.delivery-info p {
-  font-size: 0.8rem;
-  color: #666;
-  margin: 0.5rem 0;
+.delivery-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+.delivery-icon {
+  font-size: 1.2rem;
+}
+
+.delivery-item > div {
+  flex: 1;
+}
+
+.delivery-item > div > div:first-child {
+  font-size: 0.85rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.delivery-ar {
+  font-size: 0.75rem;
+  color: #888;
+  margin-top: 2px;
 }
 
 @media (max-width: 968px) {
