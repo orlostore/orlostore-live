@@ -251,15 +251,15 @@ async function initProductPage() {
   }
 
   // 4. Description (always show if available)
-  const descEn = product.detailedDescription || product.description || '';
-  const descAr = product.detailedDescriptionAr || product.descriptionAr || '';
+  const mobileDescEn = product.detailedDescription || product.description || '';
+  const mobileDescAr = product.detailedDescriptionAr || product.descriptionAr || '';
   
-  if (descEn || descAr) {
+  if (mobileDescEn || mobileDescAr) {
     detailsHTML += `
       <div class="mobile-detail-block">
         <div class="mobile-detail-content mobile-description-content">
-          ${descEn ? `<p>${descEn}</p>` : ''}
-          ${descAr ? `<p class="arabic-text">${descAr}</p>` : ''}
+          ${mobileDescEn ? `<p>${mobileDescEn}</p>` : ''}
+          ${mobileDescAr ? `<p class="arabic-text">${mobileDescAr}</p>` : ''}
         </div>
       </div>
     `;
