@@ -205,6 +205,10 @@ async function initProductPage() {
   if (mobileDescEn || mobileDescAr) {
     detailsHTML += `
       <div class="mobile-detail-block">
+        <div class="mobile-detail-title">
+          <span>Description</span>
+          <span class="arabic-text">معلومات المنتج</span>
+        </div>
         <div class="mobile-detail-content mobile-description-content">
           ${mobileDescEn ? `<p>${mobileDescEn}</p>` : ''}
           ${mobileDescAr ? `<p class="arabic-text">${mobileDescAr}</p>` : ''}
