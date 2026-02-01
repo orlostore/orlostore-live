@@ -2043,8 +2043,9 @@ footer p {
 }
 
 .mobile-spec-row {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
   padding: 10px 0;
   border-bottom: 1px solid #f0f0f0;
   font-size: 0.85rem;
@@ -2056,10 +2057,13 @@ footer p {
 
 .mobile-spec-en {
   color: #333;
+  text-align: left;
 }
 
 .mobile-spec-ar {
   color: #666;
+  text-align: right;
+  direction: rtl;
 }
 
 /* Mobile Description Section */
@@ -2108,14 +2112,23 @@ footer p {
   font-size: 0.85rem;
   color: #555;
   line-height: 1.6;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
 }
 
 .mobile-detail-content p {
-  margin-bottom: 8px;
+  margin-bottom: 0;
 }
 
-.mobile-detail-content p:last-child {
-  margin-bottom: 0;
+.mobile-detail-content p:first-child {
+  text-align: left;
+}
+
+.mobile-detail-content p.arabic-text {
+  text-align: right;
+  direction: rtl;
+  color: #666;
 }
 
 .mobile-description-content {
