@@ -92,7 +92,7 @@ function renderProducts(list) {
                 <div class="product-price">AED ${p.price}</div>
                 ${outOfStock 
                     ? `<button class="add-to-cart" disabled style="background:#999;cursor:not-allowed;">Out of Stock | نفذ المخزون</button>` 
-                    : `<button class="add-to-cart" onclick="addToCart(${p.id}, event)">Add to Cart</button>`
+                    : `<button class="add-to-cart" onclick="addToCart(${p.id}, event)">Add to Cart | أضف إلى السلة</button>`
                 }
             </div>
         </div>
