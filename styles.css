@@ -1714,11 +1714,16 @@ footer p {
     display: none !important;
   }
   
-  /* Adjust container padding */
+ /* Adjust container padding */
   .container,
   #products {
     padding-top: 15px !important;
     padding-bottom: 20px !important;
+  }
+  
+  /* Fix anchor scroll offset for fixed header */
+  #products {
+    scroll-margin-top: 70px;
   }
   
   /* Footer padding for bottom nav */
