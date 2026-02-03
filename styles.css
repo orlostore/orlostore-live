@@ -2229,3 +2229,9 @@ footer p {
 #products {
   scroll-margin-top: 120px;
 }
+/* Fix Arabic font in cart sidebar */
+.cart-sidebar,
+.cart-footer,
+.cart-items {
+  font-family: 'Inter', 'Almarai', sans-serif;
+}
