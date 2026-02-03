@@ -2229,6 +2229,10 @@ footer p {
 #products {
   scroll-margin-top: 120px;
 }
+/* Fix anchor scroll offset for fixed header */
+#about {
+  scroll-margin-top: 120px;
+}
 /* Fix Arabic font in cart sidebar */
 .cart-sidebar,
 .cart-footer,
