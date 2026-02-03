@@ -77,21 +77,6 @@ function renderProducts(list) {
         // Check if out of stock
         const outOfStock = p.quantity === 0;
         
-        // Check if product is already in cart
-        const cartItem = cart.find(i => i.id === p.id);
-        const inCart = cartItem && cartItem.quantity > 0;
-        const cartQty = cartItem ? cartItem.quantity : 0;
-        
-        // Determine button HTML
-        let buttonHTML;
-        if (outOfStock) {
-            buttonHTML = `<button class="add-to-cart" disabled style="background:#999;cursor:not-allowed;">Out of Stock | نفذ المخزون</button>`;
-        } else if (inCart) {
-            buttonHTML = `<button class="add-to-cart view-cart-state" onclick="toggleCart()" data-product-id="${p.id}"><span class="cart-btn-icon">🛒<span class="cart-btn-badge">${cartQty}</span></span> View Cart | <span class="arabic-text" style="display:inline;">عرض السلة</span></button>`;
-        } else {
-            buttonHTML = `<button class="add-to-cart" onclick="addToCart(${p.id}, event)" data-product-id="${p.id}">Add to Cart | أضف للسلة</button>`;
-        }
-        
         return `
         <div class="product-card ${outOfStock ? 'out-of-stock' : ''}">
             ${p.featured ? `<span class="badge">Best Seller</span>` : ""}
@@ -105,7 +90,10 @@ function renderProducts(list) {
                     ${p.nameAr ? `<p class="product-title-ar">${p.nameAr}</p>` : ''}
                 </a>
                 <div class="product-price">AED ${p.price}</div>
-                ${buttonHTML}
+                ${outOfStock 
+                    ? `<button class="add-to-cart" disabled style="background:#999;cursor:not-allowed;">Out of Stock | نفذ المخزون</button>` 
+                    : `<button class="add-to-cart" onclick="addToCart(${p.id}, event)">Add to Cart | أضف إلى السلة</button>`
+                }
             </div>
         </div>
     `}).join(""); 
@@ -172,48 +160,26 @@ function addToCart(id, event) {
         return; // Silent - already at max
     }
     
-    // Get button reference
-    const btn = event && event.target ? event.target : null;
+    if (item) { 
+        item.quantity++; 
+    } else { 
+        cart.push({ ...product, quantity: 1 }); 
+    } 
+    saveCart(); 
+    updateCart(); 
     
-    if (btn) {
-        // STATE 1: Show spinner (logo)
-        btn.disabled = true;
-        btn.innerHTML = '<img src="logo.png" class="orlo-logo-spin" alt="">';
+    if (event && event.target) {
+        const btn = event.target;
+        const originalText = btn.textContent;
+        const originalBg = btn.style.background;
+        
+        btn.textContent = "✓ Added!";
+        btn.style.background = "#28a745";
         
         setTimeout(() => {
-            // STATE 2: Show green success
-            btn.style.background = '#28a745';
-            btn.innerHTML = '✓ Added! | <span class="arabic-text" style="display:inline;">تمت الإضافة</span>';
-            
-            // Add to cart data
-            if (item) { 
-                item.quantity++; 
-            } else { 
-                cart.push({ ...product, quantity: 1 }); 
-            } 
-            saveCart(); 
-            updateCart();
-            
-            setTimeout(() => {
-                // STATE 3: Show View Cart
-                const newQty = cart.find(i => i.id === id).quantity;
-                btn.disabled = false;
-                btn.style.background = '';
-                btn.className = 'add-to-cart view-cart-state';
-                btn.innerHTML = `<span class="cart-btn-icon">🛒<span class="cart-btn-badge">${newQty}</span></span> View Cart | <span class="arabic-text" style="display:inline;">عرض السلة</span>`;
-                btn.onclick = toggleCart;
-            }, 1000);
-            
-        }, 500);
-    } else {
-        // No button reference (called programmatically)
-        if (item) { 
-            item.quantity++; 
-        } else { 
-            cart.push({ ...product, quantity: 1 }); 
-        } 
-        saveCart(); 
-        updateCart();
+            btn.textContent = originalText;
+            btn.style.background = originalBg || "";
+        }, 2000);
     }
 }
 
@@ -468,7 +434,7 @@ function toggleMobileMenu() {
         overlay.innerHTML = `
             <div class="mobile-menu">
                 <a href="#products" onclick="closeMobileMenu()"><span class="menu-en">🛍️ Shop</span> | <span class="menu-ar">تسوق</span></a>
-                <a href="javascript:void(0);" onclick="toggleAbout(); closeMobileMenu();"><span class="menu-en">ℹ️ About</span> | <span class="menu-ar">من نحن</span></a>
+                <a href="#about" onclick="closeMobileMenu()"><span class="menu-en">ℹ️ About</span> | <span class="menu-ar">من نحن</span></a>
                 <a href="#contact" onclick="closeMobileMenu()"><span class="menu-en">📧 Contact</span> | <span class="menu-ar">اتصل بنا</span></a>
                 <a href="#terms" onclick="closeMobileMenu()"><span class="menu-en">📋 Terms</span> | <span class="menu-ar">الشروط</span></a>
             </div>
