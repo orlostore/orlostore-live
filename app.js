@@ -156,7 +156,7 @@ function addToCart(id, event) {
     
     // Check stock
     if (product.quantity === 0) {
-        return; // Silent - out of stock
+        return;
     }
     
     const item = cart.find(i => i.id === id);
@@ -165,29 +165,51 @@ function addToCart(id, event) {
     // Silent cap at 10 OR available stock (whichever is lower)
     const maxAllowed = Math.min(MAX_QTY_PER_PRODUCT, product.quantity);
     if (currentInCart >= maxAllowed) {
-        return; // Silent - already at max
+        return;
     }
     
-    if (item) { 
-        item.quantity++; 
-    } else { 
-        cart.push({ ...product, quantity: 1 }); 
-    } 
-    saveCart(); 
-    updateCart(); 
+    // Get button reference
+    const btn = event && event.target ? event.target : null;
     
-    if (event && event.target) {
-        const btn = event.target;
-        const originalText = btn.textContent;
-        const originalBg = btn.style.background;
-        
-        btn.textContent = "✓ Added!";
-        btn.style.background = "#28a745";
+    if (btn) {
+        // STATE 1: Show spinner (logo)
+        btn.disabled = true;
+        btn.innerHTML = '<img src="logo.png" class="orlo-logo-spin" alt="">';
         
         setTimeout(() => {
-            btn.textContent = originalText;
-            btn.style.background = originalBg || "";
-        }, 2000);
+            // STATE 2: Show green success
+            btn.style.background = '#28a745';
+            btn.innerHTML = '✓ Added! | <span class="arabic-text" style="display:inline;">تمت الإضافة</span>';
+            
+            // Add to cart data
+            if (item) { 
+                item.quantity++; 
+            } else { 
+                cart.push({ ...product, quantity: 1 }); 
+            } 
+            saveCart(); 
+            updateCart();
+            
+            setTimeout(() => {
+                // STATE 3: Show View Cart
+                const newQty = cart.find(i => i.id === id).quantity;
+                btn.disabled = false;
+                btn.style.background = '';
+                btn.className = 'add-to-cart view-cart-state';
+                btn.innerHTML = `<span class="cart-btn-icon">🛒<span class="cart-btn-badge">${newQty}</span></span> View Cart | <span class="arabic-text" style="display:inline;">عرض السلة</span>`;
+                btn.onclick = toggleCart;
+            }, 1000);
+            
+        }, 500);
+    } else {
+        // No button reference (called programmatically)
+        if (item) { 
+            item.quantity++; 
+        } else { 
+            cart.push({ ...product, quantity: 1 }); 
+        } 
+        saveCart(); 
+        updateCart();
     }
 }
 
