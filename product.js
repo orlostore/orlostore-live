@@ -86,8 +86,10 @@ function productQtyChange(productId, change) {
   const totalItems = localCart.reduce((s, i) => s + i.quantity, 0);
   const cartCount = document.getElementById("cartCount");
   const bottomCartCount = document.getElementById("bottomCartCount");
+  const mobileCartCount = document.getElementById("mobileCartCount");
   if (cartCount) cartCount.textContent = totalItems;
   if (bottomCartCount) bottomCartCount.textContent = totalItems;
+  if (mobileCartCount) mobileCartCount.textContent = totalItems;
   
   if (typeof updateCart === 'function') updateCart();
 }
@@ -135,8 +137,10 @@ function resetToAddButton(productId) {
       const totalItems = localCart.reduce((s, i) => s + i.quantity, 0);
       const cartCount = document.getElementById("cartCount");
       const bottomCartCount = document.getElementById("bottomCartCount");
+      const mobileCartCount = document.getElementById("mobileCartCount");
       if (cartCount) cartCount.textContent = totalItems;
       if (bottomCartCount) bottomCartCount.textContent = totalItems;
+      if (mobileCartCount) mobileCartCount.textContent = totalItems;
       
       if (typeof updateCart === 'function') updateCart();
       
@@ -362,7 +366,7 @@ async function initProductPage() {
     `;
   }
 
- if (detailsContainer) detailsContainer.innerHTML = detailsHTML;
+  if (detailsContainer) detailsContainer.innerHTML = detailsHTML;
 
   // Check if product already in cart - show transformed button
   const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
@@ -375,8 +379,6 @@ async function initProductPage() {
     const mobileBtn = document.getElementById("mobileAddToCartBtn");
     if (mobileBtn) transformToQtyButton(mobileBtn, product);
   }
-
-  // ADD TO CART HANDLER
 
   // ADD TO CART HANDLER - self-contained, uses localStorage directly
   const addToCartHandler = () => {
@@ -412,8 +414,10 @@ async function initProductPage() {
     const totalItems = localCart.reduce((s, i) => s + i.quantity, 0);
     const cartCount = document.getElementById("cartCount");
     const bottomCartCount = document.getElementById("bottomCartCount");
+    const mobileCartCount = document.getElementById("mobileCartCount");
     if (cartCount) cartCount.textContent = totalItems;
     if (bottomCartCount) bottomCartCount.textContent = totalItems;
+    if (mobileCartCount) mobileCartCount.textContent = totalItems;
     
     // Update cart display if app.js is loaded
     if (typeof updateCart === 'function') {
@@ -703,8 +707,10 @@ window.addEventListener('DOMContentLoaded', () => {
   
   const cartCount = document.getElementById("cartCount");
   const bottomCartCount = document.getElementById("bottomCartCount");
+  const mobileCartCount = document.getElementById("mobileCartCount");
   if (cartCount) cartCount.textContent = totalItems;
   if (bottomCartCount) bottomCartCount.textContent = totalItems;
+  if (mobileCartCount) mobileCartCount.textContent = totalItems;
   
   setupSearch();
   setupBottomNav();
