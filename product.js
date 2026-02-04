@@ -24,7 +24,7 @@ function showProductPageMaxLimitMessage() {
     
     setTimeout(() => {
         if (msg.parentNode) msg.remove();
-   }, 3000);
+    }, 3000);
 }
 
 // Transform button to quantity control (Premium Glass style)
@@ -48,6 +48,7 @@ function transformToQtyButton(btn, product) {
   `;
 }
 
+// Handle quantity change from transformed button
 function productQtyChange(productId, change) {
   let localCart = JSON.parse(localStorage.getItem("cart")) || [];
   const item = localCart.find(i => i.id === productId);
@@ -91,6 +92,7 @@ function productQtyChange(productId, change) {
   if (typeof updateCart === 'function') updateCart();
 }
 
+// Reset transformed button back to Add to Cart
 function resetToAddButton(productId) {
   const transformed = document.getElementById(`transformedBtn-${productId}`);
   if (!transformed) return;
@@ -362,138 +364,7 @@ async function initProductPage() {
 
   if (detailsContainer) detailsContainer.innerHTML = detailsHTML;
 
-function transformToQtyButton(btn, product) {
-  const localCart = JSON.parse(localStorage.getItem("cart")) || [];
-  const item = localCart.find(i => i.id === product.id);
-  const qty = item ? item.quantity : 1;
-  
-  // Store original button info
-  btn.dataset.originalText = btn.textContent;
-  btn.dataset.productId = product.id;
-  
-  // Create transformed button HTML
-  btn.outerHTML = `
-    <div class="product-btn-transformed" id="transformedBtn-${product.id}">
-      <button class="qty-btn minus" onclick="productQtyChange(${product.id}, -1)">−</button>
-      <div class="center-section" onclick="if(typeof toggleCart === 'function') toggleCart(); else if(typeof toggleCartSidebar === 'function') toggleCartSidebar();">
-        <span class="cart-icon">🛒</span>
-        <span class="qty-display" id="qtyDisplay-${product.id}">${qty}</span>
-      </div>
-      <button class="qty-btn plus" onclick="productQtyChange(${product.id}, 1)">+</button>
-    </div>
-  `;
-}
-
-// Handle quantity change from transformed button
-function productQtyChange(productId, change) {
-  let localCart = JSON.parse(localStorage.getItem("cart")) || [];
-  const item = localCart.find(i => i.id === productId);
-  const product = products.find(p => p.id === productId);
-  
-  if (!item) return;
-  
-  const newQty = item.quantity + change;
-  
-  // Check max limit
-  if (change > 0) {
-    const maxAllowed = Math.min(MAX_QTY_PER_PRODUCT, product ? product.quantity : MAX_QTY_PER_PRODUCT);
-    if (newQty > maxAllowed) {
-      showProductPageMaxLimitMessage();
-      return;
-    }
-  }
-  
-  if (newQty <= 0) {
-    // Remove from cart and reset button
-    localCart = localCart.filter(i => i.id !== productId);
-    localStorage.setItem("cart", JSON.stringify(localCart));
-    resetToAddButton(productId);
-  } else {
-    // Update quantity
-    item.quantity = newQty;
-    localStorage.setItem("cart", JSON.stringify(localCart));
-    
-    // Update display
-    const qtyDisplay = document.getElementById(`qtyDisplay-${productId}`);
-    if (qtyDisplay) qtyDisplay.textContent = newQty;
-  }
-  
-  // Sync with app.js cart
-  if (typeof cart !== 'undefined') {
-    cart.length = 0;
-    localCart.forEach(i => cart.push(i));
-  }
-  
-  // Update cart counts
-  const totalItems = localCart.reduce((s, i) => s + i.quantity, 0);
-  const cartCount = document.getElementById("cartCount");
-  const bottomCartCount = document.getElementById("bottomCartCount");
-  if (cartCount) cartCount.textContent = totalItems;
-  if (bottomCartCount) bottomCartCount.textContent = totalItems;
-  
-  // Force cart sidebar to refresh
-  if (typeof updateCart === 'function') {
-    updateCart();
-  }
-  
-  // Also update cart sidebar HTML if open
-  if (typeof renderCartItems === 'function') {
-    renderCartItems();
-  }
-}
-
-// Reset transformed button back to Add to Cart
-function resetToAddButton(productId) {
-  const transformed = document.getElementById(`transformedBtn-${productId}`);
-  if (!transformed) return;
-  
-  const product = products.find(p => p.id === productId);
-  const isMobile = transformed.closest('.mobile-product-page') !== null;
-  const btnId = isMobile ? 'mobileAddToCartBtn' : 'addToCartBtn';
-  const btnClass = isMobile ? 'mobile-add-to-cart' : 'add-to-cart-btn';
-  
-  transformed.outerHTML = `<button class="${btnClass}" id="${btnId}">Add to Cart | أضف إلى السلة</button>`;
-  
-  // Re-attach click handler
-  const newBtn = document.getElementById(btnId);
-  if (newBtn && product) {
-    newBtn.onclick = function() {
-      if (product.quantity === 0) return false;
-      
-      let localCart = JSON.parse(localStorage.getItem("cart")) || [];
-      const item = localCart.find(i => i.id === product.id);
-      const currentInCart = item ? item.quantity : 0;
-      const maxAllowed = Math.min(MAX_QTY_PER_PRODUCT, product.quantity);
-      
-      if (currentInCart >= maxAllowed) {
-        showProductPageMaxLimitMessage();
-        return false;
-      }
-      
-      if (item) {
-        item.quantity++;
-      } else {
-        localCart.push({ ...product, quantity: 1 });
-      }
-      
-      localStorage.setItem("cart", JSON.stringify(localCart));
-      
-      if (typeof cart !== 'undefined') {
-        cart.length = 0;
-        localCart.forEach(i => cart.push(i));
-      }
-      
-      const totalItems = localCart.reduce((s, i) => s + i.quantity, 0);
-      const cartCount = document.getElementById("cartCount");
-      const bottomCartCount = document.getElementById("bottomCartCount");
-      if (cartCount) cartCount.textContent = totalItems;
-      if (bottomCartCount) bottomCartCount.textContent = totalItems;
-      
-      if (typeof updateCart === 'function') updateCart();
-      
-      transformToQtyButton(this, product);
-      return true;
-   / ADD TO CART HANDLER - self-contained, uses localStorage directly
+  // ADD TO CART HANDLER - self-contained, uses localStorage directly
   const addToCartHandler = () => {
     if (product.quantity === 0) return false;
 
@@ -546,7 +417,7 @@ function resetToAddButton(productId) {
     };
   }
 
- if (!isOutOfStock) {
+  if (!isOutOfStock) {
     document.getElementById("mobileAddToCartBtn").onclick = function() {
       if (addToCartHandler()) {
         transformToQtyButton(this, product);
