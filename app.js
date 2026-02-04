@@ -235,7 +235,16 @@ function updateCart() {
     const cartItems = document.getElementById("cartItems"); 
     const cartCount = document.getElementById("cartCount"); 
     const bottomCartCount = document.getElementById("bottomCartCount");
+    const mobileCartCount = document.getElementById("mobileCartCount");
     const cartFooter = document.querySelector(".cart-footer");
+    
+    // Update all cart counts first (works on any page)
+
+   
+    if (mobileCartCount) mobileCartCount.textContent = totalItems;
+    
+    // If no cart sidebar elements, stop here (product page)
+    if (!cartItems || !cartFooter) return;
     const cartCheckoutFixed = document.getElementById("cartCheckoutFixed");
     const isMobile = window.innerWidth <= 768;
     
