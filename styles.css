@@ -2541,8 +2541,8 @@ footer p {
 
 .product-btn-transformed .qty-btn {
   width: 50px;
-  height: auto;
-  padding: 1rem 0;
+  height: 48px;
+  padding: 0;
   border: none;
   background: rgba(255,255,255,0.2);
   color: white;
@@ -2568,7 +2568,8 @@ footer p {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 14px;
+  padding: 0;
+  height: 48px;
   color: white;
   cursor: pointer;
 }
