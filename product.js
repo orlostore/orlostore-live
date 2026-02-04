@@ -314,7 +314,15 @@ function productQtyChange(productId, change) {
   if (cartCount) cartCount.textContent = totalItems;
   if (bottomCartCount) bottomCartCount.textContent = totalItems;
   
-  if (typeof updateCart === 'function') updateCart();
+  // Force cart sidebar to refresh
+  if (typeof updateCart === 'function') {
+    updateCart();
+  }
+  
+  // Also update cart sidebar HTML if open
+  if (typeof renderCartItems === 'function') {
+    renderCartItems();
+  }
 }
 
 // Reset transformed button back to Add to Cart
