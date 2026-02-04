@@ -2531,32 +2531,39 @@ footer p {
    ============================================ */
 .product-btn-transformed {
   display: flex;
-  align-items: center;
+  align-items: stretch;
   width: 100%;
   background: linear-gradient(135deg, #2c4a5c 0%, #3d5a6a 50%, #e07856 100%);
   border-radius: 8px;
-  box-shadow: 0 6px 20px rgba(44,74,92,0.35);
+  box-shadow: 0 4px 15px rgba(44,74,92,0.25);
+  margin-bottom: 1rem;
 }
 
 .product-btn-transformed .qty-btn {
-  width: 50px;
+  width: 44px;
   border: none;
-  background: rgba(255,255,255,0.2);
+  background: rgba(0,0,0,0.15);
   color: white;
-  font-size: 1.4rem;
-  font-weight: 700;
+  font-size: 1.1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
-  border-radius: 8px;
-  padding: 1rem 0;
+  transition: background 0.2s;
+}
+
+.product-btn-transformed .qty-btn:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.product-btn-transformed .qty-btn:last-child {
+  border-radius: 0 8px 8px 0;
 }
 
 .product-btn-transformed .qty-btn:hover {
-  background: rgba(255,255,255,0.35);
+  background: rgba(0,0,0,0.25);
 }
 
 .product-btn-transformed .qty-btn:active {
-  transform: scale(0.95);
+  background: rgba(0,0,0,0.35);
 }
 
 .product-btn-transformed .center-section {
@@ -2564,39 +2571,31 @@ footer p {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
   padding: 1rem;
   color: white;
   cursor: pointer;
+  transition: background 0.2s;
 }
 
 .product-btn-transformed .center-section:hover {
   background: rgba(255,255,255,0.1);
-  border-radius: 8px;
 }
 
 .product-btn-transformed .cart-icon {
-  font-size: 1.5rem;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  font-size: 1rem;
 }
 
 .product-btn-transformed .qty-display {
-  font-size: 1.5rem;
-  font-weight: 800;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  font-size: 0.95rem;
+  font-weight: 600;
 }
 
 /* Mobile adjustments */
 @media (max-width: 768px) {
-  .product-btn-transformed {
-    border-radius: 8px;
-  }
-  
   .product-btn-transformed .qty-btn {
-    width: 46px;
-    font-size: 1.3rem;
-    border-radius: 8px;
-    padding: 14px 0;
+    width: 48px;
+    font-size: 1.2rem;
   }
   
   .product-btn-transformed .center-section {
@@ -2604,10 +2603,11 @@ footer p {
   }
   
   .product-btn-transformed .cart-icon {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
   }
   
   .product-btn-transformed .qty-display {
-    font-size: 1.3rem;
+    font-size: 1rem;
+    font-weight: 600;
   }
 }
