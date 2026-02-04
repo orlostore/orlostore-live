@@ -1,14 +1,12 @@
 // Products - Fetches from D1 database via API
-// NOTE: initProducts() is called by app.js window.onload - do NOT auto-call here
 
 let products = [];
+let productsLoaded = false;
 
-// Cache settings
 const CACHE_KEY = 'orlo_products_cache';
 const CACHE_TIME_KEY = 'orlo_products_cache_time';
-const CACHE_DURATION = 60 * 1000; // 1 minute (shorter since D1 is fast)
+const CACHE_DURATION = 60 * 1000;
 
-// Load from cache (instant)
 function loadFromCache() {
     try {
         const cached = localStorage.getItem(CACHE_KEY);
@@ -23,7 +21,6 @@ function loadFromCache() {
     return false;
 }
 
-// Save to cache
 function saveToCache(data) {
     try {
         localStorage.setItem(CACHE_KEY, JSON.stringify(data));
@@ -33,19 +30,10 @@ function saveToCache(data) {
     }
 }
 
-// Check if cache is expired
-function isCacheExpired() {
-    const cacheTime = localStorage.getItem(CACHE_TIME_KEY);
-    if (!cacheTime) return true;
-    return (Date.now() - parseInt(cacheTime)) > CACHE_DURATION;
-}
-
-// Fetch products from D1 API
 async function fetchProducts() {
     try {
         const response = await fetch('/api/products');
         const data = await response.json();
-        
         if (Array.isArray(data)) {
             console.log('🌐 Fetched', data.length, 'products from D1');
             return data;
@@ -57,7 +45,22 @@ async function fetchProducts() {
     }
 }
 
-// Update UI if products changed
+function triggerUIUpdate() {
+    productsLoaded = true;
+    
+    if (typeof createCategoryFilters === 'function') {
+        createCategoryFilters();
+    }
+    if (typeof loadProducts === 'function') {
+        loadProducts();
+    }
+    if (typeof updateCart === 'function') {
+        updateCart();
+    }
+    
+    window.dispatchEvent(new CustomEvent('productsReady', { detail: { count: products.length } }));
+}
+
 function updateUIIfNeeded(newProducts) {
     const oldJSON = JSON.stringify(products);
     const newJSON = JSON.stringify(newProducts);
@@ -65,36 +68,18 @@ function updateUIIfNeeded(newProducts) {
     if (oldJSON !== newJSON) {
         products = newProducts;
         saveToCache(newProducts);
-        
-        if (typeof createCategoryFilters === 'function') {
-            createCategoryFilters();
-        }
-        if (typeof loadProducts === 'function') {
-            loadProducts();
-        }
+        triggerUIUpdate();
         console.log('🔄 Products updated!');
     }
 }
 
-// Main initialization - called by app.js window.onload
 async function initProducts() {
-    // Step 1: Load from cache instantly
     const hasCache = loadFromCache();
     
-    // Step 2: Show cached products immediately
     if (hasCache) {
-        if (typeof createCategoryFilters === 'function') {
-            createCategoryFilters();
-        }
-        if (typeof loadProducts === 'function') {
-            loadProducts();
-        }
-        if (typeof updateCart === 'function') {
-            updateCart();
-        }
+        triggerUIUpdate();
     }
     
-    // Step 3: Fetch fresh data
     const freshProducts = await fetchProducts();
     
     if (freshProducts && freshProducts.length > 0) {
@@ -103,18 +88,14 @@ async function initProducts() {
         } else {
             products = freshProducts;
             saveToCache(freshProducts);
-            
-            if (typeof createCategoryFilters === 'function') {
-                createCategoryFilters();
-            }
-            if (typeof loadProducts === 'function') {
-                loadProducts();
-            }
-            if (typeof updateCart === 'function') {
-                updateCart();
-            }
+            triggerUIUpdate();
         }
+    } else if (!hasCache) {
+        console.error('❌ No products available');
+        productsLoaded = true;
+        window.dispatchEvent(new CustomEvent('productsError'));
     }
 }
 
-// DO NOT auto-init here - app.js calls initProducts() from window.onload
+// Auto-init
+initProducts();
