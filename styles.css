@@ -2623,3 +2623,15 @@ footer p {
 .product-buybox .product-btn-transformed {
   display: flex;
 }
+/* Mobile product page - narrower and centered Add to Cart button */
+.mobile-cart-section .mobile-add-to-cart,
+.mobile-cart-section .product-btn-transformed {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.mobile-cart-section .product-btn-transformed {
+  display: flex;
+}
