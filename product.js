@@ -427,26 +427,20 @@ async function initProductPage() {
     return true;
   };
 
- if (!isOutOfStock) {
-    const addBtn = document.getElementById("addToCartBtn");
-    if (addBtn) {
-      addBtn.onclick = function() {
-        if (addToCartHandler()) {
-          transformToQtyButton(this, product);
-        }
-      };
-    }
+  if (!isOutOfStock) {
+    document.getElementById("addToCartBtn").onclick = function() {
+      if (addToCartHandler()) {
+        transformToQtyButton(this, product);
+      }
+    };
   }
 
- if (!isOutOfStock) {
-    const mobileAddBtn2 = document.getElementById("mobileAddToCartBtn");
-    if (mobileAddBtn2) {
-      mobileAddBtn2.onclick = function() {
-        if (addToCartHandler()) {
-          transformToQtyButton(this, product);
-        }
-      };
-    }
+  if (!isOutOfStock) {
+    document.getElementById("mobileAddToCartBtn").onclick = function() {
+      if (addToCartHandler()) {
+        transformToQtyButton(this, product);
+      }
+    };
   }
 
   const mainImg = document.getElementById('mainImage');
