@@ -2611,10 +2611,15 @@ footer p {
     font-weight: 600;
   }
 }
-/* Product page - narrower Add to Cart button */
+/* Product page - narrower and centered Add to Cart button */
 .product-buybox .add-to-cart-btn,
 .product-buybox .product-btn-transformed {
-  width: 60%;
+  width: 50%;
   margin-left: auto;
   margin-right: auto;
+  display: block;
+}
+
+.product-buybox .product-btn-transformed {
+  display: flex;
 }
