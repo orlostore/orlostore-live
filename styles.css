@@ -2635,3 +2635,7 @@ footer p {
 .mobile-cart-section .product-btn-transformed {
   display: flex;
 }
+/* Mobile gallery - enable pinch to zoom */
+.gallery-overlay .gallery-image-wrapper img {
+  touch-action: pinch-zoom;
+}
