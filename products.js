@@ -1,12 +1,13 @@
 // Products - Fetches from D1 database via API
 
 let products = [];
-let productsLoaded = false;
 
+// Cache settings
 const CACHE_KEY = 'orlo_products_cache';
 const CACHE_TIME_KEY = 'orlo_products_cache_time';
-const CACHE_DURATION = 60 * 1000;
+const CACHE_DURATION = 60 * 1000; // 1 minute (shorter since D1 is fast)
 
+// Load from cache (instant)
 function loadFromCache() {
     try {
         const cached = localStorage.getItem(CACHE_KEY);
@@ -21,6 +22,7 @@ function loadFromCache() {
     return false;
 }
 
+// Save to cache
 function saveToCache(data) {
     try {
         localStorage.setItem(CACHE_KEY, JSON.stringify(data));
@@ -30,10 +32,19 @@ function saveToCache(data) {
     }
 }
 
+// Check if cache is expired
+function isCacheExpired() {
+    const cacheTime = localStorage.getItem(CACHE_TIME_KEY);
+    if (!cacheTime) return true;
+    return (Date.now() - parseInt(cacheTime)) > CACHE_DURATION;
+}
+
+// Fetch products from D1 API
 async function fetchProducts() {
     try {
         const response = await fetch('/api/products');
         const data = await response.json();
+        
         if (Array.isArray(data)) {
             console.log('🌐 Fetched', data.length, 'products from D1');
             return data;
@@ -45,22 +56,7 @@ async function fetchProducts() {
     }
 }
 
-function triggerUIUpdate() {
-    productsLoaded = true;
-    
-    if (typeof createCategoryFilters === 'function') {
-        createCategoryFilters();
-    }
-    if (typeof loadProducts === 'function') {
-        loadProducts();
-    }
-    if (typeof updateCart === 'function') {
-        updateCart();
-    }
-    
-    window.dispatchEvent(new CustomEvent('productsReady', { detail: { count: products.length } }));
-}
-
+// Update UI if products changed
 function updateUIIfNeeded(newProducts) {
     const oldJSON = JSON.stringify(products);
     const newJSON = JSON.stringify(newProducts);
@@ -68,18 +64,36 @@ function updateUIIfNeeded(newProducts) {
     if (oldJSON !== newJSON) {
         products = newProducts;
         saveToCache(newProducts);
-        triggerUIUpdate();
+        
+        if (typeof createCategoryFilters === 'function') {
+            createCategoryFilters();
+        }
+        if (typeof loadProducts === 'function') {
+            loadProducts();
+        }
         console.log('🔄 Products updated!');
     }
 }
 
+// Main initialization
 async function initProducts() {
+    // Step 1: Load from cache instantly
     const hasCache = loadFromCache();
     
+    // Step 2: Show cached products immediately
     if (hasCache) {
-        triggerUIUpdate();
+        if (typeof createCategoryFilters === 'function') {
+            createCategoryFilters();
+        }
+        if (typeof loadProducts === 'function') {
+            loadProducts();
+        }
+        if (typeof updateCart === 'function') {
+            updateCart();
+        }
     }
     
+    // Step 3: Fetch fresh data
     const freshProducts = await fetchProducts();
     
     if (freshProducts && freshProducts.length > 0) {
@@ -88,12 +102,17 @@ async function initProducts() {
         } else {
             products = freshProducts;
             saveToCache(freshProducts);
-            triggerUIUpdate();
+            
+            if (typeof createCategoryFilters === 'function') {
+                createCategoryFilters();
+            }
+            if (typeof loadProducts === 'function') {
+                loadProducts();
+            }
+            if (typeof updateCart === 'function') {
+                updateCart();
+            }
         }
-    } else if (!hasCache) {
-        console.error('❌ No products available');
-        productsLoaded = true;
-        window.dispatchEvent(new CustomEvent('productsError'));
     }
 }
 
