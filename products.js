@@ -1,4 +1,5 @@
 // Products - Fetches from D1 database via API
+// NOTE: initProducts() is called by app.js window.onload - do NOT auto-call here
 
 let products = [];
 
@@ -75,7 +76,7 @@ function updateUIIfNeeded(newProducts) {
     }
 }
 
-// Main initialization
+// Main initialization - called by app.js window.onload
 async function initProducts() {
     // Step 1: Load from cache instantly
     const hasCache = loadFromCache();
@@ -116,5 +117,4 @@ async function initProducts() {
     }
 }
 
-// Auto-init
-initProducts();
+// DO NOT auto-init here - app.js calls initProducts() from window.onload
