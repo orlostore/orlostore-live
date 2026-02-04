@@ -2534,15 +2534,12 @@ footer p {
   align-items: center;
   width: 100%;
   background: linear-gradient(135deg, #2c4a5c 0%, #3d5a6a 50%, #e07856 100%);
-  border-radius: 12px;
-  padding: 0px;
+  border-radius: 8px;
   box-shadow: 0 6px 20px rgba(44,74,92,0.35);
 }
 
 .product-btn-transformed .qty-btn {
   width: 50px;
-  height: 52px;
-  padding: 0;
   border: none;
   background: rgba(255,255,255,0.2);
   color: white;
@@ -2550,12 +2547,12 @@ footer p {
   font-weight: 700;
   cursor: pointer;
   transition: all 0.2s;
-  border-radius: 10px;
+  border-radius: 8px;
+  padding: 1rem 0;
 }
 
 .product-btn-transformed .qty-btn:hover {
   background: rgba(255,255,255,0.35);
-  transform: scale(1.05);
 }
 
 .product-btn-transformed .qty-btn:active {
@@ -2568,8 +2565,7 @@ footer p {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 0;
-  height: 52px;
+  padding: 1rem;
   color: white;
   cursor: pointer;
 }
@@ -2593,15 +2589,18 @@ footer p {
 /* Mobile adjustments */
 @media (max-width: 768px) {
   .product-btn-transformed {
-    border-radius: 10px;
-    padding: 3px;
+    border-radius: 8px;
   }
   
   .product-btn-transformed .qty-btn {
     width: 46px;
-    height: 46px;
     font-size: 1.3rem;
     border-radius: 8px;
+    padding: 14px 0;
+  }
+  
+  .product-btn-transformed .center-section {
+    padding: 14px;
   }
   
   .product-btn-transformed .cart-icon {
